@@ -1,6 +1,6 @@
 {
   "name": "redux-form-widgets-jss-react",
-  "version": "16.0.1",
+  "version": "16.0.2",
   "description": "Redux-form field widgets with JSS for React JS",
   "author": "zhukyuri",
   "license": "MIT",
@@ -12,6 +12,19 @@
     "node": ">=8",
     "npm": ">=5"
   },
+  "homepage": "https://zhukyuri.github.io/redux-form-widgets-jss-react",
+  "keywords": [
+    "widgets",
+    "form",
+    "field",
+    "select",
+    "drop-down",
+    "jss",
+    "react",
+    "redux",
+    "redux-form",
+    "redux-widget"
+  ],
   "scripts": {
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
@@ -20,7 +33,7 @@
     "prepare": "npm run build",
     "predeploy": "cd example && npm install && npm run build",
     "deploy": "gh-pages -d example/build",
-    "all": "npm run build && npm run prepare && npm run predeploy && deploy"
+    "all": "npm run build && npm run prepare && npm run predeploy && npm run deploy"
   },
   "dependencies": {
     "classnames": "^2.2.6",

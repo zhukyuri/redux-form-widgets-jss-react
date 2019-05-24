@@ -11,10 +11,11 @@ type Props = {
   checked?: boolean,
   multiple?: boolean,
   clear?: boolean,
+  comboBox?: boolean,
   name: string,
   value: any,
   label: string,
-  placeholder: string,
+  placeholder?: string,
   validate: Array<any>,
   cbActions: any,
 }
@@ -25,9 +26,9 @@ class FieldSelect extends Component<Props> {
       <Field
         {...this.props}
         component={LabelWrap}
-        componentType='select'
-        type='text'
-        toggleList
+        componentType="select"
+        type="text"
+        comboBox
       />
     );
   }

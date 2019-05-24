@@ -7,7 +7,8 @@ let modalRoot = document.getElementById('modal-root');
 
 type Props = {
   children: any,
-  position: { top: number, left: number }
+  position: { top: number, left: number },
+  customPaneWrap?: string,
 }
 
 class Popup extends Component<Props> {
@@ -16,6 +17,8 @@ class Popup extends Component<Props> {
 
     this.el = document.createElement('div');
     this.el.classList.add(props.classes.modal);
+    if (props.customPaneWrap) this.el.classList.add(props.customPaneWrap);
+    console.log(props);
   }
 
   componentDidMount() {

@@ -6,7 +6,6 @@ import { type Styles } from './ListItem.jss';
 
 type Props = {
   classes: Styles,
-  item: any,
   onClickItem: any,
   textField: string,
   valueField: string,

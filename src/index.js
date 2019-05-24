@@ -7,5 +7,5 @@ import ListItem from './packages/ListItem';
 import Popup from './packages/Popup';
 
 export {
-  LabelWrap, BaseInput, FieldSelect, FieldText, List, ListItem, Popup,
+  LabelWrap, BaseInput, FieldSelect, FieldText, ListItem, List, Popup,
 };

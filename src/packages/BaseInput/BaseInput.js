@@ -8,6 +8,8 @@ type Props = {
   type?: 'text' | 'email' | 'number' | 'password',
   placeholder?: string,
   customClassNameInput?: string,
+  customStyle?: string,
+  input: any,
 }
 
 class BaseInput extends Component<Props> {

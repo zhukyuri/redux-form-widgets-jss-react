@@ -1,27 +1,35 @@
 // @flow
+const paddingList = 20;
 
 const styles = {
   list: {
     minWidth: '180px',
     position: 'absolute',
-    top: '0px',
-    left: '0px',
-    right: '0px',
-    bottom: '0px',
+    top: paddingList,
+    left: paddingList,
+    right: paddingList,
+    bottom: paddingList,
     listStyle: 'none',
-    padding: '20px',
+    // padding: '20px',
     margin: '0px',
     backgroundColor: '#fff',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.35)',
     zIndex: 100,
+
+    overflow: 'auto',
   },
   listLeft: {
     extend: 'list',
-    right: '0',
+    // right: '0',
   },
   listRight: {
     extend: 'list',
-    left: '0',
+    // left: '0',
+  },
+  scrollBlock: {
+    display: 'block',
+    position: 'relative',
+    width: '100%',
   },
 };
 

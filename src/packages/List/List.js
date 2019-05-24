@@ -3,7 +3,8 @@
 import React, { PureComponent } from 'react';
 import cn from 'classnames';
 import ListItem from '../ListItem';
-import { type Styles } from './List.jss';
+import styles, { type Styles } from './List.jss';
+import withStyles from '../../utils/withStyles';
 
 type Props = {
   actionKey: string,
@@ -58,24 +59,26 @@ class List extends PureComponent<Props, State> {
           [classes.listRight]: positionPane === 'right',
         })}
       >
-        {data.map((i, ind) => (
-          <ListItem
-            key={!valueField ? `${textField}-${ind}` : i[valueField]}
-            valueField={valueField}
-            textField={textField}
-            nameFieldCheck={nameFieldCheck}
-            nameFieldDisable={nameFieldDisable}
-            pathTranslate={pathTranslate}
-            onClickItem={this.handleClickItem}
-            item={i}
-            activeItems={activeItems}
-            index={ind}
-            checked={checked}
-          />
-        ))}
+        <div className={classes.scrollBlock}>
+          {data.map((i, ind) => (
+            <ListItem
+              key={!valueField ? `${textField}-${ind}` : i[valueField]}
+              valueField={valueField}
+              textField={textField}
+              nameFieldCheck={nameFieldCheck}
+              nameFieldDisable={nameFieldDisable}
+              pathTranslate={pathTranslate}
+              onClickItem={this.handleClickItem}
+              item={i}
+              activeItems={activeItems}
+              index={ind}
+              checked={checked}
+            />
+          ))}
+        </div>
       </ul>
     );
   }
 }
 
-export default List;
+export default withStyles(styles)(List);

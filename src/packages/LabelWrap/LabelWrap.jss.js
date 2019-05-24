@@ -1,5 +1,6 @@
 import iconClearRed from '../../images/button/clear-red.svg';
 import iconThreeDots from '../../images/button/three-dots.svg';
+import iconComboBox from '../../images/button/drop-down.svg';
 
 const labelColor = '#888';
 const borderColor = '#ddd';
@@ -55,6 +56,11 @@ const styles = {
     background: `url(${iconThreeDots})  no-repeat`,
     backgroundPosition: 'center',
   },
+  comboBox: {
+    extend: 'itemIcons',
+    background: `url(${iconComboBox})  no-repeat`,
+    backgroundPosition: 'center',
+  },
 
   labelInfo: {
     display: 'block',
@@ -94,6 +100,15 @@ const styles = {
     borderRadius: 5,
   },
 
+  popupWrap: {
+    position: 'fixed',
+    minHeight: 200,
+    minWidth: 200,
+    top: 50,
+    left: 0,
+    backgroundColor: '#fff',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.35)',
+  },
 };
 
 export default styles;

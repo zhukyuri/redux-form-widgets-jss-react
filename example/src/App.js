@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { List } from 'redux-widgets-jss'
+import { List } from 'redux-form-widgets-jss-react'
 
 export default class App extends Component {
   render() {

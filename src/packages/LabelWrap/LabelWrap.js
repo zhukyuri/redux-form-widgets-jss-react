@@ -5,8 +5,9 @@ import { change } from 'redux-form';
 import cn from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import cloneDeep from 'lodash/cloneDeep';
+import List from '../List';
+import Popup from '../Popup';
 import BaseInput from '../BaseInput';
-import { List, Popup } from '../../';
 import { getItemFromArrayByItemId, objectToArray, valueToObject } from '../../utils/utils';
 
 type Props = {
@@ -17,13 +18,22 @@ type Props = {
   customClassNameInput?: string,
   customClassNameLabel?: string,
   customClassNameWrap?: string,
+  componentType?: string,
   checked?: boolean,
   multiple?: boolean,
+  required?: boolean,
   clear?: boolean,
+  comboBox?: boolean,
   toggleList?: boolean,
   data: Array<any>,
+  input: any,
+  meta: any,
   valueField: string,
   textField: string,
+  cbActions?: any,
+  cbLabelFormat?: any,
+  cbErrorFormat?: any,
+  cbPlaceholderFormat?: any,
 }
 
 type State = {
@@ -42,12 +52,16 @@ class LabelWrap extends Component<Props, State> {
     super(props);
 
     this.onClickItem = this.onClickItem.bind(this);
+    this.cbFormatLabel = this.cbFormatLabel.bind(this);
+    this.cbFormatError = this.cbFormatError.bind(this);
+    this.cbFormatPlaceholder = this.cbFormatPlaceholder.bind(this);
     this.toggleList = this.toggleList.bind(this);
     this.closeList = this.closeList.bind(this);
     this.clear = this.clear.bind(this);
     this.addActiveItem = this.addActiveItem.bind(this);
     this.removeActiveItem = this.removeActiveItem.bind(this);
     this.getListClientRect = this.getListClientRect.bind(this);
+    this.renderButtonCombo = this.renderButtonCombo.bind(this);
     this.renderButtonList = this.renderButtonList.bind(this);
     this.renderButtonClear = this.renderButtonClear.bind(this);
     this.renderInputBox = this.renderInputBox.bind(this);
@@ -68,6 +82,24 @@ class LabelWrap extends Component<Props, State> {
       ...state,
       activeItems: valueToObject(value, data, valueField),
     };
+  }
+
+  cbFormatLabel(name: string): string {
+    const { cbLabelFormat } = this.props;
+
+    return !cbLabelFormat ? name : cbLabelFormat(name);
+  }
+
+  cbFormatError(name: string): string {
+    const { cbErrorFormat } = this.props;
+
+    return !cbErrorFormat ? name : cbErrorFormat(name);
+  }
+
+  cbFormatPlaceholder(name: string): string {
+    const { cbPlaceholderFormat } = this.props;
+
+    return !cbPlaceholderFormat ? name : cbPlaceholderFormat(name);
   }
 
   toggleList(e) {
@@ -172,7 +204,7 @@ class LabelWrap extends Component<Props, State> {
             <BaseInput
               input={input}
               type={type}
-              placeholder={placeholder}
+              placeholder={this.cbFormatPlaceholder(placeholder)}
               customStyle={{
                 height: 1,
                 width: 1,
@@ -197,6 +229,36 @@ class LabelWrap extends Component<Props, State> {
     }
   }
 
+  renderButtonCombo() {
+    const { openList, activeItems } = this.state;
+    const {
+      classes, data, textField, valueField, input, checked,
+    } = this.props;
+
+    return <div
+      key={`comboBox-${input.name}`}
+      className={classes.comboBox}
+      onClick={this.toggleList}
+      data-action="comboBox"
+      data-field={input.name}
+    >
+      {openList && <Popup
+        position={this.getListClientRect()}
+        customPaneWrap={classes.paneWrap}
+      >
+        <List
+          actionKey={input.name}
+          data={data}
+          activeItems={activeItems}
+          textField={textField}
+          valueField={valueField}
+          checked={checked}
+          cbClickItem={this.onClickItem}
+        />
+      </Popup>}
+    </div>;
+  }
+
   renderButtonList() {
     const { openList, activeItems } = this.state;
     const {
@@ -207,10 +269,11 @@ class LabelWrap extends Component<Props, State> {
       key={`openList-${input.name}`}
       className={classes.threeDots}
       onClick={this.toggleList}
-      data-action="openList"
+      data-action='openList'
       data-field={input.name}
     >
       {openList && <Popup
+        cus
         position={this.getListClientRect()}
       >
         <List
@@ -233,19 +296,19 @@ class LabelWrap extends Component<Props, State> {
       key={`clear-${input.name}`}
       className={classes.clearRed}
       onClick={this.clear}
-      data-action="clear"
+      data-action='clear'
       data-field={input.name}
     />;
   }
 
   render() {
     const {
-      classes, label, meta, clear, toggleList, required,
+      classes, label, meta, clear, toggleList, comboBox, required,
       customClassNameWrap, customClassNameLabel,
     } = this.props;
     const { touched, error, warning } = meta;
-    const message = touched && ((error && <span>{error}</span>)
-      || (warning && <span>{warning}</span>));
+    const message = touched && ((error && <span>{this.cbFormatError(error)}</span>)
+      || (warning && <span>{this.cbFormatError(warning)}</span>));
     const red = touched && (error || warning);
 
     return (
@@ -264,7 +327,7 @@ class LabelWrap extends Component<Props, State> {
             font: 'bold 16px Roboto',
           }}
           >*</span>}
-          &nbsp;{label}</div>
+          &nbsp;{this.cbFormatLabel(label)}</div>
         <div
           className={cn(
             customClassNameWrap,
@@ -274,6 +337,7 @@ class LabelWrap extends Component<Props, State> {
           ref={this.refList}
         >
           {this.renderInputBox()}
+          {comboBox && this.renderButtonCombo()}
           {toggleList && this.renderButtonList()}
           {clear && this.renderButtonClear()}
         </div>

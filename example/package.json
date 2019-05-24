@@ -1,6 +1,6 @@
 {
-  "name": "redux-widgets-jss-example",
-  "homepage": "https://zhukyuri.github.io/redux-widgets-jss",
+  "name": "redux-form-widgets-jss-react-example",
+  "homepage": "https://zhukyuri.github.io/redux-form-widgets-jss-react.git",
   "version": "0.0.0",
   "license": "MIT",
   "private": true,
@@ -9,7 +9,7 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "^1.1.4",
-    "redux-widgets-jss": "file:.."
+    "redux-form-widgets-jss-react": "file:.."
   },
   "scripts": {
     "start": "react-scripts start",
