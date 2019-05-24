@@ -1,23 +1,88 @@
 {
-  "parser": "babel-eslint",
-  "extends": [
-    "standard",
-    "standard-react"
-  ],
+
   "env": {
     "es6": true
   },
-  "plugins": [
-    "react"
-  ],
+
   "parserOptions": {
     "sourceType": "module"
   },
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": [
+    "flowtype",
+    "react"
+  ],
   "rules": {
     // don't force es6 functions to include space before paren
     "space-before-function-paren": 0,
 
     // allow specifying true explicitly for boolean props
-    "react/jsx-boolean-value": 0
+    "react/jsx-boolean-value": 0,
+
+    "class-methods-use-this": 0,
+    "no-console": [
+      "error"
+    ],
+    "camelcase": 0,
+    "prefer-destructuring": 0,
+    "no-nested-ternary": 0,
+    "object-curly-newline": 0,
+    "prefer-const": 0,
+    "no-param-reassign": 0,
+    "no-underscore-dangle": 0,
+    "no-plusplus": 0,
+    "no-lonely-if": 0,
+    "brace-style": 0,
+    "react/jsx-wrap-multilines": 0,
+    "react/jsx-filename-extension": 0,
+    "react/jsx-closing-tag-location": 0,
+    "react/jsx-one-expression-per-line": 0,
+    "react/prefer-stateless-function": 0,
+    "react/prop-types": 0,
+    "react/require-default-props": 0,
+    "react/forbid-prop-types": 0,
+    "react/display-name": 0,
+    "react/sort-comp": 0,
+    "import/prefer-default-export": 0,
+    "react/no-array-index-key": 0,
+    "import/no-useless-path-segments": 0,
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "jsx-a11y/label-has-for": 0,
+    "jsx-a11y/anchor-is-valid": 0,
+    "jsx-a11y/label-has-associated-control": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "max-len": [
+      "error",
+      150
+    ],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": ["const", "let", "var"], "next": ["block-like", "export", "import", "expression"] },
+      { "blankLine": "always", "prev": ["block-like", "export", "import", "expression"], "next": ["const", "let", "var"] },
+      { "blankLine": "always", "prev": "*", "next": ["return", "function"] },
+      { "blankLine": "always", "prev": ["function"], "next": "*" }
+    ]
+  },
+  "globals": {
+    "window": true,
+    "document": true,
+    "require": true,
+    "Generator": true,
+    "Iterator": true,
+    "Iterable": true,
+    "$Keys": true,
+    "$Shape": true
   }
 }
