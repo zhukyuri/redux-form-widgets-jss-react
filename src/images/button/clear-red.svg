@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>close-red-small-20x20</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="close-red-small-20x20">
+            <rect id="Rectangle" stroke-opacity="0.0113363199" stroke="#979797" x="0.5" y="0.5" width="19" height="19"></rect>
+            <polygon id="close-red" fill="#D0021B" fill-rule="nonzero" transform="translate(10.142136, 10.142136) rotate(45.000000) translate(-10.142136, -10.142136) " points="11.0171356 9.26713562 17.1421356 9.26713562 17.1421356 11.0171356 11.0171356 11.0171356 11.0171356 17.1421356 9.26713562 17.1421356 9.26713562 11.0171356 3.14213562 11.0171356 3.14213562 9.26713562 9.26713562 9.26713562 9.26713562 3.14213562 11.0171356 3.14213562"></polygon>
+        </g>
+    </g>
+</svg>
