@@ -244,7 +244,7 @@ class LabelWrap extends Component<Props, State> {
     >
       {openList && <Popup
         position={this.getListClientRect()}
-        customPaneWrap={classes.paneWrap}
+        customPaneWrap={classes.popupWrap}
       >
         <List
           actionKey={input.name}
@@ -269,7 +269,7 @@ class LabelWrap extends Component<Props, State> {
       key={`openList-${input.name}`}
       className={classes.threeDots}
       onClick={this.toggleList}
-      data-action='openList'
+      data-action="openList"
       data-field={input.name}
     >
       {openList && <Popup
@@ -296,7 +296,7 @@ class LabelWrap extends Component<Props, State> {
       key={`clear-${input.name}`}
       className={classes.clearRed}
       onClick={this.clear}
-      data-action='clear'
+      data-action="clear"
       data-field={input.name}
     />;
   }

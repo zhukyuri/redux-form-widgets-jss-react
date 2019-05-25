@@ -18,7 +18,6 @@ class Popup extends Component<Props> {
     this.el = document.createElement('div');
     this.el.classList.add(props.classes.modal);
     if (props.customPaneWrap) this.el.classList.add(props.customPaneWrap);
-    console.log(props);
   }
 
   componentDidMount() {

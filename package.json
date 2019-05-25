@@ -1,6 +1,6 @@
 {
   "name": "redux-form-widgets-jss-react",
-  "version": "16.0.3",
+  "version": "16.0.4",
   "description": "Redux-form field widgets with JSS for React JS",
   "author": "zhukyuri",
   "license": "MIT",
@@ -23,7 +23,8 @@
     "react",
     "redux",
     "redux-form",
-    "redux-widget"
+    "redux-widget",
+    "react-widget"
   ],
   "scripts": {
     "test": "cross-env CI=1 react-scripts test --env=jsdom",

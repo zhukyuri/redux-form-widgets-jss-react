@@ -13,7 +13,7 @@ const styles = {
     // padding: '20px',
     margin: '0px',
     backgroundColor: '#fff',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.35)',
+    // boxShadow: '0 0 10px rgba(0, 0, 0, 0.35)',
     zIndex: 100,
 
     overflow: 'auto',
@@ -28,7 +28,8 @@ const styles = {
   },
   scrollBlock: {
     display: 'block',
-    position: 'relative',
+    position: 'absolute',
+    left: 0,
     width: '100%',
   },
 };
