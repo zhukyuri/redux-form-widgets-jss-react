@@ -1,13 +1,13 @@
 {
   "name": "redux-form-widgets-jss-react",
-  "version": "16.0.4",
-  "description": "Redux-form field widgets with JSS for React JS",
+  "version": "8.2.6",
   "author": "zhukyuri",
   "license": "MIT",
   "repository": "zhukyuri/redux-form-widgets-jss-react",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
+  "description": "Redux-form field widgets with JSS for React JS",
   "engines": {
     "node": ">=8",
     "npm": ">=5"

@@ -1,5 +1,5 @@
 // @flow
-const paddingList = 20;
+const paddingList = 5;
 
 const styles = {
   list: {

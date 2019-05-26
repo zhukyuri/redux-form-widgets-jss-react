@@ -7,8 +7,10 @@ import LabelWrap from './LabelWrap';
 type Props = {
   valueField: string,
   textField: string,
-  checked: boolean,
-  multiple: boolean,
+  checking: boolean,
+  selecting: boolean,
+  multipleSelect: boolean,
+  multipleCheck: boolean,
   clear: boolean,
   change: any,
   name: string,

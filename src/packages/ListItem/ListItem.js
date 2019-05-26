@@ -7,50 +7,59 @@ import { type Styles } from './ListItem.jss';
 type Props = {
   classes: Styles,
   onClickItem: any,
+  onCheckItemBox: any,
   textField: string,
   valueField: string,
-  nameFieldCheck: string,
   nameFieldDisable: string,
-  activeItems: { [id: string]: any },
-  checked?: boolean,
+  activeItem: { [id: string]: any },
+  checkedItems: { [id: string]: boolean },
+  checkItem?: boolean,
+  checking?: boolean,
+  selecting?: boolean,
 }
 
 function ListItem(props: Props) {
   const {
-    classes, onClickItem, item,
-    textField, valueField, nameFieldCheck, nameFieldDisable,
-    checked, activeItems,
+    classes, onClickItem, onCheckItemBox, item,
+    textField, valueField, nameFieldDisable,
+    activeItem, checkItem, checking, selecting,
   } = props;
   const titleItem = item[textField];
-  const active = activeItems && Object.prototype.hasOwnProperty.call(activeItems, item[valueField]);
 
   return (
     <li
       className={cn(
         classes.option,
         { [classes.cursor]: !item[nameFieldDisable] },
-        { [classes.activeColor]: active },
+        { [classes.activeColor]: activeItem },
       )}
       data-role="list-item-title"
       data-text={item[textField]}
       data-value={item[valueField]}
-      data-active={!!active}
-      data-checked={!!checked}
+      data-active={!!activeItem}
+      data-check={!!checkItem}
+      data-checking={!!checking}
+      data-selecting={!!selecting}
       data-disable={!!item[nameFieldDisable]}
       onClick={onClickItem}
     >
       {titleItem}
-      {!!checked && <div
-        data-role="list-item-check"
-        data-textfield={item[textField]}
-        data-valuefield={item[valueField]}
-        data-checked={!!checked}
+      {!!checking && <div
         className={cn({
-          [classes.checkbox]: item[nameFieldCheck] && !item[nameFieldDisable],
-          [classes.unCheckbox]: !item[nameFieldCheck] && !item[nameFieldDisable],
+          [classes.checkbox]: checking && checkItem,
+          [classes.unCheckbox]: checking && !checkItem,
           [classes.disable]: item[nameFieldDisable],
           [classes.cursor]: !item[nameFieldDisable],
         })}
+        data-role="list-item-check"
+        data-text={item[textField]}
+        data-value={item[valueField]}
+        data-active={!!activeItem}
+        data-check={!!checkItem}
+        data-checking={!!checking}
+        data-selecting={!!selecting}
+        data-disable={!!item[nameFieldDisable]}
+        onClick={onCheckItemBox}
       />}
     </li>
   );

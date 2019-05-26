@@ -15,7 +15,7 @@ type Props = {
   cbActions: any,
 }
 
-class FieldSelect extends Component<Props> {
+class FieldSelectMulti extends Component<Props> {
   static defaultProps = {
     data: [],
   };
@@ -29,8 +29,8 @@ class FieldSelect extends Component<Props> {
         componentType="combobox"
         data={data}
         comboBox
-        selecting
-        multipleSelect={false}
+        selecting={true}
+        multipleSelect={true}
         checking={false}
         multipleCheck={false}
       />
@@ -38,4 +38,4 @@ class FieldSelect extends Component<Props> {
   }
 }
 
-export default FieldSelect;
+export default FieldSelectMulti;

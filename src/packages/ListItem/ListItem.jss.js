@@ -13,7 +13,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     color: '#58717f',
-    padding: '5px 5px',
+    padding: '10px 22px 5px 5px',
     cursor: 'default',
     whiteSpace: 'nowrap',
   },

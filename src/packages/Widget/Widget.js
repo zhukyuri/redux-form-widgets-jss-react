@@ -8,7 +8,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import List from '../List';
 import Popup from '../Popup';
 import BaseInput from '../BaseInput';
-import { getItemFromArrayByItemId, objectToArray } from '../../utils/utils';
+import {
+  createTitle, findItemInArrayById, setOriginId, toggleIteminArrayById, toSimpleArray,
+} from '../../utils/utils';
 
 type Props = {
   classes: any,
@@ -40,11 +42,11 @@ type Props = {
 
 type State = {
   openList: boolean,
-  activeItems: { [id: string]: any },
-  checkedItems: { [id: string]: boolean },
+  activeItems: Array<any>,
+  checkedItems: Array<any>,
 }
 
-class LabelWrap extends Component<Props, State> {
+class Widget extends Component<Props, State> {
   static defaultProps = {
     label: 'Main label',
     type: 'text',
@@ -62,7 +64,6 @@ class LabelWrap extends Component<Props, State> {
     this.closeList = this.closeList.bind(this);
     this.clear = this.clear.bind(this);
     this.addActiveItem = this.addActiveItem.bind(this);
-    this.removeActiveItem = this.removeActiveItem.bind(this);
     this.getListClientRect = this.getListClientRect.bind(this);
     this.renderButtonCombo = this.renderButtonCombo.bind(this);
     this.renderButtonList = this.renderButtonList.bind(this);
@@ -73,20 +74,18 @@ class LabelWrap extends Component<Props, State> {
 
     this.state = {
       openList: false,
-      activeItems: {},
-      checkedItems: {},
+      activeItems: [],
+      checkedItems: [],
     };
   }
 
-  // static getDerivedStateFromProps(props, state) {
-  //   const {input, data, valueField} = props;
-  //   const {value} = input;
-  //
-  //   return {
-  //     ...state,
-  //     activeItems: valueToObject(value, data, valueField),
-  //   };
-  // }
+  componentDidMount() {
+    // document.addEventListener('click', this.closeList, false);
+  }
+
+  componentWillUnmount() {
+    // document.removeEventListener('click', this.closeList);
+  }
 
   cbFormatLabel(name: string): string {
     const { cbLabelFormat } = this.props;
@@ -119,9 +118,14 @@ class LabelWrap extends Component<Props, State> {
   }
 
   closeList() {
-    // this.setState({
-    //   openList: false,
-    // });
+    const { openList } = this.state;
+    // e.stopPropagation();
+
+    if (openList) {
+      this.setState({
+        openList: false,
+      });
+    }
   }
 
   clear(e) {
@@ -132,44 +136,29 @@ class LabelWrap extends Component<Props, State> {
     if (cbActions) cbActions(dataset.field, dataset.action, this.props);
   }
 
-  addActiveItem(itemId) {
+  addActiveItem(iId) {
     const { activeItems } = this.state;
-    const { data, multipleSelect, selecting, valueField, input, meta } = this.props;
+    const { data, multipleSelect, valueField, input, meta } = this.props;
     const { dispatch, form } = meta;
-    if (!itemId || isEmpty(itemId)) return;
-    const itemData = getItemFromArrayByItemId(data, valueField, itemId);
-    let currentAll = cloneDeep(multipleSelect);
+    const itemId = setOriginId(data, iId, valueField);
 
-    if (!itemData || !selecting) return;
     if (multipleSelect) {
-      currentAll = {
-        ...activeItems,
-        [itemId]: getItemFromArrayByItemId(data, valueField, itemId),
-      };
+      const currentNew = toggleIteminArrayById(data, itemId, valueField, activeItems);
+
+      dispatch(change(form, input.name, toSimpleArray(currentNew)));
+      this.setState({
+        activeItems: currentNew,
+      });
     }
     else {
-      currentAll = {
-        [itemId]: getItemFromArrayByItemId(data, valueField, itemId),
-      };
-    }
-    dispatch(change(form, input.name, itemId));
-    this.setState({
-      activeItems: currentAll,
-    });
-  }
+      const currentOne = findItemInArrayById(data, itemId, valueField);
 
-  removeActiveItem(itemId) {
-    const { activeItems } = this.state;
-    const { valueField } = this.props;
-    if (!itemId || typeof itemId !== 'string' || isEmpty(itemId)) return;
-    if (!activeItems) return;
-    if (Object.prototype.hasOwnProperty.call(activeItems, activeItems[valueField])) {
-      const res = cloneDeep(activeItems);
-
-      delete res[valueField];
-      this.setState({
-        activeItems: res,
-      });
+      if (currentOne) {
+        this.setState({
+          activeItems: currentOne,
+        });
+        dispatch(change(form, input.name, currentOne[valueField]));
+      }
     }
   }
 
@@ -201,7 +190,6 @@ class LabelWrap extends Component<Props, State> {
       checkedItems: currentAll,
     });
   }
-
 
   getListClientRect() {
     return this.refList && this.refList.current
@@ -238,26 +226,14 @@ class LabelWrap extends Component<Props, State> {
       componentType, classes, input, type, placeholder, customClassNameInput, textField,
     } = this.props;
     const { activeItems } = this.state;
-    const selectData = objectToArray(activeItems);
-    const selectItemTitle = !selectData || !selectData.length ? '' : selectData[0][textField];
+    const selectItemsTitle = createTitle(activeItems, textField);
 
     switch (componentType) {
       case 'select':
       case 'combobox':
         return (
           <div className={classes.itemBlock}>
-            {selectItemTitle}
-            <BaseInput
-              input={input}
-              type={type}
-              placeholder={this.cbFormatPlaceholder(placeholder)}
-              customStyle={{
-                height: 1,
-                width: 1,
-                margin: -1,
-                flex: 'none',
-              }}
-            />
+            {selectItemsTitle}
           </div>
         );
 
@@ -265,7 +241,11 @@ class LabelWrap extends Component<Props, State> {
         return (
           <div className={classes.itemInput}>
             <BaseInput
-              input={input}
+              input={{
+                ...input,
+                onBlur: () => {
+                },
+              }}
               type={type}
               placeholder={placeholder}
               customClassNameInput={customClassNameInput}
@@ -367,7 +347,6 @@ class LabelWrap extends Component<Props, State> {
             [customClassNameLabel]: customClassNameLabel,
           },
         )}
-        onBlur={this.closeList}
       >
         <div className={cn(classes.labelInfo)}>
           {!!required && <span style={{
@@ -397,4 +376,4 @@ class LabelWrap extends Component<Props, State> {
   }
 }
 
-export default LabelWrap;
+export default Widget;

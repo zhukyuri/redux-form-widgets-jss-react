@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import Widget from './Widget';
+import LabelWrap from './LabelWrap';
 
 type Props = {
   data?: Array<any>,
@@ -24,15 +24,15 @@ class FieldSelect extends Component<Props> {
     const { data } = this.props;
 
     return (
-      <Widget
+      <LabelWrap
         {...this.props}
         componentType="combobox"
         data={data}
         comboBox
-        selecting
+        selecting={false}
         multipleSelect={false}
-        checking={false}
-        multipleCheck={false}
+        checking={true}
+        multipleCheck={true}
       />
     );
   }
