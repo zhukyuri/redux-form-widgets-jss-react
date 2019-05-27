@@ -92,52 +92,51 @@ export const isActive = (
   activeItems: Array<any>, itemId: string | number, valueField: string,
 ) => {
   if (Array.isArray(activeItems)) {
-    return !!findItemInArrayById(activeItems, itemId, valueField);
-  }
+    const ttt = findItemInArrayById(activeItems, itemId, valueField);
 
+    return undefined !== ttt;
+  }
   return activeItems[valueField] === itemId || activeItems[valueField] === itemId * 1;
 };
 
 export const addItemToArrayById = (
-  data: Array<any>, itemId: | string | number, valueField: string,
-  currentArray: Array<any>,
+  data: Array<any>, itemId: | string | number, valueField: string, currentArray: Array<any>,
 ): Array<any> => {
-  const item = findItemInArrayById(data, itemId, valueField);
+  const item = findItemInArrayById(currentArray, itemId, valueField);
 
-  if (!item) return currentArray;
-  currentArray.push(itemId);
+  if (item !== undefined) return currentArray;
 
+  const itemNew = findItemInArrayById(data, itemId, valueField);
+
+  currentArray.push(itemNew);
   return currentArray;
 };
 
-export const removeItemToArrayById = (
+export const removeItemFromArrayById = (
   itemId: | string | number, valueField: string, currentArray: Array<any>,
 ): Array<any> => {
   const item = findItemInArrayById(currentArray, itemId, valueField);
 
-  if (!item) return currentArray;
+  if (item === undefined) return currentArray;
 
   return currentArray.reduce((acc, i) => {
-    if (i[valueField] !== itemId && i[valueField] !== itemId * 1) {
+    if (!(i[valueField] === itemId || i[valueField] === itemId * 1)) {
       acc.push(i);
     }
-
     return acc;
   }, []);
 };
 
-
-export const toggleIteminArrayById = (
+export const toggleItemInArrayById = (
   data: Array<any>, itemId: | string | number, valueField: string,
   currentArray: Array<any>,
 ): Array<any> => {
   const isItem = findItemInArrayById(currentArray, itemId, valueField);
 
-  if (!isItem) {
+  if (isItem === undefined) {
     return addItemToArrayById(data, itemId, valueField, currentArray);
   }
-
-  return removeItemToArrayById(itemId, valueField, currentArray);
+  return removeItemFromArrayById(itemId, valueField, currentArray);
 };
 
 export const toSimpleArray = (data: Array<any>, valueField: string): Array<any> => data.map(

@@ -2,6 +2,10 @@ export const required = value => (value || typeof value === 'number'
   ? undefined
   : 'validation.required');
 
+export const requiredItemsArray = value => (Array.isArray(value) && value.length
+  ? undefined
+  : 'validation.requiredArrayItem');
+
 export const maxLength = max => value => (value && value.length > max
   ? `validation.maxLength${max}`
   : undefined);

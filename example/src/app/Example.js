@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import {
   FieldCheck, FieldCheckMulti, FieldSelect, FieldSelectMulti, LabelWrap,
 } from 'redux-form-widgets-jss-react';
-import { required } from '../common/validation';
+import { required, requiredItemsArray } from '../common/validation';
 import { selectDataArray } from '../data/exampleData';
 
 type Props = {}
@@ -45,7 +45,7 @@ class Example extends Component<Props> {
             textField="title"
             label="Select Multi"
             required
-            validate={[required]}
+            validate={[requiredItemsArray]}
             clear
           />
 
@@ -69,7 +69,7 @@ class Example extends Component<Props> {
             textField="title"
             label="Check Multi"
             required
-            validate={[required]}
+            validate={[requiredItemsArray]}
             clear
           />
 

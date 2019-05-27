@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import cn from 'classnames';
 import ListItem from '../ListItem';
 import styles, { type Styles } from './List.jss';
@@ -24,7 +24,7 @@ type Props = {
 
 type State = {}
 
-class List extends PureComponent<Props, State> {
+class List extends Component<Props, State> {
   static defaultProps = {
     positionPane: 'left',
   };
@@ -37,9 +37,9 @@ class List extends PureComponent<Props, State> {
   }
 
   handleClickItem(e: SyntheticEvent): void {
-    const { cbClickItem, actionKey } = this.props;
+    const { cbClickItem, actionKey, selecting } = this.props;
     const dataset = e.currentTarget.dataset;
-    if (!dataset) return;
+    if (!dataset || !selecting) return;
 
     const params = Object.keys(dataset).reduce((acc, key) => ({
       ...acc,
@@ -50,9 +50,9 @@ class List extends PureComponent<Props, State> {
   }
 
   handleCheckBoxItem(e: SyntheticEvent): void {
-    const { cbCheckItemBox, actionKey } = this.props;
+    const { cbCheckItemBox, actionKey, checking } = this.props;
     const dataset = e.currentTarget.dataset;
-    if (!dataset) return;
+    if (!dataset || !checking) return;
 
     e.stopPropagation();
 
@@ -68,7 +68,7 @@ class List extends PureComponent<Props, State> {
     const {
       classes, data, textField, nameFieldCheck, valueField,
       selecting, checking, activeItems, checkedItems,
-      nameFieldDisable, pathTranslate, positionPane,
+      nameFieldDisable, positionPane,
     } = this.props;
 
     return (
@@ -89,8 +89,8 @@ class List extends PureComponent<Props, State> {
               onClickItem={this.handleClickItem}
               onCheckItemBox={this.handleCheckBoxItem}
               item={i}
-              activeItem={isActive(activeItems, i[valueField], valueField)}
-              checkItem={checkedItems[i[valueField]]}
+              isActive={isActive(activeItems, i[valueField], valueField)}
+              isCheck={isActive(checkedItems, i[valueField], valueField)}
               index={ind}
               checking={checking}
               selecting={selecting}

@@ -11,9 +11,8 @@ type Props = {
   textField: string,
   valueField: string,
   nameFieldDisable: string,
-  activeItem: { [id: string]: any },
-  checkedItems: { [id: string]: boolean },
-  checkItem?: boolean,
+  isActive: boolean,
+  isCheck: boolean,
   checking?: boolean,
   selecting?: boolean,
 }
@@ -22,7 +21,7 @@ function ListItem(props: Props) {
   const {
     classes, onClickItem, onCheckItemBox, item,
     textField, valueField, nameFieldDisable,
-    activeItem, checkItem, checking, selecting,
+    isActive, isCheck, checking, selecting,
   } = props;
   const titleItem = item[textField];
 
@@ -31,13 +30,13 @@ function ListItem(props: Props) {
       className={cn(
         classes.option,
         { [classes.cursor]: !item[nameFieldDisable] },
-        { [classes.activeColor]: activeItem },
+        { [classes.activeColor]: isActive },
       )}
       data-role="list-item-title"
       data-text={item[textField]}
       data-value={item[valueField]}
-      data-active={!!activeItem}
-      data-check={!!checkItem}
+      data-active={isActive}
+      data-check={isCheck}
       data-checking={!!checking}
       data-selecting={!!selecting}
       data-disable={!!item[nameFieldDisable]}
@@ -46,16 +45,16 @@ function ListItem(props: Props) {
       {titleItem}
       {!!checking && <div
         className={cn({
-          [classes.checkbox]: checking && checkItem,
-          [classes.unCheckbox]: checking && !checkItem,
+          [classes.checkbox]: checking && isCheck,
+          [classes.unCheckbox]: checking && !isCheck,
           [classes.disable]: item[nameFieldDisable],
           [classes.cursor]: !item[nameFieldDisable],
         })}
         data-role="list-item-check"
         data-text={item[textField]}
         data-value={item[valueField]}
-        data-active={!!activeItem}
-        data-check={!!checkItem}
+        data-active={isActive}
+        data-check={isCheck}
         data-checking={!!checking}
         data-selecting={!!selecting}
         data-disable={!!item[nameFieldDisable]}

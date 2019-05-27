@@ -51,7 +51,7 @@
     "import/prefer-default-export": 0,
     "react/no-array-index-key": 0,
     "import/no-useless-path-segments": 0,
-    "import/no-extraneous-dependencies": [
+      "import/no-extraneous-dependencies": [
       "error",
       {
         "devDependencies": true
@@ -71,7 +71,7 @@
       "error",
       { "blankLine": "always", "prev": ["const", "let", "var"], "next": ["block-like", "export", "import", "expression"] },
       { "blankLine": "always", "prev": ["block-like", "export", "import", "expression"], "next": ["const", "let", "var"] },
-      { "blankLine": "always", "prev": "*", "next": ["return", "function"] },
+      { "blankLine": "always", "prev": "*", "next": ["function"] },
       { "blankLine": "always", "prev": ["function"], "next": "*" }
     ]
   },

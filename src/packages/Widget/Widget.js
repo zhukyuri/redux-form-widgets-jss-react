@@ -3,13 +3,11 @@
 import React, { Component } from 'react';
 import { change } from 'redux-form';
 import cn from 'classnames';
-import isEmpty from 'lodash/isEmpty';
-import cloneDeep from 'lodash/cloneDeep';
 import List from '../List';
 import Popup from '../Popup';
 import BaseInput from '../BaseInput';
 import {
-  createTitle, findItemInArrayById, setOriginId, toggleIteminArrayById, toSimpleArray,
+  createTitle, findItemInArrayById, setOriginId, toggleItemInArrayById, toSimpleArray,
 } from '../../utils/utils';
 
 type Props = {
@@ -138,14 +136,15 @@ class Widget extends Component<Props, State> {
 
   addActiveItem(iId) {
     const { activeItems } = this.state;
-    const { data, multipleSelect, valueField, input, meta } = this.props;
+    const { data, multipleSelect, valueField, input, meta, selecting } = this.props;
     const { dispatch, form } = meta;
     const itemId = setOriginId(data, iId, valueField);
 
+    if (!selecting) return;
     if (multipleSelect) {
-      const currentNew = toggleIteminArrayById(data, itemId, valueField, activeItems);
+      const currentNew = toggleItemInArrayById(data, itemId, valueField, activeItems);
 
-      dispatch(change(form, input.name, toSimpleArray(currentNew)));
+      dispatch(change(form, input.name, toSimpleArray(currentNew, valueField)));
       this.setState({
         activeItems: currentNew,
       });
@@ -162,33 +161,31 @@ class Widget extends Component<Props, State> {
     }
   }
 
-  addCheckedItem(itemId) {
+  addCheckedItem(iId) {
     const { checkedItems } = this.state;
-    // eslint-disable-next-line no-unused-vars
-    const { data, checking, multipleCheck, valueField, input, meta } = this.props;
-    // eslint-disable-next-line no-unused-vars
+    const { data, multipleCheck, valueField, input, meta, checking } = this.props;
     const { dispatch, form } = meta;
-    if (!itemId || isEmpty(itemId) || !checking) return;
+    const itemId = setOriginId(data, iId, valueField);
 
-    const currentId = !!checkedItems[itemId];
-    let currentAll = cloneDeep(checkedItems);
+    if (!checking) return;
+    if (multipleCheck) {
+      const currentNew = toggleItemInArrayById(data, itemId, valueField, checkedItems);
 
-    if (!multipleCheck) {
-      currentAll = {
-        [itemId]: !currentId,
-      };
+      dispatch(change(form, input.name, toSimpleArray(currentNew, valueField)));
+      this.setState({
+        checkedItems: currentNew,
+      });
     }
     else {
-      currentAll = {
-        ...currentAll,
-        [itemId]: !currentId,
-      };
+      const currentOne = findItemInArrayById(data, itemId, valueField);
+
+      if (currentOne) {
+        this.setState({
+          checkedItems: currentOne,
+        });
+        dispatch(change(form, input.name, currentOne[valueField]));
+      }
     }
-    // TODO
-    // dispatch(change(form, input.name, itemId));
-    this.setState({
-      checkedItems: currentAll,
-    });
   }
 
   getListClientRect() {
@@ -223,10 +220,11 @@ class Widget extends Component<Props, State> {
 
   renderInputBox() {
     const {
-      componentType, classes, input, type, placeholder, customClassNameInput, textField,
+      componentType, classes, input, type, placeholder, customClassNameInput, textField, selecting, checking,
     } = this.props;
-    const { activeItems } = this.state;
-    const selectItemsTitle = createTitle(activeItems, textField);
+    const { activeItems, checkedItems } = this.state;
+    const selectItemsTitle = createTitle(selecting ? activeItems
+      : checking ? checkedItems : [], textField);
 
     switch (componentType) {
       case 'select':
@@ -234,6 +232,17 @@ class Widget extends Component<Props, State> {
         return (
           <div className={classes.itemBlock}>
             {selectItemsTitle}
+            <BaseInput
+              input={input}
+              type={type}
+              placeholder={this.cbFormatPlaceholder(placeholder)}
+              customStyle={{
+                height: 1,
+                width: 1,
+                margin: -1,
+                flex: 'none',
+              }}
+            />
           </div>
         );
 
@@ -241,11 +250,7 @@ class Widget extends Component<Props, State> {
         return (
           <div className={classes.itemInput}>
             <BaseInput
-              input={{
-                ...input,
-                onBlur: () => {
-                },
-              }}
+              input={input}
               type={type}
               placeholder={placeholder}
               customClassNameInput={customClassNameInput}
@@ -258,7 +263,7 @@ class Widget extends Component<Props, State> {
   renderButtonCombo() {
     const { openList, activeItems, checkedItems } = this.state;
     const {
-      classes, data, textField, valueField, input, checking,
+      classes, data, textField, valueField, input, checking, selecting,
     } = this.props;
 
     return <div
@@ -280,6 +285,7 @@ class Widget extends Component<Props, State> {
           textField={textField}
           valueField={valueField}
           checking={checking}
+          selecting={selecting}
           cbClickItem={this.onClickItem}
           cbCheckItemBox={this.onClickItem}
         />

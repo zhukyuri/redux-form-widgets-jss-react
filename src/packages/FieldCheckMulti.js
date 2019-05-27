@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import LabelWrap from './LabelWrap';
+import Widget from './Widget';
 
 type Props = {
   data?: Array<any>,
@@ -24,7 +24,7 @@ class FieldSelect extends Component<Props> {
     const { data } = this.props;
 
     return (
-      <LabelWrap
+      <Widget
         {...this.props}
         componentType="combobox"
         data={data}
