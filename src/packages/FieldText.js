@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import LabelWrap from './LabelWrap';
+import Widget from './Widget';
 
 type Props = {
   valueField: string,
@@ -26,7 +26,7 @@ class FieldText extends Component<Props> {
     return (
       <Field
         {...this.props}
-        component={LabelWrap}
+        component={Widget}
         componentType="text"
         type="text"
       />
