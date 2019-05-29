@@ -15,7 +15,7 @@ type Props = {
   cbActions: any,
 }
 
-class FieldSelect extends Component<Props> {
+class FieldCheckMulti extends Component<Props> {
   static defaultProps = {
     data: [],
   };
@@ -38,4 +38,4 @@ class FieldSelect extends Component<Props> {
   }
 }
 
-export default FieldSelect;
+export default FieldCheckMulti;
