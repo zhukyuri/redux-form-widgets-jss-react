@@ -57,6 +57,7 @@ class Widget extends Component<Props, State> {
     super(props);
 
     this.onClickItem = this.onClickItem.bind(this);
+    this.onBlurCustom = this.onBlurCustom.bind(this);
     this.cbFormatLabel = this.cbFormatLabel.bind(this);
     this.cbFormatError = this.cbFormatError.bind(this);
     this.cbFormatPlaceholder = this.cbFormatPlaceholder.bind(this);
@@ -234,6 +235,24 @@ class Widget extends Component<Props, State> {
     }
   }
 
+  onBlurCustom() {
+    const { selecting, checking, input, valueField } = this.props;
+    const { onBlur } = input;
+    const { activeItems, checkedItems } = this.state;
+
+    if (selecting && activeItems) {
+      if (Array.isArray(activeItems)) {
+        onBlur(toSimpleArray(activeItems, valueField));
+      }
+    }
+
+    if (checking && checkedItems) {
+      if (Array.isArray(checkedItems)) {
+        onBlur(toSimpleArray(checkedItems, valueField));
+      }
+    }
+  }
+
   renderInputBox() {
     const {
       componentType, classes, input, type, placeholder, customClassNameInput, textField, selecting, checking,
@@ -248,17 +267,20 @@ class Widget extends Component<Props, State> {
         return (
           <div className={classes.itemBlock}>
             {selectItemsTitle}
-            {/*<BaseInput*/}
-            {/*  input={input}*/}
-            {/*  type={type}*/}
-            {/*  placeholder={this.cbFormatPlaceholder(placeholder)}*/}
-            {/*  customStyle={{*/}
-            {/*    height: 1,*/}
-            {/*    width: 1,*/}
-            {/*    margin: -1,*/}
-            {/*    flex: 'none',*/}
-            {/*  }}*/}
-            {/*/>*/}
+            <BaseInput
+              input={{
+                ...input,
+                onBlur: this.onBlurCustom,
+              }}
+              type={type}
+              placeholder={this.cbFormatPlaceholder(placeholder)}
+              customStyle={{
+                height: 1,
+                width: 1,
+                margin: -1,
+                flex: 'none',
+              }}
+            />
           </div>
         );
 
