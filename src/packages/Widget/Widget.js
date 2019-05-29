@@ -7,7 +7,8 @@ import List from '../List';
 import Popup from '../Popup';
 import BaseInput from '../BaseInput';
 import {
-  createTitle, findItemInArrayById, setOriginId, toggleItemInArrayById, toSimpleArray,
+  convertValueReduxToFullFormat, createTitle, findItemInArrayById, setOriginId,
+  toggleItemInArrayById, toSimpleArray,
 } from '../../utils/utils';
 
 type Props = {
@@ -36,6 +37,7 @@ type Props = {
   cbLabelFormat?: any,
   cbErrorFormat?: any,
   cbPlaceholderFormat?: any,
+  cbTextFormat?: any,
 }
 
 type State = {
@@ -74,6 +76,20 @@ class Widget extends Component<Props, State> {
       openList: false,
       activeItems: [],
       checkedItems: [],
+    };
+  }
+
+  static getDerivedStateFromProps(props: Props, state: State) {
+    const { input, data, valueField, checking, selecting } = props;
+    const { value } = input;
+    const fullValue = convertValueReduxToFullFormat(value, data, valueField);
+
+    if (!fullValue) return state;
+
+    return {
+      ...state,
+      activeItems: selecting ? fullValue : [],
+      checkedItems: checking ? fullValue : [],
     };
   }
 
@@ -141,7 +157,7 @@ class Widget extends Component<Props, State> {
     const itemId = setOriginId(data, iId, valueField);
 
     if (!selecting) return;
-    if (multipleSelect) {
+    if (multipleSelect && activeItems) {
       const currentNew = toggleItemInArrayById(data, itemId, valueField, activeItems);
 
       dispatch(change(form, input.name, toSimpleArray(currentNew, valueField)));
@@ -168,7 +184,7 @@ class Widget extends Component<Props, State> {
     const itemId = setOriginId(data, iId, valueField);
 
     if (!checking) return;
-    if (multipleCheck) {
+    if (multipleCheck && checkedItems) {
       const currentNew = toggleItemInArrayById(data, itemId, valueField, checkedItems);
 
       dispatch(change(form, input.name, toSimpleArray(currentNew, valueField)));
@@ -232,17 +248,17 @@ class Widget extends Component<Props, State> {
         return (
           <div className={classes.itemBlock}>
             {selectItemsTitle}
-            <BaseInput
-              input={input}
-              type={type}
-              placeholder={this.cbFormatPlaceholder(placeholder)}
-              customStyle={{
-                height: 1,
-                width: 1,
-                margin: -1,
-                flex: 'none',
-              }}
-            />
+            {/*<BaseInput*/}
+            {/*  input={input}*/}
+            {/*  type={type}*/}
+            {/*  placeholder={this.cbFormatPlaceholder(placeholder)}*/}
+            {/*  customStyle={{*/}
+            {/*    height: 1,*/}
+            {/*    width: 1,*/}
+            {/*    margin: -1,*/}
+            {/*    flex: 'none',*/}
+            {/*  }}*/}
+            {/*/>*/}
           </div>
         );
 

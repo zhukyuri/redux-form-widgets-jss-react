@@ -91,10 +91,10 @@ export const findItemInArrayById = (
 export const isActive = (
   activeItems: Array<any>, itemId: string | number, valueField: string,
 ) => {
-  if (Array.isArray(activeItems)) {
-    const ttt = findItemInArrayById(activeItems, itemId, valueField);
+  if (activeItems === undefined || activeItems === null) return false;
 
-    return undefined !== ttt;
+  if (Array.isArray(activeItems)) {
+    return undefined !== findItemInArrayById(activeItems, itemId, valueField);
   }
   return activeItems[valueField] === itemId || activeItems[valueField] === itemId * 1;
 };
@@ -131,11 +131,11 @@ export const toggleItemInArrayById = (
   data: Array<any>, itemId: | string | number, valueField: string,
   currentArray: Array<any>,
 ): Array<any> => {
+  if (!Array.isArray(currentArray)) return;
   const isItem = findItemInArrayById(currentArray, itemId, valueField);
 
-  if (isItem === undefined) {
-    return addItemToArrayById(data, itemId, valueField, currentArray);
-  }
+  if (isItem === undefined) return addItemToArrayById(data, itemId, valueField, currentArray);
+
   return removeItemFromArrayById(itemId, valueField, currentArray);
 };
 
@@ -143,19 +143,60 @@ export const toSimpleArray = (data: Array<any>, valueField: string): Array<any> 
   i => (i[valueField]),
 );
 
-export const createTitle = (value: any, textField: string): string => {
-  if (Array.isArray(value)) {
-    if (value.length === 1) {
-      return value[0][textField];
+export const createTitle = (valueFull: any, textField: string): string => {
+  if (Array.isArray(valueFull)) {
+    if (valueFull.length === 1) {
+      return valueFull[0][textField];
     }
-    if (value.length > 1) {
-      return `${value.length} item(s)`;
+    if (valueFull.length > 1) {
+      return `${valueFull.length} item(s)`;
     }
 
     return 'not filled';
   }
+  if (valueFull === undefined || valueFull === null) return 'not filled';
 
-  return value[textField];
+  return valueFull[textField];
+};
+
+/**
+ * Create title in input box for List select/check redux field;
+ *  - for array value without callback;
+ *  - for array value with callback;
+ *  - for string/number value without callback;
+ *  - for string/number value with callback;
+ *
+ * @param {number|string|array} value - data from redux
+ * @param {array} data - full data array
+ * @param {string} textField
+ * @param {string} valueField
+ * @param {function} cbTextFormat
+ * @returns {String} - title in input box
+ */
+export const createTitleFromReduxValue = (
+  value: any, data: Array<any>, textField: string, valueField: string, cbTextFormat: any,
+): string => {
+  // Array value format
+  if (Array.isArray(value)) {
+    // not callback
+    if (!cbTextFormat) {
+      if (value.length === 1) {
+        return value[0][textField];
+      }
+      if (value.length > 1) {
+        return `${value.length} item(s)`;
+      }
+      return 'not filled';
+    }
+
+    // for callback
+    const fullDataValue = value.map(i => findItemInArrayById(data, i, valueField));
+    return cbTextFormat(fullDataValue, textField, valueField);
+  }
+
+  // Simple value format
+  const fullData = findItemInArrayById(data, value, valueField);
+  return !cbTextFormat ? fullData[textField] : cbTextFormat(fullData, textField, valueField);
 };
 
 export const setOriginId = (
@@ -166,4 +207,20 @@ export const setOriginId = (
   if (!find) return null;
 
   return find[valueField];
+};
+
+/**
+ * Convert redux value format to full value format
+ * @param {number|string|array} value - data from redux
+ * @param {array} data - full data array
+ * @param {string} valueField
+ * @returns {any|Array<any>}
+ */
+export const convertValueReduxToFullFormat = (
+  value: Array<any> | string | number, data: Array<any>, valueField: string,
+) => {
+  if (Array.isArray(value)) {
+    return value.map(i => findItemInArrayById(data, i, valueField));
+  }
+  return findItemInArrayById(data, value, valueField);
 };

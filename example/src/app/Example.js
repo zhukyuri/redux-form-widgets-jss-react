@@ -82,4 +82,11 @@ class Example extends Component<Props> {
 
 export default reduxForm({
   form: 'exampleForm',
+  initialValues: {
+    simple_text: 'initial',
+    select: 1,
+    select_multi: [2, 3],
+    check: 1,
+    check_multi: [2, 3],
+  },
 })(Example);
