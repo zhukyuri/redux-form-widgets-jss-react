@@ -144,9 +144,33 @@ class Widget extends Component<Props, State> {
   }
 
   clear(e) {
-    const { cbActions } = this.props;
+    const { cbActions, selecting, checking, valueField, input } = this.props;
+    const { onBlur, onChange } = input;
+    const { activeItems, checkedItems } = this.state;
     const dataset = e.currentTarget.dataset;
     if (!dataset || !dataset.field || !dataset.action) return;
+
+
+    if (selecting && activeItems) {
+      if (Array.isArray(activeItems)) {
+        onChange([]);
+        onBlur([]);
+      }
+      else onBlur('');
+    }
+
+
+    if (checking && checkedItems) {
+      if (Array.isArray(checkedItems)) {
+        onChange([]);
+        onBlur([]);
+      }
+      else onBlur('');
+    }
+
+    if (!selecting && !selecting) {
+      onChange('');
+    }
 
     if (cbActions) cbActions(dataset.field, dataset.action, this.props);
   }
@@ -244,12 +268,14 @@ class Widget extends Component<Props, State> {
       if (Array.isArray(activeItems)) {
         onBlur(toSimpleArray(activeItems, valueField));
       }
+      else onBlur(activeItems[valueField]);
     }
 
     if (checking && checkedItems) {
       if (Array.isArray(checkedItems)) {
         onBlur(toSimpleArray(checkedItems, valueField));
       }
+      else onBlur(checkedItems[valueField]);
     }
   }
 

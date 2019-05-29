@@ -35,6 +35,7 @@ class Example extends Component<Props> {
             label="Select"
             required
             validate={[required]}
+            clear
           />
 
           <Field
