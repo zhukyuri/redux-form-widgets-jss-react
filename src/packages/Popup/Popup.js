@@ -7,7 +7,7 @@ let modalRoot = document.getElementById('modal-root');
 
 type Props = {
   children: any,
-  position: { top: number, left: number },
+  position: { top: number, left: number, width: number },
   customPaneWrap?: string,
 }
 
