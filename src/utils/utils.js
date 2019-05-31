@@ -139,9 +139,11 @@ export const toggleItemInArrayById = (
   return removeItemFromArrayById(itemId, valueField, currentArray);
 };
 
-export const toSimpleArray = (data: Array<any>, valueField: string): Array<any> => data.map(
+export const toSimpleArray = (
+  data: Array<any>, valueField: string,
+): Array<any> => (!Array.isArray(data) ? [] : data.map(
   i => (i[valueField]),
-);
+));
 
 export const createTitle = (valueFull: any, textField: string): string => {
   if (Array.isArray(valueFull)) {
