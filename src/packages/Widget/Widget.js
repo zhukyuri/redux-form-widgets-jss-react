@@ -45,7 +45,6 @@ type Props = {
   cbTextFormat?: any,
 }
 
-
 type State = {
   openList: boolean,
   activeItems: Array<any>,
@@ -81,6 +80,7 @@ class Widget extends Component<Props, State> {
     this.renderButtonList = this.renderButtonList.bind(this);
     this.renderButtonClear = this.renderButtonClear.bind(this);
     this.renderInputBox = this.renderInputBox.bind(this);
+    this.renderInlineList = this.renderInlineList.bind(this);
 
     this.refList = React.createRef();
 
@@ -406,6 +406,22 @@ class Widget extends Component<Props, State> {
           </div>
         );
 
+      case 'inlineCheckMulti':
+        return (
+          <div className={classes.itemBlock}>
+            {selectItemsTitle}
+            <BaseInput
+              input={{
+                ...input,
+                onBlur: this.onBlurCustom,
+              }}
+              type={type}
+              placeholder={this.cbFormatPlaceholder(placeholder)}
+              customStyle={hiddenStyleInput}
+            />
+          </div>
+        );
+
       case 'datepicker':
         return (
           <div className={classes.itemBlock}>
@@ -435,6 +451,33 @@ class Widget extends Component<Props, State> {
           </div>
         );
     }
+  }
+
+  renderInlineList() {
+    const { activeItems, checkedItems } = this.state;
+    const {
+      classes, data, textField, valueField, input, checking, selecting,
+    } = this.props;
+
+    return <div
+      key={`inlineCheckMulti-${input.name}`}
+      className={classes.comboBox}
+      data-action="inlineCheckMulti"
+      data-field={input.name}
+    >
+      <List
+        actionKey={input.name}
+        data={data}
+        activeItems={activeItems}
+        checkedItems={checkedItems}
+        textField={textField}
+        valueField={valueField}
+        checking={checking}
+        selecting={selecting}
+        cbClickItem={this.onClickItem}
+        cbCheckItemBox={this.onClickItem}
+      />
+    </div>;
   }
 
   renderButtonCombo() {
@@ -545,13 +588,14 @@ class Widget extends Component<Props, State> {
 
   render() {
     const {
-      classes, label, meta, clear, toggleList, comboBox, datepicker, required,
+      classes, label, meta, clear, toggleList, comboBox, datepicker, required, componentType,
       customClassNameWrap, customClassNameLabel,
     } = this.props;
     const { touched, error, warning } = meta;
     const message = touched && ((error && <span>{this.cbFormatError(error)}</span>)
       || (warning && <span>{this.cbFormatError(warning)}</span>));
     const red = touched && (error || warning);
+    const inlineList = componentType === 'inlineCheckMulti';
 
     return (
       <label
@@ -572,12 +616,16 @@ class Widget extends Component<Props, State> {
         <div
           className={cn(
             customClassNameWrap,
-            classes.wrapDefault,
-            { [classes.redBorder]: red },
+            {
+              [classes.wrapDefault]: !inlineList,
+              [classes.wrapInlineList]: inlineList,
+              [classes.redBorder]: red,
+            },
           )}
           ref={this.refList}
         >
-          {this.renderInputBox()}
+          {!inlineList && this.renderInputBox()}
+          {inlineList && this.renderInlineList()}
           {datepicker && this.renderButtonDate()}
           {comboBox && this.renderButtonCombo()}
           {toggleList && this.renderButtonList()}

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
   FieldCheck, FieldCheckMulti, FieldSelect, FieldSelectMulti, LabelWrap, FieldDatePicker,
+  FieldCheckMultiInline,
 } from 'redux-form-widgets-jss-react';
 import { required, requiredItemsArray } from '../common/validation';
 import { selectDataArray } from '../data/exampleData';
@@ -84,6 +85,15 @@ class Example extends Component<Props> {
             textDateFormat="DD-MM-YYYY"
           />
 
+          <Field
+            name="check_multi_inline"
+            component={FieldCheckMultiInline}
+            data={selectDataArray}
+            valueField="id"
+            textField="title"
+            label="Check Multi Inline"
+          />
+
         </form>
       </div>
     );
@@ -98,5 +108,6 @@ export default reduxForm({
     select_multi: [2, 3],
     check: 1,
     check_multi: [2, 3],
+    check_multi_inline: [2, 3],
   },
 })(Example);

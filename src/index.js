@@ -2,6 +2,7 @@ import LabelWrap from './packages/LabelWrap';
 import BaseInput from './packages/BaseInput';
 import FieldCheck from './packages/FieldCheck';
 import FieldCheckMulti from './packages/FieldCheckMulti';
+import FieldCheckMultiInline from './packages/FieldCheckMultiInline';
 import FieldSelect from './packages/FieldSelect';
 import FieldSelectMulti from './packages/FieldSelectMulti';
 import FieldDatePicker from './packages/FieldDatePicker';
@@ -16,4 +17,5 @@ import * as validation from './utils/validation';
 export {
   validation, LabelWrap, BaseInput, FieldText, ListItem, List, Popup, Widget,
   FieldSelect, FieldSelectMulti, FieldCheck, FieldCheckMulti, FieldDatePicker,
+  FieldCheckMultiInline,
 };

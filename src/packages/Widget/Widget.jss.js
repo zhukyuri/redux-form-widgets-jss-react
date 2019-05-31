@@ -26,6 +26,15 @@ const styles = {
     height: 36,
     overflow: 'hidden',
   },
+  wrapInlineList: {
+    display: 'block',
+    position: 'relative',
+    border: `solid 1px ${borderColor}`,
+    borderRadius: 8,
+    width: '100%',
+    height: 150,
+    overflow: 'hidden',
+  },
   itemInput: {
     flex: 1,
     alignSelf: 'auto',
