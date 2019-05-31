@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import { change } from 'redux-form';
 import cn from 'classnames';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import List from '../List';
 import Popup from '../Popup';
 import BaseInput from '../BaseInput';
@@ -27,12 +29,15 @@ type Props = {
   required?: boolean,
   clear?: boolean,
   comboBox?: boolean,
+  datepicker?: boolean,
   toggleList?: boolean,
   data: Array<any>,
   input: any,
   meta: any,
   valueField: string,
   textField: string,
+  valueDateFormat: string,
+  textDateFormat: string,
   cbActions?: any,
   cbLabelFormat?: any,
   cbErrorFormat?: any,
@@ -40,10 +45,12 @@ type Props = {
   cbTextFormat?: any,
 }
 
+
 type State = {
   openList: boolean,
   activeItems: Array<any>,
   checkedItems: Array<any>,
+  startDate: string,
 }
 
 class Widget extends Component<Props, State> {
@@ -58,12 +65,16 @@ class Widget extends Component<Props, State> {
 
     this.onClickItem = this.onClickItem.bind(this);
     this.onBlurCustom = this.onBlurCustom.bind(this);
+    this.onBlurDatepicker = this.onBlurDatepicker.bind(this);
+    this.onChangeDatePicker = this.onChangeDatePicker.bind(this);
     this.cbFormatLabel = this.cbFormatLabel.bind(this);
     this.cbFormatError = this.cbFormatError.bind(this);
     this.cbFormatPlaceholder = this.cbFormatPlaceholder.bind(this);
     this.toggleList = this.toggleList.bind(this);
+    this.toggleDatepickerList = this.toggleDatepickerList.bind(this);
     this.closeList = this.closeList.bind(this);
     this.clear = this.clear.bind(this);
+    this.createTextView = this.createTextView.bind(this);
     this.addActiveItem = this.addActiveItem.bind(this);
     this.getListClientRect = this.getListClientRect.bind(this);
     this.renderButtonCombo = this.renderButtonCombo.bind(this);
@@ -77,6 +88,7 @@ class Widget extends Component<Props, State> {
       openList: false,
       activeItems: [],
       checkedItems: [],
+      datepickerStart: '',
     };
   }
 
@@ -102,6 +114,10 @@ class Widget extends Component<Props, State> {
     // document.removeEventListener('click', this.closeList);
   }
 
+  /** ***********************
+   * CALLBACKS
+   ************************ */
+
   cbFormatLabel(name: string): string {
     const { cbLabelFormat } = this.props;
 
@@ -119,6 +135,10 @@ class Widget extends Component<Props, State> {
 
     return !cbPlaceholderFormat ? name : cbPlaceholderFormat(name);
   }
+
+  /** ***********************
+   * ACTIONS
+   ************************ */
 
   toggleList(e) {
     const { cbActions } = this.props;
@@ -144,28 +164,30 @@ class Widget extends Component<Props, State> {
   }
 
   clear(e) {
-    const { cbActions, selecting, checking, valueField, input } = this.props;
+    const { cbActions, selecting, checking, input } = this.props;
     const { onBlur, onChange } = input;
     const { activeItems, checkedItems } = this.state;
     const dataset = e.currentTarget.dataset;
     if (!dataset || !dataset.field || !dataset.action) return;
-
 
     if (selecting && activeItems) {
       if (Array.isArray(activeItems)) {
         onChange([]);
         onBlur([]);
       }
-      else onBlur('');
+      else {
+        onBlur('');
+      }
     }
-
 
     if (checking && checkedItems) {
       if (Array.isArray(checkedItems)) {
         onChange([]);
         onBlur([]);
       }
-      else onBlur('');
+      else {
+        onBlur('');
+      }
     }
 
     if (!selecting && !selecting) {
@@ -174,6 +196,10 @@ class Widget extends Component<Props, State> {
 
     if (cbActions) cbActions(dataset.field, dataset.action, this.props);
   }
+
+  /** ***********************
+   * SELECT LIST
+   ************************ */
 
   addActiveItem(iId) {
     const { activeItems } = this.state;
@@ -202,6 +228,27 @@ class Widget extends Component<Props, State> {
     }
   }
 
+  onClickItem(actionKey, params) {
+    const { role } = params;
+
+    switch (role) {
+      case 'list-item-title':
+        this.addActiveItem(params.value);
+        break;
+
+      case 'list-item-check':
+        this.addCheckedItem(params.value);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  /** ***********************
+   * CHECK LIST
+   ************************ */
+
   addCheckedItem(iId) {
     const { checkedItems } = this.state;
     const { data, multipleCheck, valueField, input, meta, checking } = this.props;
@@ -229,6 +276,10 @@ class Widget extends Component<Props, State> {
     }
   }
 
+  /** ***********************
+   * OTHER
+   ************************ */
+
   getListClientRect() {
     return this.refList && this.refList.current
       ? this.refList.current.getBoundingClientRect()
@@ -242,23 +293,6 @@ class Widget extends Component<Props, State> {
       };
   }
 
-  onClickItem(actionKey, params) {
-    const { role } = params;
-
-    switch (role) {
-      case 'list-item-title':
-        this.addActiveItem(params.value);
-        break;
-
-      case 'list-item-check':
-        this.addCheckedItem(params.value);
-        break;
-
-      default:
-        break;
-    }
-  }
-
   onBlurCustom() {
     const { selecting, checking, input, valueField } = this.props;
     const { onBlur } = input;
@@ -268,24 +302,91 @@ class Widget extends Component<Props, State> {
       if (Array.isArray(activeItems)) {
         onBlur(toSimpleArray(activeItems, valueField));
       }
-      else onBlur(activeItems[valueField]);
+      else {
+        onBlur(activeItems[valueField]);
+      }
     }
 
     if (checking && checkedItems) {
       if (Array.isArray(checkedItems)) {
         onBlur(toSimpleArray(checkedItems, valueField));
       }
-      else onBlur(checkedItems[valueField]);
+      else {
+        onBlur(checkedItems[valueField]);
+      }
     }
   }
 
-  renderInputBox() {
+  createTextView() {
     const {
-      componentType, classes, input, type, placeholder, customClassNameInput, textField, selecting, checking,
+      componentType, input, valueDateFormat, textDateFormat, textField, selecting, checking,
     } = this.props;
     const { activeItems, checkedItems } = this.state;
-    const selectItemsTitle = createTitle(selecting ? activeItems
-      : checking ? checkedItems : [], textField);
+
+    switch (componentType) {
+      case 'select':
+      case 'combobox':
+        return createTitle(selecting ? activeItems
+          : checking ? checkedItems : [], textField);
+
+      case 'datepicker': {
+        const valueDate = moment(input.value, valueDateFormat);
+        return valueDate.isValid() ? valueDate.format(textDateFormat) : '-';
+      }
+
+      default:
+        return '?';
+    }
+  }
+
+  /** ***********************
+   * DATEPICKER
+   ************************ */
+
+  onChangeDatePicker(date) {
+    const { valueDateFormat, input } = this.props;
+    const { onChange, name } = input;
+    const valueDate = moment(date);
+
+    onChange(valueDate.isValid() ? valueDate.format(valueDateFormat) : '', name);
+  }
+
+  onBlurDatepicker() {
+    const { valueDateFormat, input } = this.props;
+    const { onBlur, name } = input;
+    const valueFormat = moment(input.value, valueDateFormat);
+
+    onBlur(valueFormat.isValid() ? valueFormat.format(valueDateFormat) : undefined, name);
+  }
+
+  toggleDatepickerList(e) {
+    const { cbActions } = this.props;
+    const { openList } = this.state;
+    const dataset = e.target.dataset;
+    if (!dataset || !dataset.action) return;
+
+    this.setState({
+      openList: !openList,
+    });
+    if (cbActions) cbActions(dataset.field, dataset.action, this.props);
+  }
+
+  /** ***********************
+   * RENDERS
+   ************************ */
+
+  renderInputBox() {
+    const {
+      componentType, classes, input, type, placeholder, customClassNameInput,
+      valueDateFormat, textDateFormat,
+    } = this.props;
+    const selectItemsTitle = this.createTextView();
+    const hiddenStyleInput = {
+      height: 1,
+      width: 1,
+      margin: -1,
+      flex: 'none',
+    };
 
     switch (componentType) {
       case 'select':
@@ -300,12 +401,24 @@ class Widget extends Component<Props, State> {
               }}
               type={type}
               placeholder={this.cbFormatPlaceholder(placeholder)}
-              customStyle={{
-                height: 1,
-                width: 1,
-                margin: -1,
-                flex: 'none',
+              customStyle={hiddenStyleInput}
+            />
+          </div>
+        );
+
+      case 'datepicker':
+        return (
+          <div className={classes.itemBlock}>
+            {selectItemsTitle}
+            <BaseInput
+              input={{
+                ...input,
+                value: moment(input.value, valueDateFormat).format(textDateFormat),
+                onBlur: this.onBlurDatepicker,
               }}
+              type={type}
+              placeholder={this.cbFormatPlaceholder(placeholder)}
+              customStyle={hiddenStyleInput}
             />
           </div>
         );
@@ -357,6 +470,37 @@ class Widget extends Component<Props, State> {
     </div>;
   }
 
+  renderButtonDate() {
+    const { openList } = this.state;
+    const { classes, input, valueDateFormat } = this.props;
+    const getRect = this.getListClientRect();
+    const styleWrap = {
+      left: getRect.left,
+      top: getRect.top,
+      height: getRect.height,
+    };
+    const valueDate = moment(input.value, valueDateFormat);
+
+    return <div
+      key={`datepicker-${input.name}`}
+      className={classes.calendar}
+      onClick={this.toggleDatepickerList}
+      data-action="datepicker"
+      data-field={input.name}
+    >
+      {openList && <Popup
+        position={styleWrap}
+        customPaneWrap={classes.datepickerWrap}
+      >
+        <DatePicker
+          inline
+          selected={valueDate.isValid() ? valueDate.toDate() : ''}
+          onChange={this.onChangeDatePicker}
+        />
+      </Popup>}
+    </div>;
+  }
+
   renderButtonList() {
     const { openList, activeItems } = this.state;
     const {
@@ -401,7 +545,7 @@ class Widget extends Component<Props, State> {
 
   render() {
     const {
-      classes, label, meta, clear, toggleList, comboBox, required,
+      classes, label, meta, clear, toggleList, comboBox, datepicker, required,
       customClassNameWrap, customClassNameLabel,
     } = this.props;
     const { touched, error, warning } = meta;
@@ -434,6 +578,7 @@ class Widget extends Component<Props, State> {
           ref={this.refList}
         >
           {this.renderInputBox()}
+          {datepicker && this.renderButtonDate()}
           {comboBox && this.renderButtonCombo()}
           {toggleList && this.renderButtonList()}
           {clear && this.renderButtonClear()}

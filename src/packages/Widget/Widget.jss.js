@@ -1,6 +1,7 @@
 import iconClearRed from '../../images/button/clear-red.svg';
 import iconThreeDots from '../../images/button/three-dots.svg';
 import iconComboBox from '../../images/button/drop-down.svg';
+import iconCalendar from '../../images/button/calendar.svg';
 
 const labelColor = '#888';
 const borderColor = '#ddd';
@@ -45,6 +46,7 @@ const styles = {
     borderLeft: `solid 1px ${borderColor}`,
     height: '100%',
     width: 36,
+    cursor: 'pointer',
   },
   clearRed: {
     extend: 'itemIcons',
@@ -59,6 +61,11 @@ const styles = {
   comboBox: {
     extend: 'itemIcons',
     background: `url(${iconComboBox})  no-repeat`,
+    backgroundPosition: 'center',
+  },
+  calendar: {
+    extend: 'itemIcons',
+    background: `url(${iconCalendar})  no-repeat`,
     backgroundPosition: 'center',
   },
 
@@ -104,6 +111,14 @@ const styles = {
     position: 'fixed',
     minHeight: 200,
     minWidth: 200,
+    top: 50,
+    left: 0,
+    backgroundColor: '#fff',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.35)',
+  },
+
+  datepickerWrap: {
+    position: 'fixed',
     top: 50,
     left: 0,
     backgroundColor: '#fff',

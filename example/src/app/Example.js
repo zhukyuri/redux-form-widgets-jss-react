@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
-  FieldCheck, FieldCheckMulti, FieldSelect, FieldSelectMulti, LabelWrap,
+  FieldCheck, FieldCheckMulti, FieldSelect, FieldSelectMulti, LabelWrap, FieldDatePicker,
 } from 'redux-form-widgets-jss-react';
 import { required, requiredItemsArray } from '../common/validation';
 import { selectDataArray } from '../data/exampleData';
@@ -74,6 +74,15 @@ class Example extends Component<Props> {
             clear
           />
 
+          <Field
+            name="date_picker"
+            component={FieldDatePicker}
+            label="Date Picker"
+            required
+            clear
+            valueDateFormat="DD-MM-YYYY"
+            textDateFormat="DD-MM-YYYY"
+          />
 
         </form>
       </div>
