@@ -154,9 +154,9 @@ export const createTitle = (valueFull: any, textField: string): string => {
       return `${valueFull.length} item(s)`;
     }
 
-    return 'not filled';
+    return '';
   }
-  if (valueFull === undefined || valueFull === null) return 'not filled';
+  if (valueFull === undefined || valueFull === null) return '';
 
   return valueFull[textField];
 };
@@ -188,7 +188,7 @@ export const createTitleFromReduxValue = (
       if (value.length > 1) {
         return `${value.length} item(s)`;
       }
-      return 'not filled';
+      return '';
     }
 
     // for callback
