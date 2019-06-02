@@ -64,6 +64,7 @@ class Widget extends Component<Props, State> {
 
     this.onClickItem = this.onClickItem.bind(this);
     this.onBlurCustom = this.onBlurCustom.bind(this);
+    this.onChangeCustom = this.onChangeCustom.bind(this);
     this.onBlurDatepicker = this.onBlurDatepicker.bind(this);
     this.onChangeDatePicker = this.onChangeDatePicker.bind(this);
     this.cbFormatLabel = this.cbFormatLabel.bind(this);
@@ -203,15 +204,17 @@ class Widget extends Component<Props, State> {
 
   addActiveItem(iId) {
     const { activeItems } = this.state;
-    const { data, multipleSelect, valueField, input, meta, selecting } = this.props;
-    const { dispatch, form } = meta;
+    const { data, multipleSelect, valueField, input, selecting } = this.props;
+    // const { dispatch, form } = meta;
+    const { onChange } = input;
     const itemId = setOriginId(data, iId, valueField);
 
     if (!selecting) return;
     if (multipleSelect && activeItems) {
       const currentNew = toggleItemInArrayById(data, itemId, valueField, activeItems);
 
-      dispatch(change(form, input.name, toSimpleArray(currentNew, valueField)));
+      onChange(toSimpleArray(currentNew, valueField));
+      // dispatch(change(form, input.name, toSimpleArray(currentNew, valueField)));
       this.setState({
         activeItems: currentNew,
       });
@@ -223,7 +226,8 @@ class Widget extends Component<Props, State> {
         this.setState({
           activeItems: currentOne,
         });
-        dispatch(change(form, input.name, currentOne[valueField]));
+        onChange(currentOne[valueField]);
+        // dispatch(change(form, input.name, currentOne[valueField]));
       }
     }
   }
@@ -251,15 +255,17 @@ class Widget extends Component<Props, State> {
 
   addCheckedItem(iId) {
     const { checkedItems } = this.state;
-    const { data, multipleCheck, valueField, input, meta, checking } = this.props;
-    const { dispatch, form } = meta;
+    const { data, multipleCheck, valueField, input, checking } = this.props;
+    // const { dispatch, form } = meta;
+    const { onChange } = input;
     const itemId = setOriginId(data, iId, valueField);
 
     if (!checking) return;
     if (multipleCheck && checkedItems) {
       const currentNew = toggleItemInArrayById(data, itemId, valueField, checkedItems);
 
-      dispatch(change(form, input.name, toSimpleArray(currentNew, valueField)));
+      onChange(toSimpleArray(currentNew, valueField));
+      // dispatch(change(form, input.name, toSimpleArray(currentNew, valueField)));
       this.setState({
         checkedItems: currentNew,
       });
@@ -271,7 +277,8 @@ class Widget extends Component<Props, State> {
         this.setState({
           checkedItems: currentOne,
         });
-        dispatch(change(form, input.name, currentOne[valueField]));
+        onChange(currentOne[valueField]);
+        // dispatch(change(form, input.name, currentOne[valueField]));
       }
     }
   }
@@ -313,6 +320,30 @@ class Widget extends Component<Props, State> {
       }
       else {
         onBlur(checkedItems[valueField]);
+      }
+    }
+  }
+
+  onChangeCustom() {
+    const { selecting, checking, input, valueField } = this.props;
+    const { onBlur: onChange } = input;
+    const { activeItems, checkedItems } = this.state;
+
+    if (selecting && activeItems) {
+      if (Array.isArray(activeItems)) {
+        onChange(toSimpleArray(activeItems, valueField));
+      }
+      else {
+        onChange(activeItems[valueField]);
+      }
+    }
+
+    if (checking && checkedItems) {
+      if (Array.isArray(checkedItems)) {
+        onChange(toSimpleArray(checkedItems, valueField));
+      }
+      else {
+        onChange(checkedItems[valueField]);
       }
     }
   }
@@ -414,6 +445,7 @@ class Widget extends Component<Props, State> {
               input={{
                 ...input,
                 onBlur: this.onBlurCustom,
+                onChange: this.onChangeCustom,
               }}
               type={type}
               placeholder={this.cbFormatPlaceholder(placeholder)}

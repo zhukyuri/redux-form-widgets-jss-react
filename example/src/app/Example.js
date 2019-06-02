@@ -3,11 +3,16 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
-  FieldCheck, FieldCheckMulti, FieldSelect, FieldSelectMulti, LabelWrap, FieldDatePicker,
-  FieldCheckMultiInline,
+  FieldCheck, FieldCheckMulti, FieldCheckMultiInline, FieldDatePicker, FieldSelect,
+  FieldSelectMulti, LabelWrap,
 } from 'redux-form-widgets-jss-react';
 import { required, requiredItemsArray } from '../common/validation';
 import { selectDataArray } from '../data/exampleData';
+
+const normal = (a, b, c, d, e) => {
+  console.log(e);
+  return a;
+};
 
 type Props = {}
 
@@ -25,6 +30,7 @@ class Example extends Component<Props> {
             validate={[required]}
             required
             clear
+            normalize={normal}
           />
 
           <Field
@@ -37,6 +43,7 @@ class Example extends Component<Props> {
             required
             validate={[required]}
             clear
+            normalize={normal}
           />
 
           <Field
@@ -49,6 +56,7 @@ class Example extends Component<Props> {
             required
             validate={[requiredItemsArray]}
             clear
+            normalize={normal}
           />
 
           <Field
@@ -61,6 +69,7 @@ class Example extends Component<Props> {
             required
             validate={[required]}
             clear
+            normalize={normal}
           />
 
           <Field
@@ -73,6 +82,7 @@ class Example extends Component<Props> {
             required
             validate={[requiredItemsArray]}
             clear
+            normalize={normal}
           />
 
           <Field
@@ -83,6 +93,7 @@ class Example extends Component<Props> {
             clear
             valueDateFormat="DD-MM-YYYY"
             textDateFormat="DD-MM-YYYY"
+            normalize={normal}
           />
 
           <Field
@@ -92,6 +103,7 @@ class Example extends Component<Props> {
             valueField="id"
             textField="title"
             label="Check Multi Inline"
+            normalize={normal}
           />
 
         </form>
