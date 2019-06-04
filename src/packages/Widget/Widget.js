@@ -362,7 +362,7 @@ class Widget extends Component<Props, State> {
 
       case 'datepicker': {
         const valueDate = moment(input.value, valueDateFormat);
-        return valueDate.isValid() ? valueDate.format(textDateFormat) : '-';
+        return valueDate.isValid() ? valueDate.format(textDateFormat) : '';
       }
 
       default:

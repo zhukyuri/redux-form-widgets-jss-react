@@ -3,7 +3,7 @@ import iconThreeDots from '../../images/button/three-dots.svg';
 import iconComboBox from '../../images/button/drop-down.svg';
 import iconCalendar from '../../images/button/calendar.svg';
 
-const labelColor = '#888';
+const labelColor = '#5d5d5d';
 const borderColor = '#ddd';
 
 const styles = {
