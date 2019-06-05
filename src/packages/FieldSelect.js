@@ -21,13 +21,11 @@ class FieldSelect extends Component<Props> {
   };
 
   render() {
-    const { data } = this.props;
 
     return (
       <Widget
         {...this.props}
         componentType="combobox"
-        data={data}
         comboBox
         selecting
         multipleSelect={false}

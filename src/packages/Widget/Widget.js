@@ -96,9 +96,9 @@ class Widget extends Component<Props, State> {
   static getDerivedStateFromProps(props: Props, state: State) {
     const { input, data, valueField, checking, selecting } = props;
     const { value } = input;
-    const fullValue = convertValueReduxToFullFormat(value, data, valueField);
+    let fullValue = convertValueReduxToFullFormat(value, data, valueField);
 
-    if (!fullValue) return state;
+    fullValue = !fullValue ? [] : fullValue;
 
     return {
       ...state,
