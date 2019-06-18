@@ -2,6 +2,8 @@ import iconClearRed from '../../images/button/clear-red.svg';
 import iconThreeDots from '../../images/button/three-dots.svg';
 import iconComboBox from '../../images/button/drop-down.svg';
 import iconCalendar from '../../images/button/calendar.svg';
+import iconMap from '../../images/button/map_placeholder.svg';
+import iconMapRefresh from '../../images/button/map_refresh.svg';
 
 const labelColor = '#5d5d5d';
 const borderColor = '#ddd';
@@ -75,6 +77,16 @@ const styles = {
   calendar: {
     extend: 'itemIcons',
     background: `url(${iconCalendar})  no-repeat`,
+    backgroundPosition: 'center',
+  },
+  map: {
+    extend: 'itemIcons',
+    background: `url(${iconMap})  no-repeat`,
+    backgroundPosition: 'center',
+  },
+  mapRefresh: {
+    extend: 'itemIcons',
+    background: `url(${iconMapRefresh})  no-repeat`,
     backgroundPosition: 'center',
   },
 

@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { change } from 'redux-form';
 import cn from 'classnames';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -18,6 +17,7 @@ type Props = {
   label?: string,
   type?: 'text' | 'email' | 'number' | 'password' | 'tel',
   placeholder?: string,
+  emptyValue?: any,
   customClassNameInput?: string,
   customClassNameLabel?: string,
   customClassNameWrap?: string,
@@ -28,6 +28,8 @@ type Props = {
   multipleCheck?: boolean,
   required?: boolean,
   clear?: boolean,
+  map?: boolean,
+  mapRefresh?: boolean,
   comboBox?: boolean,
   datepicker?: boolean,
   toggleList?: boolean,
@@ -74,12 +76,15 @@ class Widget extends Component<Props, State> {
     this.toggleDatepickerList = this.toggleDatepickerList.bind(this);
     this.closeList = this.closeList.bind(this);
     this.clear = this.clear.bind(this);
+    this.map = this.map.bind(this);
     this.createTextView = this.createTextView.bind(this);
     this.addActiveItem = this.addActiveItem.bind(this);
     this.getListClientRect = this.getListClientRect.bind(this);
     this.renderButtonCombo = this.renderButtonCombo.bind(this);
     this.renderButtonList = this.renderButtonList.bind(this);
     this.renderButtonClear = this.renderButtonClear.bind(this);
+    this.renderButtonMap = this.renderButtonMap.bind(this);
+    this.renderButtonMapRefresh = this.renderButtonMapRefresh.bind(this);
     this.renderInputBox = this.renderInputBox.bind(this);
     this.renderInlineList = this.renderInlineList.bind(this);
 
@@ -94,16 +99,16 @@ class Widget extends Component<Props, State> {
   }
 
   static getDerivedStateFromProps(props: Props, state: State) {
-    const { input, data, valueField, checking, selecting } = props;
+    const { input, data, valueField, checking, selecting, emptyValue } = props;
     const { value } = input;
     let fullValue = convertValueReduxToFullFormat(value, data, valueField);
 
-    fullValue = !fullValue ? [] : fullValue;
+    fullValue = !fullValue ? emptyValue !== undefined ? emptyValue : [] : fullValue;
 
     return {
       ...state,
-      activeItems: selecting ? fullValue : [],
-      checkedItems: checking ? fullValue : [],
+      activeItems: selecting ? fullValue : emptyValue !== undefined ? emptyValue : '',
+      checkedItems: checking ? fullValue : emptyValue !== undefined ? emptyValue : '',
     };
   }
 
@@ -165,7 +170,7 @@ class Widget extends Component<Props, State> {
   }
 
   clear(e) {
-    const { cbActions, selecting, checking, input } = this.props;
+    const { cbActions, selecting, checking, input, emptyValue } = this.props;
     const { onBlur, onChange } = input;
     const { activeItems, checkedItems } = this.state;
     const dataset = e.currentTarget.dataset;
@@ -173,27 +178,35 @@ class Widget extends Component<Props, State> {
 
     if (selecting && activeItems) {
       if (Array.isArray(activeItems)) {
-        onChange([]);
-        onBlur([]);
+        onChange(emptyValue !== undefined ? emptyValue : []);
+        onBlur(emptyValue !== undefined ? emptyValue : []);
       }
       else {
-        onBlur('');
+        onBlur(emptyValue !== undefined ? emptyValue : '');
       }
     }
 
     if (checking && checkedItems) {
       if (Array.isArray(checkedItems)) {
-        onChange([]);
-        onBlur([]);
+        onChange(emptyValue !== undefined ? emptyValue : []);
+        onBlur(emptyValue !== undefined ? emptyValue : []);
       }
       else {
-        onBlur('');
+        onBlur(emptyValue !== undefined ? emptyValue : '');
       }
     }
 
     if (!selecting && !selecting) {
-      onChange('');
+      onChange(emptyValue !== undefined ? emptyValue : '');
     }
+
+    if (cbActions) cbActions(dataset.field, dataset.action, this.props);
+  }
+
+  map(e) {
+    const { cbActions } = this.props;
+    const dataset = e.currentTarget.dataset;
+    if (!dataset || !dataset.field || !dataset.action) return;
 
     if (cbActions) cbActions(dataset.field, dataset.action, this.props);
   }
@@ -362,6 +375,7 @@ class Widget extends Component<Props, State> {
 
       case 'datepicker': {
         const valueDate = moment(input.value, valueDateFormat);
+
         return valueDate.isValid() ? valueDate.format(textDateFormat) : '';
       }
 
@@ -618,9 +632,33 @@ class Widget extends Component<Props, State> {
     />;
   }
 
+  renderButtonMap() {
+    const { classes, input } = this.props;
+
+    return <div
+      key={`map-${input.name}`}
+      className={classes.map}
+      onClick={this.map}
+      data-action="map"
+      data-field={input.name}
+    />;
+  }
+
+  renderButtonMapRefresh() {
+    const { classes, input } = this.props;
+
+    return <div
+      key={`map-refresh-${input.name}`}
+      className={classes.mapRefresh}
+      onClick={this.map}
+      data-action="map-refresh"
+      data-field={input.name}
+    />;
+  }
+
   render() {
     const {
-      classes, label, meta, clear, toggleList, comboBox, datepicker, required, componentType,
+      classes, label, meta, clear, map, mapRefresh, toggleList, comboBox, datepicker, required, componentType,
       customClassNameWrap, customClassNameLabel,
     } = this.props;
     const { touched, error, warning } = meta;
@@ -662,6 +700,8 @@ class Widget extends Component<Props, State> {
           {comboBox && this.renderButtonCombo()}
           {toggleList && this.renderButtonList()}
           {clear && this.renderButtonClear()}
+          {map && this.renderButtonMap()}
+          {mapRefresh && this.renderButtonMapRefresh()}
         </div>
         <div className={cn(classes.errorInfo)}>
           &nbsp;{message}
