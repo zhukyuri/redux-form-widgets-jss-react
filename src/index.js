@@ -11,11 +11,13 @@ import List from './packages/List';
 import ListItem from './packages/ListItem';
 import Popup from './packages/Popup';
 import Widget from './packages/Widget';
+import Button from './packages/Button';
+import Pane from './packages/Pane';
 
 import * as validation from './utils/validation';
 
 export {
   validation, LabelWrap, BaseInput, FieldText, ListItem, List, Popup, Widget,
   FieldSelect, FieldSelectMulti, FieldCheck, FieldCheckMulti, FieldDatePicker,
-  FieldCheckMultiInline,
+  FieldCheckMultiInline, Button, Pane,
 };
