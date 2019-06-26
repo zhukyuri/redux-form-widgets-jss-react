@@ -14,6 +14,7 @@
     "normalize-jss": "^4.0.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
+    "react-color": "^2.17.3",
     "react-dom": "^16.4.1",
     "react-jss": "^8.6.1",
     "react-redux": "^7.0.3",
@@ -22,6 +23,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-form": "^8.2.0",
     "redux-form-widgets-jss-react": "file:..",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "redux-value-ql": "^1.0.32"
   }
 }

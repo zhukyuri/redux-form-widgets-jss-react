@@ -4,12 +4,15 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
   FieldCheck, FieldCheckMulti, FieldCheckMultiInline, FieldDatePicker, FieldSelect,
-  FieldSelectMulti, LabelWrap, Pane,
+  FieldSelectMulti, Pane, Widget,
 } from 'redux-form-widgets-jss-react';
+import { HuePicker } from 'react-color';
 import { required, requiredItemsArray } from '../common/validation';
 import { selectDataArray } from '../data/exampleData';
 
-type Props = {}
+type Props = {
+  cbChange: any,
+}
 
 const styles = {
   wrapper: {
@@ -29,19 +32,36 @@ const styles = {
     position: 'relative',
     flex: '1 1 50%',
   },
+  toolsLabel: {
+    display: 'inlibe-block',
+    width: 100,
+  },
 };
 
 class Example extends Component<Props> {
   render() {
+    const { cbChange } = this.props;
+
     return (
       <div style={styles.wrapper}>
         <form>
+          {false && <Pane customStyle={styles.pane}>
+            <div style={styles.toolsLabel}>borderColor</div>
+            <HuePicker
+              width="200px"
+              height="15px"
+              onChange={(data) => {
+                cbChange('borderColor', data.hex);
+              }}
+            />
+          </Pane>
+          }
 
           <Pane customStyle={styles.pane}>
             <div style={styles.block}>
               <Field
                 name="simple_text"
-                component={LabelWrap}
+                component={Widget}
                 componentType="text"
                 label="Simple text"
                 validate={[required]}

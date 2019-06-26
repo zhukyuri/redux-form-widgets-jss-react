@@ -1,4 +1,3 @@
-import LabelWrap from './packages/LabelWrap';
 import BaseInput from './packages/BaseInput';
 import FieldCheck from './packages/FieldCheck';
 import FieldCheckMulti from './packages/FieldCheckMulti';
@@ -13,11 +12,12 @@ import Popup from './packages/Popup';
 import Widget from './packages/Widget';
 import Button from './packages/Button';
 import Pane from './packages/Pane';
+import defaultStyle from './utils/defaultStyle';
 
 import * as validation from './utils/validation';
 
 export {
-  validation, LabelWrap, BaseInput, FieldText, ListItem, List, Popup, Widget,
+  validation, BaseInput, FieldText, ListItem, List, Popup, Widget,
   FieldSelect, FieldSelectMulti, FieldCheck, FieldCheckMulti, FieldDatePicker,
-  FieldCheckMultiInline, Button, Pane,
+  FieldCheckMultiInline, Button, Pane, defaultStyle,
 };

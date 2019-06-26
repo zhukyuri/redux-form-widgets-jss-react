@@ -1,14 +1,15 @@
-const styles = {
-  inputDefault: {
-    width: '100%',
-    height: '100%',
-    outline: 'none',
-    border: 'none',
-    borderRadius: 10,
-    boxSizing: 'border-box',
-    font: 'normal 18px Roboto-Condensed',
-    paddingTop: 2,
-  },
+const styles = (theme) => {
+  const w = theme.formWidget;
+
+  return {
+    inputDefault: {
+      width: '100%',
+      outline: 'none',
+      border: 'none',
+      boxSizing: 'border-box',
+      font: `normal ${w.input.fontSize}px Roboto-Condensed`,
+    },
+  };
 };
 
 export default styles;

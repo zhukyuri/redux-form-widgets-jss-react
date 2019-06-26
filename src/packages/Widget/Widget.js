@@ -671,17 +671,13 @@ class Widget extends Component<Props, State> {
       <label
         className={cn(
           {
-            [classes.labelWrap]: !customClassNameLabel,
+            [classes.widgetWrap]: !customClassNameLabel,
             [customClassNameLabel]: customClassNameLabel,
           },
         )}
       >
         <div className={cn(classes.labelInfo)}>
-          {!!required && <span style={{
-            color: 'red',
-            font: 'bold 16px Roboto',
-          }}
-          >*</span>}
+          {!!required && <span className={cn(classes.redDot)}>*</span>}
           &nbsp;{this.cbFormatLabel(label)}</div>
         <div
           className={cn(
