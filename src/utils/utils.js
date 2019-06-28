@@ -1,6 +1,13 @@
 // @flow
 
 /**
+ * Create unique name event from field name
+ * @param name
+ * @returns {string}
+ */
+export const eName = name => `event-${name}`;
+
+/**
  * Get one only item from array by itemId
  * @param {array} data
  * @param {string} valueField

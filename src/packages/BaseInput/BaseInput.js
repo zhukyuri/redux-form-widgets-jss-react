@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import cn from 'classnames';
+import { eName } from '../../utils/utils';
 
 type Props = {
   classes: any,
@@ -33,6 +34,7 @@ class BaseInput extends Component<Props> {
         {...input}
         type={type}
         placeholder={placeholder}
+        data-event={eName(input.name)}
       />
 
     );

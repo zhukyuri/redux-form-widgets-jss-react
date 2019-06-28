@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { defaultStyle } from 'redux-form-widgets-jss-react';
+import { defaultStyle, EventProvider } from 'redux-form-widgets-jss-react';
 import { ThemeProvider } from 'react-jss';
 import Example from './Example';
 
@@ -21,7 +21,7 @@ export default class Theming extends Component {
     // eslint-disable-next-line no-eval
     res.formWidget[property] = value;
 
-    this.setState(res, a => (console.log( this.state.style.formWidget.borderColor)));
+    this.setState(res, a => (console.log(this.state.style.formWidget.borderColor)));
   }
 
   render() {
@@ -29,10 +29,12 @@ export default class Theming extends Component {
 
     return (
       <ThemeProvider theme={style}>
-        <Example
-          cbChange={this.cbChangeStyle}
-          style={style}
-        />
+        <EventProvider>
+          <Example
+            cbChange={this.cbChangeStyle}
+            style={style}
+          />
+        </EventProvider>
       </ThemeProvider>
     );
   }

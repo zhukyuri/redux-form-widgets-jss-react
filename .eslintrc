@@ -1,12 +1,4 @@
 {
-
-  "env": {
-    "es6": true
-  },
-
-  "parserOptions": {
-    "sourceType": "module"
-  },
   "parser": "babel-eslint",
   "extends": [
     "airbnb",
@@ -18,12 +10,6 @@
     "react"
   ],
   "rules": {
-    // don't force es6 functions to include space before paren
-    "space-before-function-paren": 0,
-
-    // allow specifying true explicitly for boolean props
-    "react/jsx-boolean-value": 0,
-
     "class-methods-use-this": 0,
     "no-console": [
       "error"
@@ -51,7 +37,7 @@
     "import/prefer-default-export": 0,
     "react/no-array-index-key": 0,
     "import/no-useless-path-segments": 0,
-      "import/no-extraneous-dependencies": [
+    "import/no-extraneous-dependencies": [
       "error",
       {
         "devDependencies": true
@@ -71,7 +57,7 @@
       "error",
       { "blankLine": "always", "prev": ["const", "let", "var"], "next": ["block-like", "export", "import", "expression"] },
       { "blankLine": "always", "prev": ["block-like", "export", "import", "expression"], "next": ["const", "let", "var"] },
-      { "blankLine": "always", "prev": "*", "next": ["function"] },
+      { "blankLine": "always", "prev": "*", "next": ["return", "function"] },
       { "blankLine": "always", "prev": ["function"], "next": "*" }
     ]
   },

@@ -68,7 +68,7 @@ class List extends Component<Props, State> {
     const {
       classes, data, textField, nameFieldCheck, valueField,
       selecting, checking, activeItems, checkedItems,
-      nameFieldDisable, positionPane,
+      nameFieldDisable, positionPane, actionKey,
     } = this.props;
 
     return (
@@ -88,6 +88,7 @@ class List extends Component<Props, State> {
               nameFieldDisable={nameFieldDisable}
               onClickItem={this.handleClickItem}
               onCheckItemBox={this.handleCheckBoxItem}
+              eventOuSideName={actionKey}
               item={i}
               isActive={isActive(activeItems, i[valueField], valueField)}
               isCheck={isActive(checkedItems, i[valueField], valueField)}

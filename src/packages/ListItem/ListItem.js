@@ -2,6 +2,7 @@
 
 import React from 'react';
 import cn from 'classnames';
+import { eName } from '../../utils/utils';
 import { type Styles } from './ListItem.jss';
 
 type Props = {
@@ -15,13 +16,15 @@ type Props = {
   isCheck: boolean,
   checking?: boolean,
   selecting?: boolean,
+  eventOuSideName: string,
 }
+
 
 function ListItem(props: Props) {
   const {
     classes, onClickItem, onCheckItemBox, item,
     textField, valueField, nameFieldDisable,
-    isActive, isCheck, checking, selecting,
+    isActive, isCheck, checking, selecting, eventOuSideName,
   } = props;
   const titleItem = item[textField];
 
@@ -33,6 +36,7 @@ function ListItem(props: Props) {
         { [classes.activeColor]: isActive },
       )}
       data-role="list-item-title"
+      data-event={eName(eventOuSideName)}
       data-text={item[textField]}
       data-value={item[valueField]}
       data-active={isActive}
@@ -51,6 +55,7 @@ function ListItem(props: Props) {
           [classes.cursor]: !item[nameFieldDisable],
         })}
         data-role="list-item-check"
+        data-event={eName(eventOuSideName)}
         data-text={item[textField]}
         data-value={item[valueField]}
         data-active={isActive}

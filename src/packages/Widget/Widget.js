@@ -8,7 +8,7 @@ import List from '../List';
 import Popup from '../Popup';
 import BaseInput from '../BaseInput';
 import {
-  convertValueReduxToFullFormat, createTitle, findItemInArrayById, setOriginId,
+  convertValueReduxToFullFormat, createTitle, eName, findItemInArrayById, setOriginId,
   toggleItemInArrayById, toSimpleArray,
 } from '../../utils/utils';
 
@@ -72,6 +72,8 @@ class Widget extends Component<Props, State> {
     this.cbFormatLabel = this.cbFormatLabel.bind(this);
     this.cbFormatError = this.cbFormatError.bind(this);
     this.cbFormatPlaceholder = this.cbFormatPlaceholder.bind(this);
+    this.handleOutSide = this.handleOutSide.bind(this);
+    this.eventsController = this.eventsController.bind(this);
     this.toggleList = this.toggleList.bind(this);
     this.toggleDatepickerList = this.toggleDatepickerList.bind(this);
     this.closeList = this.closeList.bind(this);
@@ -89,6 +91,7 @@ class Widget extends Component<Props, State> {
     this.renderInlineList = this.renderInlineList.bind(this);
 
     this.refList = React.createRef();
+    this.refsWidget = React.createRef();
 
     this.state = {
       openList: false,
@@ -113,11 +116,36 @@ class Widget extends Component<Props, State> {
   }
 
   componentDidMount() {
-    // document.addEventListener('click', this.closeList, false);
+    document.addEventListener('widget-out-side', this.eventsController, false);
   }
 
   componentWillUnmount() {
-    // document.removeEventListener('click', this.closeList);
+    document.removeEventListener('widget-out-side', this.eventsController);
+  }
+
+  /** ***********************
+   * HANDLE EVENTS
+   ************************ */
+
+  eventsController(e) {
+    const { input } = this.props;
+    const { openList } = this.state;
+    const { detail } = e;
+    const eventName = eName(input.name);
+
+    if (openList && detail !== eventName) {
+      this.closeList();
+    }
+  }
+
+  handleOutSide() {
+    // const { input } = this.props;
+    // const { name } = input;
+
+    // console.log('888', e.currentTarget.dataset.event);
+
+    // if (!e.currentTarget.dataset || !e.currentTarget.dataset.event) return;
+    // const nameEvent: string = e.currentTarget.dataset.event;
   }
 
   /** ***********************
@@ -437,7 +465,10 @@ class Widget extends Component<Props, State> {
       case 'select':
       case 'combobox':
         return (
-          <div className={classes.itemBlock}>
+          <div
+            className={classes.itemBlock}
+            data-event={eName(input.name)}
+          >
             {selectItemsTitle}
             <BaseInput
               input={{
@@ -453,7 +484,10 @@ class Widget extends Component<Props, State> {
 
       case 'inlineCheckMulti':
         return (
-          <div className={classes.itemBlock}>
+          <div
+            className={classes.itemBlock}
+            data-event={eName(input.name)}
+          >
             {selectItemsTitle}
             <BaseInput
               input={{
@@ -470,7 +504,10 @@ class Widget extends Component<Props, State> {
 
       case 'datepicker':
         return (
-          <div className={classes.itemBlock}>
+          <div
+            className={classes.itemBlock}
+            data-event={eName(input.name)}
+          >
             {selectItemsTitle}
             <BaseInput
               input={{
@@ -487,7 +524,10 @@ class Widget extends Component<Props, State> {
 
       default:
         return (
-          <div className={classes.itemInput}>
+          <div
+            className={classes.itemBlock}
+            data-event={eName(input.name)}
+          >
             <BaseInput
               input={input}
               type={type}
@@ -509,10 +549,12 @@ class Widget extends Component<Props, State> {
       key={`inlineCheckMulti-${input.name}`}
       className={classes.comboBox}
       data-action="inlineCheckMulti"
+      data-event={eName(input.name)}
       data-field={input.name}
     >
       <List
         actionKey={input.name}
+        data-event={eName(input.name)}
         data={data}
         activeItems={activeItems}
         checkedItems={checkedItems}
@@ -536,6 +578,7 @@ class Widget extends Component<Props, State> {
       key={`comboBox-${input.name}`}
       className={classes.comboBox}
       onClick={this.toggleList}
+      data-event={eName(input.name)}
       data-action="comboBox"
       data-field={input.name}
     >
@@ -545,6 +588,7 @@ class Widget extends Component<Props, State> {
       >
         <List
           actionKey={input.name}
+          data-event={eName(input.name)}
           data={data}
           activeItems={activeItems}
           checkedItems={checkedItems}
@@ -574,6 +618,7 @@ class Widget extends Component<Props, State> {
       key={`datepicker-${input.name}`}
       className={classes.calendar}
       onClick={this.toggleDatepickerList}
+      data-event={eName(input.name)}
       data-action="datepicker"
       data-field={input.name}
     >
@@ -600,6 +645,7 @@ class Widget extends Component<Props, State> {
       key={`openList-${input.name}`}
       className={classes.threeDots}
       onClick={this.toggleList}
+      data-event={eName(input.name)}
       data-action="openList"
       data-field={input.name}
     >
@@ -609,6 +655,7 @@ class Widget extends Component<Props, State> {
       >
         <List
           actionKey={input.name}
+          data-event={eName(input.name)}
           data={data}
           activeItems={activeItems}
           textField={textField}
@@ -627,6 +674,7 @@ class Widget extends Component<Props, State> {
       key={`clear-${input.name}`}
       className={classes.clearRed}
       onClick={this.clear}
+      data-event={eName(input.name)}
       data-action="clear"
       data-field={input.name}
     />;
@@ -639,6 +687,7 @@ class Widget extends Component<Props, State> {
       key={`map-${input.name}`}
       className={classes.map}
       onClick={this.map}
+      data-event={eName(input.name)}
       data-action="map"
       data-field={input.name}
     />;
@@ -651,6 +700,7 @@ class Widget extends Component<Props, State> {
       key={`map-refresh-${input.name}`}
       className={classes.mapRefresh}
       onClick={this.map}
+      data-event={eName(input.name)}
       data-action="map-refresh"
       data-field={input.name}
     />;
@@ -658,10 +708,11 @@ class Widget extends Component<Props, State> {
 
   render() {
     const {
-      classes, label, meta, clear, map, mapRefresh, toggleList, comboBox, datepicker, required, componentType,
+      classes, label, meta, input, clear, map, mapRefresh, toggleList, comboBox, datepicker, required, componentType,
       customClassNameWrap, customClassNameLabel,
     } = this.props;
     const { touched, error, warning } = meta;
+    const { name } = input;
     const message = touched && ((error && <span>{this.cbFormatError(error)}</span>)
       || (warning && <span>{this.cbFormatError(warning)}</span>));
     const red = touched && (error || warning);
@@ -669,12 +720,15 @@ class Widget extends Component<Props, State> {
 
     return (
       <label
+        data-event={eName(name)}
         className={cn(
           {
             [classes.widgetWrap]: !customClassNameLabel,
             [customClassNameLabel]: customClassNameLabel,
           },
         )}
+        ref={this.refsWidget}
+        onClickCapture={this.handleOutSide}
       >
         <div className={cn(classes.labelInfo)}>
           {!!required && <span className={cn(classes.redDot)}>*</span>}
