@@ -25,6 +25,7 @@ const styles = {
     margin: 10,
     display: 'flex',
     justifyContent: 'center',
+    overflow: 'visible',
   },
   block: {
     // width: '50%',

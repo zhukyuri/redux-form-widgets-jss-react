@@ -329,16 +329,25 @@ class Widget extends Component<Props, State> {
    ************************ */
 
   getListClientRect() {
-    return this.refList && this.refList.current
-      ? this.refList.current.getBoundingClientRect()
-      : {
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        width: 0,
-        height: 0,
-      };
+    // return this.refList && this.refList.current
+    //   ? this.refList.current.getBoundingClientRect()
+    //   : {
+    //     top: 0,
+    //     left: 0,
+    //     bottom: 0,
+    //     right: 0,
+    //     width: 0,
+    //     height: 0,
+    //   };
+
+    return {
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      // width: 0,
+      // height: 0,
+    };
   }
 
   onBlurCustom() {
@@ -569,9 +578,8 @@ class Widget extends Component<Props, State> {
   }
 
   renderButtonCombo() {
-    const { openList, activeItems, checkedItems } = this.state;
     const {
-      classes, data, textField, valueField, input, checking, selecting,
+      classes, input,
     } = this.props;
 
     return <div
@@ -581,38 +589,11 @@ class Widget extends Component<Props, State> {
       data-event={eName(input.name)}
       data-action="comboBox"
       data-field={input.name}
-    >
-      {openList && <Popup
-        position={this.getListClientRect()}
-        customPaneWrap={classes.popupWrap}
-      >
-        <List
-          actionKey={input.name}
-          data-event={eName(input.name)}
-          data={data}
-          activeItems={activeItems}
-          checkedItems={checkedItems}
-          textField={textField}
-          valueField={valueField}
-          checking={checking}
-          selecting={selecting}
-          cbClickItem={this.onClickItem}
-          cbCheckItemBox={this.onClickItem}
-        />
-      </Popup>}
-    </div>;
+    />;
   }
 
   renderButtonDate() {
-    const { openList } = this.state;
-    const { classes, input, valueDateFormat } = this.props;
-    const getRect = this.getListClientRect();
-    const styleWrap = {
-      left: getRect.left,
-      top: getRect.top,
-      height: getRect.height,
-    };
-    const valueDate = moment(input.value, valueDateFormat);
+    const { classes, input } = this.props;
 
     return <div
       key={`datepicker-${input.name}`}
@@ -621,24 +602,12 @@ class Widget extends Component<Props, State> {
       data-event={eName(input.name)}
       data-action="datepicker"
       data-field={input.name}
-    >
-      {openList && <Popup
-        position={styleWrap}
-        customPaneWrap={classes.datepickerWrap}
-      >
-        <DatePicker
-          inline
-          selected={valueDate.isValid() ? valueDate.toDate() : ''}
-          onChange={this.onChangeDatePicker}
-        />
-      </Popup>}
-    </div>;
+    />;
   }
 
   renderButtonList() {
-    const { openList, activeItems } = this.state;
     const {
-      classes, data, textField, valueField, input, checking,
+      classes, input,
     } = this.props;
 
     return <div
@@ -648,23 +617,7 @@ class Widget extends Component<Props, State> {
       data-event={eName(input.name)}
       data-action="openList"
       data-field={input.name}
-    >
-      {openList && <Popup
-        cus
-        position={this.getListClientRect()}
-      >
-        <List
-          actionKey={input.name}
-          data-event={eName(input.name)}
-          data={data}
-          activeItems={activeItems}
-          textField={textField}
-          valueField={valueField}
-          checking={checking}
-          cbClickItem={this.onClickItem}
-        />
-      </Popup>}
-    </div>;
+    />;
   }
 
   renderButtonClear() {
@@ -708,9 +661,12 @@ class Widget extends Component<Props, State> {
 
   render() {
     const {
-      classes, label, meta, input, clear, map, mapRefresh, toggleList, comboBox, datepicker, required, componentType,
+      classes, label, meta, input, clear, map, mapRefresh, valueDateFormat,
+      toggleList, comboBox, datepicker, required, componentType,
       customClassNameWrap, customClassNameLabel,
+      data, textField, valueField, checking, selecting,
     } = this.props;
+    const { openList, activeItems, checkedItems } = this.state;
     const { touched, error, warning } = meta;
     const { name } = input;
     const message = touched && ((error && <span>{this.cbFormatError(error)}</span>)
@@ -753,6 +709,50 @@ class Widget extends Component<Props, State> {
           {map && this.renderButtonMap()}
           {mapRefresh && this.renderButtonMapRefresh()}
         </div>
+
+        {comboBox && openList && <Popup
+        >
+          <List
+            actionKey={input.name}
+            data-event={eName(input.name)}
+            data={data}
+            activeItems={activeItems}
+            checkedItems={checkedItems}
+            textField={textField}
+            valueField={valueField}
+            checking={checking}
+            selecting={selecting}
+            cbClickItem={this.onClickItem}
+            cbCheckItemBox={this.onClickItem}
+          />
+        </Popup>}
+
+        {toggleList && openList && <Popup
+        >
+          <List
+            actionKey={input.name}
+            data-event={eName(input.name)}
+            data={data}
+            activeItems={activeItems}
+            textField={textField}
+            valueField={valueField}
+            checking={checking}
+            cbClickItem={this.onClickItem}
+          />
+        </Popup>}
+
+        {datepicker && openList && <Popup
+          customStyle={{ width: 211 }}
+        >
+          <DatePicker
+            inline
+            selected={moment(input.value, valueDateFormat).isValid() ? moment(input.value,
+              valueDateFormat).toDate() : ''}
+            onChange={this.onChangeDatePicker}
+          />
+        </Popup>}
+
+
         <div className={cn(classes.errorInfo)}>
           &nbsp;{message}
         </div>

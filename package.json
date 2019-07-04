@@ -1,6 +1,6 @@
 {
   "name": "redux-form-widgets-jss-react",
-  "version": "8.2.2",
+  "version": "8.2.4",
   "author": "zhukyuri",
   "license": "MIT",
   "repository": "zhukyuri/redux-form-widgets-jss-react",
@@ -40,7 +40,8 @@
     "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "react-datepicker": "^2.5.0"
+    "react-datepicker": "^2.5.0",
+    "redux-value-ql": "^1.0.32"
   },
   "peerDependencies": {
     "prop-types": "^15.5.4",

@@ -1,12 +1,13 @@
 const styles = {
   modal: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    position: 'fixed',
+    backgroundColor: '#eee',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.95)',
+    top: 68,
+    width: '100%',
+    position: 'absolute',
     minHeight: 200,
     minWidth: 200,
-    top: 50,
-    left: 0,
-    zIndex: 5000,
+    zIndex: 15000,
   },
 };
 

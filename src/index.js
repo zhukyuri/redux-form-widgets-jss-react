@@ -9,6 +9,7 @@ import FieldText from './packages/FieldText';
 import List from './packages/List';
 import ListItem from './packages/ListItem';
 import Popup from './packages/Popup';
+import PopupPortal from './packages/PopupPortal';
 import Widget from './packages/Widget';
 import Button from './packages/Button';
 import Pane from './packages/Pane';
@@ -18,7 +19,7 @@ import defaultStyle from './utils/defaultStyle';
 import * as validation from './utils/validation';
 
 export {
-  validation, BaseInput, FieldText, ListItem, List, Popup, Widget,
+  validation, BaseInput, FieldText, ListItem, List, Popup, PopupPortal, Widget,
   FieldSelect, FieldSelectMulti, FieldCheck, FieldCheckMulti, FieldDatePicker,
   FieldCheckMultiInline, Button, Pane, defaultStyle, EventProvider,
 };

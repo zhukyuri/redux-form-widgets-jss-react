@@ -121,6 +121,7 @@ const styles = (theme) => {
       left: 0,
       backgroundColor: '#fff',
       boxShadow: '0 0 10px rgba(0, 0, 0, 0.35)',
+      overflow: 'hidden',
     },
 
     datepickerWrap: {
