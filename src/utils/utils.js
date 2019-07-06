@@ -83,7 +83,8 @@ export const isActiveInObj = (
 export const findItemInArrayById = (
   data: Array<any>, itemId: | string | number, valueField: string,
 ): boolean => {
-  if (!Array.isArray(data)) return null;
+  if (!Array.isArray(data)) return undefined;
+  if (itemId === '') return undefined;
 
   return data.find(f => (f[valueField] === itemId || f[valueField] === itemId * 1));
 };
@@ -103,6 +104,7 @@ export const isActive = (
   if (Array.isArray(activeItems)) {
     return undefined !== findItemInArrayById(activeItems, itemId, valueField);
   }
+
   return activeItems[valueField] === itemId || activeItems[valueField] === itemId * 1;
 };
 
@@ -116,6 +118,7 @@ export const addItemToArrayById = (
   const itemNew = findItemInArrayById(data, itemId, valueField);
 
   currentArray.push(itemNew);
+
   return currentArray;
 };
 
@@ -130,6 +133,7 @@ export const removeItemFromArrayById = (
     if (!(i[valueField] === itemId || i[valueField] === itemId * 1)) {
       acc.push(i);
     }
+
     return acc;
   }, []);
 };
@@ -141,7 +145,9 @@ export const toggleItemInArrayById = (
   if (!Array.isArray(currentArray)) return;
   const isItem = findItemInArrayById(currentArray, itemId, valueField);
 
-  if (isItem === undefined) return addItemToArrayById(data, itemId, valueField, currentArray);
+  if (isItem === undefined) {
+    return addItemToArrayById(data, itemId, valueField, currentArray);
+  }
 
   return removeItemFromArrayById(itemId, valueField, currentArray);
 };
@@ -152,20 +158,20 @@ export const toSimpleArray = (
   i => (i[valueField]),
 ));
 
-export const createTitle = (valueFull: any, textField: string): string => {
-  if (Array.isArray(valueFull)) {
-    if (valueFull.length === 1) {
-      return valueFull[0][textField];
+export const createTitle = (value: any, textField: string): string => {
+  if (Array.isArray(value)) {
+    if (value.length === 1) {
+      return value[0][textField];
     }
-    if (valueFull.length > 1) {
-      return `${valueFull.length} item(s)`;
+    if (value.length > 1) {
+      return `${value.length} item(s)`;
     }
 
     return '';
   }
-  if (valueFull === undefined || valueFull === null) return '';
+  if (value === undefined || value === null) return '';
 
-  return valueFull[textField];
+  return value[textField];
 };
 
 /**
@@ -195,16 +201,19 @@ export const createTitleFromReduxValue = (
       if (value.length > 1) {
         return `${value.length} item(s)`;
       }
+
       return '';
     }
 
     // for callback
     const fullDataValue = value.map(i => findItemInArrayById(data, i, valueField));
+
     return cbTextFormat(fullDataValue, textField, valueField);
   }
 
   // Simple value format
   const fullData = findItemInArrayById(data, value, valueField);
+
   return !cbTextFormat ? fullData[textField] : cbTextFormat(fullData, textField, valueField);
 };
 
@@ -231,5 +240,6 @@ export const convertValueReduxToFullFormat = (
   if (Array.isArray(value)) {
     return value.map(i => findItemInArrayById(data, i, valueField));
   }
+
   return findItemInArrayById(data, value, valueField);
 };

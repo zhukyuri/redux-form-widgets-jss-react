@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Field } from 'redux-form';
 import Widget from './Widget';
 
 type Props = {
@@ -24,9 +23,8 @@ type Props = {
 class FieldText extends Component<Props> {
   render() {
     return (
-      <Field
+      <Widget
         {...this.props}
-        component={Widget}
         componentType="text"
         type="text"
       />

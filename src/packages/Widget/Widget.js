@@ -21,6 +21,7 @@ type Props = {
   customClassNameInput?: string,
   customClassNameLabel?: string,
   customClassNameWrap?: string,
+  customStyleListWrap?: any,
   componentType?: string,
   checking?: boolean,
   selecting?: boolean,
@@ -81,7 +82,6 @@ class Widget extends Component<Props, State> {
     this.map = this.map.bind(this);
     this.createTextView = this.createTextView.bind(this);
     this.addActiveItem = this.addActiveItem.bind(this);
-    this.getListClientRect = this.getListClientRect.bind(this);
     this.renderButtonCombo = this.renderButtonCombo.bind(this);
     this.renderButtonList = this.renderButtonList.bind(this);
     this.renderButtonClear = this.renderButtonClear.bind(this);
@@ -105,8 +105,19 @@ class Widget extends Component<Props, State> {
     const { input, data, valueField, checking, selecting, emptyValue } = props;
     const { value } = input;
     let fullValue = convertValueReduxToFullFormat(value, data, valueField);
+    let defVal = '';
+    if (input.name === 'check_multi') {
+      console.log('derive', input.name, '*' + input.value + '*',
+        fullValue);
+    }
+    if(Array.isArray(input.value)) defVal = [];
 
-    fullValue = !fullValue ? emptyValue !== undefined ? emptyValue : [] : fullValue;
+    if (input.value === '') {
+      fullValue = '';
+    }
+    else {
+      fullValue = !fullValue ? emptyValue !== undefined ? emptyValue : defVal : fullValue;
+    }
 
     return {
       ...state,
@@ -210,6 +221,8 @@ class Widget extends Component<Props, State> {
         onBlur(emptyValue !== undefined ? emptyValue : []);
       }
       else {
+        console.log('clear_obj', input.name, input.value, activeItems);
+        onChange(emptyValue !== undefined ? emptyValue : '');
         onBlur(emptyValue !== undefined ? emptyValue : '');
       }
     }
@@ -220,11 +233,12 @@ class Widget extends Component<Props, State> {
         onBlur(emptyValue !== undefined ? emptyValue : []);
       }
       else {
+        onChange(emptyValue !== undefined ? emptyValue : '');
         onBlur(emptyValue !== undefined ? emptyValue : '');
       }
     }
 
-    if (!selecting && !selecting) {
+    if (!selecting) {
       onChange(emptyValue !== undefined ? emptyValue : '');
     }
 
@@ -274,7 +288,9 @@ class Widget extends Component<Props, State> {
   }
 
   onClickItem(actionKey, params) {
+    const { selecting, multipleSelect, checking, multipleCheck } = this.props;
     const { role } = params;
+    const isSelectingOnly = selecting && !multipleSelect && !checking && !multipleCheck;
 
     switch (role) {
       case 'list-item-title':
@@ -288,6 +304,8 @@ class Widget extends Component<Props, State> {
       default:
         break;
     }
+
+    if (isSelectingOnly) this.closeList();
   }
 
   /** ***********************
@@ -328,28 +346,6 @@ class Widget extends Component<Props, State> {
    * OTHER
    ************************ */
 
-  getListClientRect() {
-    // return this.refList && this.refList.current
-    //   ? this.refList.current.getBoundingClientRect()
-    //   : {
-    //     top: 0,
-    //     left: 0,
-    //     bottom: 0,
-    //     right: 0,
-    //     width: 0,
-    //     height: 0,
-    //   };
-
-    return {
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0,
-      // width: 0,
-      // height: 0,
-    };
-  }
-
   onBlurCustom() {
     const { selecting, checking, input, valueField } = this.props;
     const { onBlur } = input;
@@ -363,6 +359,8 @@ class Widget extends Component<Props, State> {
         onBlur(activeItems[valueField]);
       }
     }
+    console.log('custom_blur', this.props.input.name, '*' + this.props.input.value + '* - ',
+      activeItems[valueField]);
 
     if (checking && checkedItems) {
       if (Array.isArray(checkedItems)) {
@@ -663,7 +661,7 @@ class Widget extends Component<Props, State> {
     const {
       classes, label, meta, input, clear, map, mapRefresh, valueDateFormat,
       toggleList, comboBox, datepicker, required, componentType,
-      customClassNameWrap, customClassNameLabel,
+      customClassNameWrap, customClassNameLabel, customStyleListWrap,
       data, textField, valueField, checking, selecting,
     } = this.props;
     const { openList, activeItems, checkedItems } = this.state;
@@ -674,6 +672,7 @@ class Widget extends Component<Props, State> {
     const red = touched && (error || warning);
     const inlineList = componentType === 'inlineCheckMulti';
 
+    if (input.name === 'check_multi') console.log('render', input.name, input.value, activeItems);
     return (
       <label
         data-event={eName(name)}
@@ -710,8 +709,7 @@ class Widget extends Component<Props, State> {
           {mapRefresh && this.renderButtonMapRefresh()}
         </div>
 
-        {comboBox && openList && <Popup
-        >
+        {comboBox && openList && <Popup>
           <List
             actionKey={input.name}
             data-event={eName(input.name)}
@@ -727,8 +725,7 @@ class Widget extends Component<Props, State> {
           />
         </Popup>}
 
-        {toggleList && openList && <Popup
-        >
+        {toggleList && openList && <Popup>
           <List
             actionKey={input.name}
             data-event={eName(input.name)}
@@ -742,7 +739,7 @@ class Widget extends Component<Props, State> {
         </Popup>}
 
         {datepicker && openList && <Popup
-          customStyle={{ width: 211 }}
+          customStyle={customStyleListWrap}
         >
           <DatePicker
             inline
@@ -751,7 +748,6 @@ class Widget extends Component<Props, State> {
             onChange={this.onChangeDatePicker}
           />
         </Popup>}
-
 
         <div className={cn(classes.errorInfo)}>
           &nbsp;{message}

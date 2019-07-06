@@ -21,7 +21,7 @@ class FieldSelect extends Component<Props> {
   };
 
   render() {
-
+    console.log('field', this.props.input.name, '*'+this.props.input.value+'*');
     return (
       <Widget
         {...this.props}
@@ -29,8 +29,8 @@ class FieldSelect extends Component<Props> {
         comboBox
         selecting
         multipleSelect={false}
-        checking={false}
         multipleCheck={false}
+        checking={false}
       />
     );
   }

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
   FieldCheck, FieldCheckMulti, FieldCheckMultiInline, FieldDatePicker, FieldSelect,
-  FieldSelectMulti, Pane, Widget,
+  FieldSelectMulti, Pane, FieldText,
 } from 'redux-form-widgets-jss-react';
 import { HuePicker } from 'react-color';
 import { required, requiredItemsArray } from '../common/validation';
@@ -62,8 +62,7 @@ class Example extends Component<Props> {
             <div style={styles.block}>
               <Field
                 name="simple_text"
-                component={Widget}
-                componentType="text"
+                component={FieldText}
                 label="Simple text"
                 validate={[required]}
                 required
@@ -161,6 +160,7 @@ class Example extends Component<Props> {
                 clear
                 valueDateFormat="DD-MM-YYYY"
                 textDateFormat="DD-MM-YYYY"
+                customStyleListWrap={{ width: 215 }}
               />
             </div>
             <div style={styles.block}>
