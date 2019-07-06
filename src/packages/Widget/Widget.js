@@ -8,7 +8,7 @@ import List from '../List';
 import Popup from '../Popup';
 import BaseInput from '../BaseInput';
 import {
-  convertValueReduxToFullFormat, createTitle, eName, findItemInArrayById, setOriginId,
+  convertValueReduxToFullFormat, createTitle, eName, findItemInArrayById, getDef, setOriginId,
   toggleItemInArrayById, toSimpleArray,
 } from '../../utils/utils';
 
@@ -22,7 +22,7 @@ type Props = {
   customClassNameLabel?: string,
   customClassNameWrap?: string,
   customStyleListWrap?: any,
-  componentType?: string,
+  componentType: string,
   checking?: boolean,
   selecting?: boolean,
   multipleSelect?: boolean,
@@ -102,15 +102,10 @@ class Widget extends Component<Props, State> {
   }
 
   static getDerivedStateFromProps(props: Props, state: State) {
-    const { input, data, valueField, checking, selecting, emptyValue } = props;
+    const { input, data, valueField, checking, selecting, emptyValue, componentType } = props;
     const { value } = input;
     let fullValue = convertValueReduxToFullFormat(value, data, valueField);
-    let defVal = '';
-    if (input.name === 'check_multi') {
-      console.log('derive', input.name, '*' + input.value + '*',
-        fullValue);
-    }
-    if(Array.isArray(input.value)) defVal = [];
+    let defVal = getDef(componentType);
 
     if (input.value === '') {
       fullValue = '';
@@ -121,8 +116,8 @@ class Widget extends Component<Props, State> {
 
     return {
       ...state,
-      activeItems: selecting ? fullValue : emptyValue !== undefined ? emptyValue : '',
-      checkedItems: checking ? fullValue : emptyValue !== undefined ? emptyValue : '',
+      activeItems: selecting ? fullValue : emptyValue !== undefined ? emptyValue : defVal,
+      checkedItems: checking ? fullValue : emptyValue !== undefined ? emptyValue : defVal,
     };
   }
 
@@ -209,38 +204,14 @@ class Widget extends Component<Props, State> {
   }
 
   clear(e) {
-    const { cbActions, selecting, checking, input, emptyValue } = this.props;
-    const { onBlur, onChange } = input;
-    const { activeItems, checkedItems } = this.state;
+    const { cbActions, input, emptyValue, componentType } = this.props;
+    const { onChange } = input;
     const dataset = e.currentTarget.dataset;
+    const defVal = getDef(componentType);
+
     if (!dataset || !dataset.field || !dataset.action) return;
-
-    if (selecting && activeItems) {
-      if (Array.isArray(activeItems)) {
-        onChange(emptyValue !== undefined ? emptyValue : []);
-        onBlur(emptyValue !== undefined ? emptyValue : []);
-      }
-      else {
-        console.log('clear_obj', input.name, input.value, activeItems);
-        onChange(emptyValue !== undefined ? emptyValue : '');
-        onBlur(emptyValue !== undefined ? emptyValue : '');
-      }
-    }
-
-    if (checking && checkedItems) {
-      if (Array.isArray(checkedItems)) {
-        onChange(emptyValue !== undefined ? emptyValue : []);
-        onBlur(emptyValue !== undefined ? emptyValue : []);
-      }
-      else {
-        onChange(emptyValue !== undefined ? emptyValue : '');
-        onBlur(emptyValue !== undefined ? emptyValue : '');
-      }
-    }
-
-    if (!selecting) {
-      onChange(emptyValue !== undefined ? emptyValue : '');
-    }
+    onChange(emptyValue !== undefined ? emptyValue : defVal);
+    // onBlur(emptyValue !== undefined ? emptyValue : defVal);
 
     if (cbActions) cbActions(dataset.field, dataset.action, this.props);
   }
@@ -359,8 +330,6 @@ class Widget extends Component<Props, State> {
         onBlur(activeItems[valueField]);
       }
     }
-    console.log('custom_blur', this.props.input.name, '*' + this.props.input.value + '* - ',
-      activeItems[valueField]);
 
     if (checking && checkedItems) {
       if (Array.isArray(checkedItems)) {
@@ -404,7 +373,10 @@ class Widget extends Component<Props, State> {
 
     switch (componentType) {
       case 'select':
-      case 'combobox':
+      case 'selectMulti':
+      case 'checkList':
+      case 'checkListMulti':
+      case 'inlineCheckMulti':
         return createTitle(selecting ? activeItems
           : checking ? checkedItems : [], textField);
 
@@ -470,7 +442,9 @@ class Widget extends Component<Props, State> {
 
     switch (componentType) {
       case 'select':
-      case 'combobox':
+      case 'selectMulti':
+      case 'checkList':
+      case 'checkListMulti':
         return (
           <div
             className={classes.itemBlock}
@@ -503,7 +477,6 @@ class Widget extends Component<Props, State> {
                 onChange: this.onChangeCustom,
               }}
               type={type}
-              placeholder={this.cbFormatPlaceholder(placeholder)}
               customStyle={hiddenStyleInput}
             />
           </div>
@@ -672,7 +645,6 @@ class Widget extends Component<Props, State> {
     const red = touched && (error || warning);
     const inlineList = componentType === 'inlineCheckMulti';
 
-    if (input.name === 'check_multi') console.log('render', input.name, input.value, activeItems);
     return (
       <label
         data-event={eName(name)}

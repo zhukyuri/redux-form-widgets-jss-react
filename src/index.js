@@ -1,6 +1,6 @@
 import BaseInput from './packages/BaseInput';
-import FieldCheck from './packages/FieldCheck';
-import FieldCheckMulti from './packages/FieldCheckMulti';
+import FieldCheckList from './packages/FieldCheckList';
+import FieldCheckListMulti from './packages/FieldCheckListMulti';
 import FieldCheckMultiInline from './packages/FieldCheckMultiInline';
 import FieldSelect from './packages/FieldSelect';
 import FieldSelectMulti from './packages/FieldSelectMulti';
@@ -20,6 +20,6 @@ import * as validation from './utils/validation';
 
 export {
   validation, BaseInput, FieldText, ListItem, List, Popup, PopupPortal, Widget,
-  FieldSelect, FieldSelectMulti, FieldCheck, FieldCheckMulti, FieldDatePicker,
+  FieldSelect, FieldSelectMulti, FieldCheckList, FieldCheckListMulti, FieldDatePicker,
   FieldCheckMultiInline, Button, Pane, defaultStyle, EventProvider,
 };

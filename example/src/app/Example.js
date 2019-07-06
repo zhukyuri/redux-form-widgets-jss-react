@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
-  FieldCheck, FieldCheckMulti, FieldCheckMultiInline, FieldDatePicker, FieldSelect,
+  FieldCheckList, FieldCheckListMulti, FieldCheckMultiInline, FieldDatePicker, FieldSelect,
   FieldSelectMulti, Pane, FieldText,
 } from 'redux-form-widgets-jss-react';
 import { HuePicker } from 'react-color';
@@ -116,7 +116,7 @@ class Example extends Component<Props> {
             <div style={styles.block}>
               <Field
                 name="check"
-                component={FieldCheck}
+                component={FieldCheckList}
                 data={selectDataArray}
                 valueField="id"
                 textField="title"
@@ -135,7 +135,7 @@ class Example extends Component<Props> {
             <div style={styles.block}>
               <Field
                 name="check_multi"
-                component={FieldCheckMulti}
+                component={FieldCheckListMulti}
                 data={selectDataArray}
                 valueField="id"
                 textField="title"
@@ -198,6 +198,7 @@ export default reduxForm({
     select_multi: [2, 3],
     check: 1,
     check_multi: [2, 3],
+    date_picker: '',
     check_multi_inline: [2, 3],
   },
 })(Example);

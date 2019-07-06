@@ -26,7 +26,7 @@ class FieldSelectMulti extends Component<Props> {
     return (
       <Widget
         {...this.props}
-        componentType="combobox"
+        componentType="selectMulti"
         data={data}
         comboBox
         selecting={true}

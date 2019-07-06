@@ -15,7 +15,7 @@ type Props = {
   cbActions: any,
 }
 
-class FieldCheckMulti extends Component<Props> {
+class FieldCheckListMulti extends Component<Props> {
   static defaultProps = {
     data: [],
   };
@@ -26,7 +26,7 @@ class FieldCheckMulti extends Component<Props> {
     return (
       <Widget
         {...this.props}
-        componentType="combobox"
+        componentType="checkListMulti"
         data={data}
         comboBox
         selecting={false}
@@ -38,4 +38,4 @@ class FieldCheckMulti extends Component<Props> {
   }
 }
 
-export default FieldCheckMulti;
+export default FieldCheckListMulti;

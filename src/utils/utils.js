@@ -8,6 +8,30 @@
 export const eName = name => `event-${name}`;
 
 /**
+ * Get default value
+ * @param componentType
+ * @returns {string|Array}
+ */
+export const getDef = (componentType) => {
+  switch (componentType) {
+    case 'text':
+    case 'select':
+    case 'checkList':
+    case 'datepicker':
+      return '';
+
+    case 'selectMulti':
+    case 'checkListMulti':
+    case 'inlineCheckMulti':
+      return [];
+
+    default:
+      return '';
+  }
+};
+
+
+/**
  * Get one only item from array by itemId
  * @param {array} data
  * @param {string} valueField
