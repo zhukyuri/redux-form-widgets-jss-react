@@ -27,6 +27,14 @@ const styles = (theme) => {
       height: w.input.height,
       overflow: 'hidden',
     },
+    wrapTextArea: {
+      display: 'block',
+      width: '100%',
+      height: 'none',
+      overflow: 'hidden',
+      border: `solid 1px ${w.borderColor}`,
+      borderRadius: 8,
+    },
     wrapInlineList: {
       display: 'block',
       position: 'relative',

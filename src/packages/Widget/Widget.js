@@ -7,6 +7,7 @@ import moment from 'moment';
 import List from '../List';
 import Popup from '../Popup';
 import BaseInput from '../BaseInput';
+import BaseTextArea from '../BaseTextArea';
 import {
   convertValueReduxToFullFormat, createTitle, eName, findItemInArrayById, getDef, setOriginId,
   toggleItemInArrayById, toSimpleArray,
@@ -502,6 +503,20 @@ class Widget extends Component<Props, State> {
           </div>
         );
 
+      case 'textArea':
+        return (
+          <div
+            className={classes.itemBlock}
+            data-event={eName(input.name)}
+          >
+            <BaseTextArea
+              input={input}
+              placeholder={placeholder}
+              customClassNameInput={customClassNameInput}
+            />
+          </div>
+        );
+
       default:
         return (
           <div
@@ -643,7 +658,8 @@ class Widget extends Component<Props, State> {
     const message = touched && ((error && <span>{this.cbFormatError(error)}</span>)
       || (warning && <span>{this.cbFormatError(warning)}</span>));
     const red = touched && (error || warning);
-    const inlineList = componentType === 'inlineCheckMulti';
+    const isInlineList = componentType === 'inlineCheckMulti';
+    const isTextArea = componentType === 'textArea';
 
     return (
       <label
@@ -664,15 +680,17 @@ class Widget extends Component<Props, State> {
           className={cn(
             customClassNameWrap,
             {
-              [classes.wrapDefault]: !inlineList,
-              [classes.wrapInlineList]: inlineList,
+              [classes.wrapDefault]: !isInlineList && !isTextArea,
+              [classes.wrapInlineList]: isInlineList && !isTextArea,
+              [classes.wrapTextArea]: isTextArea,
               [classes.redBorder]: red,
             },
           )}
           ref={this.refList}
         >
-          {!inlineList && this.renderInputBox()}
-          {inlineList && this.renderInlineList()}
+          {!isInlineList && this.renderInputBox()}
+          {isInlineList && this.renderInlineList()}
+
           {datepicker && this.renderButtonDate()}
           {comboBox && this.renderButtonCombo()}
           {toggleList && this.renderButtonList()}

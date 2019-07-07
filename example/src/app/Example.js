@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
   FieldCheckList, FieldCheckListMulti, FieldCheckMultiInline, FieldDatePicker, FieldSelect,
-  FieldSelectMulti, Pane, FieldText,
+  FieldSelectMulti, Pane, FieldText, FieldTextArea,
 } from 'redux-form-widgets-jss-react';
 import { HuePicker } from 'react-color';
 import { required, requiredItemsArray } from '../common/validation';
@@ -177,6 +177,22 @@ class Example extends Component<Props> {
                 valueField="id"
                 textField="title"
                 label="Check Multi Inline"
+              />
+            </div>
+            <div style={styles.block}>
+
+            </div>
+          </Pane>
+
+          <Pane customStyle={styles.pane}>
+            <div style={styles.block}>
+              <Field
+                name="simple_textarea"
+                component={FieldTextArea}
+                label="Simple text area"
+                validate={[required]}
+                required
+                clear
               />
             </div>
             <div style={styles.block}>
