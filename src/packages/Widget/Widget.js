@@ -23,6 +23,7 @@ type Props = {
   customClassNameLabel?: string,
   customClassNameWrap?: string,
   customStyleListWrap?: any,
+  customStyleDateBox?: any,
   componentType: string,
   checking?: boolean,
   selecting?: boolean,
@@ -649,7 +650,7 @@ class Widget extends Component<Props, State> {
     const {
       classes, label, meta, input, clear, map, mapRefresh, valueDateFormat,
       toggleList, comboBox, datepicker, required, componentType,
-      customClassNameWrap, customClassNameLabel, customStyleListWrap,
+      customClassNameWrap, customClassNameLabel, customStyleListWrap, customStyleDateBox,
       data, textField, valueField, checking, selecting,
     } = this.props;
     const { openList, activeItems, checkedItems } = this.state;
@@ -730,7 +731,7 @@ class Widget extends Component<Props, State> {
         </Popup>}
 
         {datepicker && openList && <Popup
-          customStyle={customStyleListWrap}
+          customStyle={customStyleDateBox}
         >
           <DatePicker
             inline
