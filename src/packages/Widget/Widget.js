@@ -677,6 +677,7 @@ class Widget extends Component<Props, State> {
           {!!required && <span className={cn(classes.redDot)}>*</span>}
           &nbsp;{this.cbFormatLabel(label)}</div>
         <div
+          style={customStyleListWrap}
           className={cn(
             customClassNameWrap,
             {

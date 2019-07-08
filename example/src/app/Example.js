@@ -120,7 +120,7 @@ class Example extends Component<Props> {
                 data={selectDataArray}
                 valueField="id"
                 textField="title"
-                label="Check"
+                label="Check list"
                 required
                 validate={[required]}
                 clear

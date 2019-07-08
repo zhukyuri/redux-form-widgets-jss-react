@@ -22,7 +22,7 @@ const styles = (theme) => {
       alignContent: 'stretch',
       alignItems: 'stretch',
       border: `solid 1px ${w.borderColor}`,
-      borderRadius: 8,
+      borderRadius: w.borderRadius,
       width: '100%',
       height: w.input.height,
       overflow: 'hidden',
@@ -33,7 +33,7 @@ const styles = (theme) => {
       height: 'none',
       overflow: 'hidden',
       border: `solid 1px ${w.borderColor}`,
-      borderRadius: 8,
+      borderRadius: w.borderRadius,
     },
     wrapInlineList: {
       display: 'block',

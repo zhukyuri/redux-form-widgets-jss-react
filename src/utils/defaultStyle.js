@@ -24,7 +24,7 @@ const defaultStyle = {
   formWidget: {
     backgroundColor: grey_1,
     borderColor: grey_3,
-    borderRadius: 16,
+    borderRadius: 8,
     wWith: 300,
     wMarginTop: 8,
     wMarginBottom: 8,
