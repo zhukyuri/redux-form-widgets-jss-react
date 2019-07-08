@@ -34,8 +34,7 @@ class Example extends Component<Props> {
 
           <Field
             name="simple_text"
-            component={LabelWrap}
-            componentType="text"
+            component={FieldText}
             label="Simple text"
             validate={[required]}
             required
@@ -68,7 +67,7 @@ class Example extends Component<Props> {
 
           <Field
             name="check"
-            component={FieldCheck}
+            component={FieldCheckList}
             data={selectDataArray}
             valueField="id"
             textField="title"
@@ -107,6 +106,15 @@ class Example extends Component<Props> {
             valueField="id"
             textField="title"
             label="Check Multi Inline"
+          />
+
+          <Field
+            name="simple_textarea"
+            component={FieldTextArea}
+            label="Simple text area"
+            validate={[required]}
+            required
+            clear
           />
 
         </form>
