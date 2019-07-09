@@ -8,6 +8,7 @@ import FieldSelectMulti from './packages/FieldSelectMulti';
 import FieldDatePicker from './packages/FieldDatePicker';
 import FieldText from './packages/FieldText';
 import FieldTextArea from './packages/FieldTextArea';
+import FieldCustomSelect from './packages/FieldCustomSelect';
 import List from './packages/List';
 import ListItem from './packages/ListItem';
 import Popup from './packages/Popup';
@@ -23,5 +24,5 @@ import * as validation from './utils/validation';
 export {
   validation, BaseInput, BaseTextArea, FieldText, FieldTextArea, ListItem, List, Popup,
   PopupPortal, Widget, FieldSelect, FieldSelectMulti, FieldCheckList, FieldCheckListMulti,
-  FieldDatePicker, FieldCheckMultiInline, Button, Pane, defaultStyle, EventProvider,
+  FieldDatePicker, FieldCheckMultiInline, FieldCustomSelect, Button, Pane, defaultStyle, EventProvider,
 };

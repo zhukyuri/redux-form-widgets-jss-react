@@ -30,12 +30,15 @@ type Props = {
   multipleSelect?: boolean,
   multipleCheck?: boolean,
   required?: boolean,
+  // buttons
   clear?: boolean,
   map?: boolean,
+  threeDots?: boolean,
   mapRefresh?: boolean,
   comboBox?: boolean,
   datepicker?: boolean,
   toggleList?: boolean,
+  //
   data: Array<any>,
   input: any,
   meta: any,
@@ -81,12 +84,14 @@ class Widget extends Component<Props, State> {
     this.toggleDatepickerList = this.toggleDatepickerList.bind(this);
     this.closeList = this.closeList.bind(this);
     this.clear = this.clear.bind(this);
+    this.threeDots = this.threeDots.bind(this);
     this.map = this.map.bind(this);
     this.createTextView = this.createTextView.bind(this);
     this.addActiveItem = this.addActiveItem.bind(this);
     this.renderButtonCombo = this.renderButtonCombo.bind(this);
     this.renderButtonList = this.renderButtonList.bind(this);
     this.renderButtonClear = this.renderButtonClear.bind(this);
+    this.renderButtonThreeDots = this.renderButtonThreeDots.bind(this);
     this.renderButtonMap = this.renderButtonMap.bind(this);
     this.renderButtonMapRefresh = this.renderButtonMapRefresh.bind(this);
     this.renderInputBox = this.renderInputBox.bind(this);
@@ -219,6 +224,14 @@ class Widget extends Component<Props, State> {
   }
 
   map(e) {
+    const { cbActions } = this.props;
+    const dataset = e.currentTarget.dataset;
+    if (!dataset || !dataset.field || !dataset.action) return;
+
+    if (cbActions) cbActions(dataset.field, dataset.action, this.props);
+  }
+
+  threeDots(e) {
     const { cbActions } = this.props;
     const dataset = e.currentTarget.dataset;
     if (!dataset || !dataset.field || !dataset.action) return;
@@ -367,6 +380,14 @@ class Widget extends Component<Props, State> {
     }
   }
 
+  onChangeCustomSelect() {
+    const { cbOnChange } = this.props;
+
+    if (cbOnChange) {
+      cbOnChange(this.props);
+    }
+  }
+
   createTextView() {
     const {
       componentType, input, valueDateFormat, textDateFormat, textField, selecting, checking,
@@ -387,6 +408,9 @@ class Widget extends Component<Props, State> {
 
         return valueDate.isValid() ? valueDate.format(textDateFormat) : '';
       }
+
+      case 'customSelect':
+        return input.value;
 
       default:
         return '?';
@@ -460,6 +484,24 @@ class Widget extends Component<Props, State> {
               }}
               type={type}
               placeholder={this.cbFormatPlaceholder(placeholder)}
+              customStyle={hiddenStyleInput}
+            />
+          </div>
+        );
+
+      case 'customSelect':
+        return (
+          <div
+            className={classes.itemBlock}
+            data-event={eName(input.name)}
+          >
+            {selectItemsTitle}
+            <BaseInput
+              input={{
+                ...input,
+                onChange: this.onChangeCustomSelect,
+              }}
+              type={type}
               customStyle={hiddenStyleInput}
             />
           </div>
@@ -620,6 +662,19 @@ class Widget extends Component<Props, State> {
     />;
   }
 
+  renderButtonThreeDots() {
+    const { classes, input } = this.props;
+
+    return <div
+      key={`threedots-${input.name}`}
+      className={classes.threeDots}
+      onClick={this.threeDots}
+      data-event={eName(input.name)}
+      data-action="threedots"
+      data-field={input.name}
+    />;
+  }
+
   renderButtonMap() {
     const { classes, input } = this.props;
 
@@ -648,7 +703,7 @@ class Widget extends Component<Props, State> {
 
   render() {
     const {
-      classes, label, meta, input, clear, map, mapRefresh, valueDateFormat,
+      classes, label, meta, input, clear, map, threeDots, mapRefresh, valueDateFormat,
       toggleList, comboBox, datepicker, required, componentType,
       customClassNameWrap, customClassNameLabel, customStyleListWrap, customStyleDateBox,
       data, textField, valueField, checking, selecting,
@@ -699,6 +754,7 @@ class Widget extends Component<Props, State> {
           {clear && this.renderButtonClear()}
           {map && this.renderButtonMap()}
           {mapRefresh && this.renderButtonMapRefresh()}
+          {threeDots && this.renderButtonThreeDots()}
         </div>
 
         {comboBox && openList && <Popup>
