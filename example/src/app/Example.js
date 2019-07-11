@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
   FieldCheckList, FieldCheckListMulti, FieldCheckMultiInline, FieldDatePicker, FieldSelect,
-  FieldSelectMulti, Pane, FieldText, FieldTextArea,
+  FieldSelectMulti, FieldText, FieldTextArea, Pane,
 } from 'redux-form-widgets-jss-react';
 import { HuePicker } from 'react-color';
 import { required, requiredItemsArray } from '../common/validation';
@@ -28,7 +28,6 @@ const styles = {
     overflow: 'visible',
   },
   block: {
-    // width: '50%',
     margin: 'auto',
     position: 'relative',
     flex: '1 1 50%',

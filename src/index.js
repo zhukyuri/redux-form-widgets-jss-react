@@ -16,13 +16,13 @@ import PopupPortal from './packages/PopupPortal';
 import Widget from './packages/Widget';
 import Button from './packages/Button';
 import Pane from './packages/Pane';
-import EventProvider from './packages/EventProvider';
-import defaultStyle from './utils/defaultStyle';
+import WidgetProvider from './packages/WidgetProvider';
+import defaultTheme from './utils/defaultTheme';
 
 import * as validation from './utils/validation';
 
 export {
   validation, BaseInput, BaseTextArea, FieldText, FieldTextArea, ListItem, List, Popup,
   PopupPortal, Widget, FieldSelect, FieldSelectMulti, FieldCheckList, FieldCheckListMulti,
-  FieldDatePicker, FieldCheckMultiInline, FieldCustomSelect, Button, Pane, defaultStyle, EventProvider,
+  FieldDatePicker, FieldCheckMultiInline, FieldCustomSelect, Button, Pane, defaultTheme, WidgetProvider,
 };
