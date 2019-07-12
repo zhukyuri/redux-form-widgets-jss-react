@@ -10,9 +10,11 @@ const styles = (theme) => {
       display: 'flex',
       justifyContent: 'space-between',
       color: w.colorOptionCheck,
-      padding: '10px 22px 5px 5px',
+      padding: w.padding,
       cursor: 'default',
       whiteSpace: 'nowrap',
+      fontSize: w.fontSize,
+      fontWeight: w.fontWeight,
     },
     hover: {
       '&:hover': {

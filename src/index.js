@@ -18,11 +18,13 @@ import Button from './packages/Button';
 import Pane from './packages/Pane';
 import WidgetProvider from './packages/WidgetProvider';
 import defaultTheme from './utils/defaultTheme';
+import themeBlue from './utils/themeBlue';
 
 import * as validation from './utils/validation';
 
 export {
   validation, BaseInput, BaseTextArea, FieldText, FieldTextArea, ListItem, List, Popup,
   PopupPortal, Widget, FieldSelect, FieldSelectMulti, FieldCheckList, FieldCheckListMulti,
-  FieldDatePicker, FieldCheckMultiInline, FieldCustomSelect, Button, Pane, defaultTheme, WidgetProvider,
+  FieldDatePicker, FieldCheckMultiInline, FieldCustomSelect, Button, Pane,
+  defaultTheme, themeBlue, WidgetProvider,
 };

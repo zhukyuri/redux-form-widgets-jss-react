@@ -4,9 +4,9 @@ const grey_1 = '#fff';
 const grey_2 = '#eef';
 const grey_3 = '#ddf';
 // const grey_4 = '#ccc';
-// const grey_5 = '#bbb';
+const grey_5 = '#bbf';
 // const grey_6 = '#aaa';
-// const grey_7 = '#999';
+// const grey_7 = '#99f';
 // const grey_8 = '#888';
 // const grey_9 = '#777';
 
@@ -23,8 +23,8 @@ const colorOptionCheck = '#5c7f7c';
 const defaultTheme = {
   formWidget: {
     backgroundColor: grey_1,
-    borderColor: grey_3,
-    borderRadius: 8,
+    borderColor: grey_5,
+    borderRadius: 3,
     wWith: 300,
     wMarginTop: 8,
     wMarginBottom: 8,
@@ -41,7 +41,7 @@ const defaultTheme = {
     label: {
       color: dark_16,
       fontSize: 15,
-      marginBottom: 5,
+      marginBottom: 1,
     },
     list: {
       top: 5,
@@ -54,6 +54,9 @@ const defaultTheme = {
       backgroundHover: grey_2,
       backgroundActive: colorActiveAccent,
       colorOptionCheck: colorOptionCheck,
+      padding: [8, 22, 8, 5],
+      fontSize: 17,
+      fontWeight: 'normal',
     }
   },
 };

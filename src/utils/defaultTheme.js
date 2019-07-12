@@ -54,6 +54,9 @@ const defaultTheme = {
       backgroundHover: grey_2,
       backgroundActive: colorActiveAccent,
       colorOptionCheck: colorOptionCheck,
+      padding: [8, 22, 8, 5],
+      fontSize: 17,
+      fontWeight: 'normal',
     }
   },
 };

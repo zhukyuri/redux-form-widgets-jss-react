@@ -47,15 +47,15 @@ class WidgetProvider extends PureComponent<Props> {
     const theme = !customTheme ? defaultTheme : merge(defaultTheme, customTheme);
 
     return (
-      <div
-        className={customClassName}
-        style={customStyle}
-        onClickCapture={this.handleOutSide}
-      >
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <div
+          className={customClassName}
+          style={customStyle}
+          onClickCapture={this.handleOutSide}
+        >
           {children}
-        </ThemeProvider>
-      </div>
+        </div>
+      </ThemeProvider>
     );
   }
 }
