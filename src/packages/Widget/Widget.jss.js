@@ -4,6 +4,8 @@ import iconComboBox from '../../images/button/drop-down.svg';
 import iconCalendar from '../../images/button/calendar.svg';
 import iconMap from '../../images/button/map_placeholder.svg';
 import iconMapRefresh from '../../images/button/map_refresh.svg';
+import iconTwoPlus from '../../images/button/two-plus.svg';
+import iconAllSelect from '../../images/button/all-select.svg';
 
 const styles = (theme) => {
   const w = theme.formWidget;
@@ -59,6 +61,9 @@ const styles = (theme) => {
       paddingLeft: w.input.paddingLeft,
       boxSizing: 'content-box',
       font: `normal ${w.input.fontSize}px Roboto-Condensed`,
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
     },
     itemIcons: {
       flex: 'none',
@@ -78,6 +83,16 @@ const styles = (theme) => {
       background: `url(${iconThreeDots})  no-repeat`,
       backgroundPosition: 'center',
     },
+    twoPlus: {
+      extend: 'itemIcons',
+      background: `url(${iconTwoPlus})  no-repeat`,
+      backgroundPosition: 'center',
+    },
+    allSelect: {
+      extend: 'itemIcons',
+      background: `url(${iconAllSelect})  no-repeat`,
+      backgroundPosition: 'center',
+    },
     comboBox: {
       extend: 'itemIcons',
       background: `url(${iconComboBox})  no-repeat`,
@@ -88,7 +103,7 @@ const styles = (theme) => {
       background: `url(${iconCalendar})  no-repeat`,
       backgroundPosition: 'center',
     },
-    map: {
+    maps: {
       extend: 'itemIcons',
       background: `url(${iconMap})  no-repeat`,
       backgroundPosition: 'center',

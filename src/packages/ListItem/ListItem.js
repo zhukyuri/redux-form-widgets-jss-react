@@ -36,6 +36,7 @@ function ListItem(props: Props) {
         { [classes.activeColor]: isActive },
       )}
       data-role="list-item-title"
+      data-action="list-item-title"
       data-event={eName(eventOuSideName)}
       data-text={item[textField]}
       data-value={item[valueField]}
@@ -55,6 +56,7 @@ function ListItem(props: Props) {
           [classes.cursor]: !item[nameFieldDisable],
         })}
         data-role="list-item-check"
+        data-action="list-item-check"
         data-event={eName(eventOuSideName)}
         data-text={item[textField]}
         data-value={item[valueField]}

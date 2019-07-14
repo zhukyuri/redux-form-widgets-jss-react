@@ -182,20 +182,38 @@ export const toSimpleArray = (
   i => (i[valueField]),
 ));
 
-export const createTitle = (value: any, textField: string): string => {
+export const createTitle = (
+  value: any, textField: string, emptyText: string, cbTranslateText: any
+): string => {
   if (Array.isArray(value)) {
     if (value.length === 1) {
       return value[0][textField];
     }
     if (value.length > 1) {
-      return `${value.length} item(s)`;
+      return `${value.length} ${!cbTranslateText ? 'item(s)' : cbTranslateText('global.items')}`;
     }
 
-    return '';
+    return !emptyText ? '' : emptyText;
   }
   if (value === undefined || value === null) return '';
 
   return value[textField];
+};
+
+export const createTextFromArray = (
+  data: Array, textField: string, emptyText: string, cbTranslateCounts,
+): string => {
+  const txtEmpty = (text) => {
+    return text === '' ? !emptyText ? text : emptyText : text;
+  };
+
+  if (!Array.isArray(data) || !data.length) return txtEmpty('');
+
+  if (data.length === 1) {
+    return data[0][textField];
+  }
+
+  return !cbTranslateCounts ? `${data.length} item(s)` : cbTranslateCounts(data.length);
 };
 
 /**
@@ -266,4 +284,15 @@ export const convertValueReduxToFullFormat = (
   }
 
   return findItemInArrayById(data, value, valueField);
+};
+
+
+export const setFullSelect = (data, valueField) => {
+  if (!Array.isArray(data)) return [];
+
+  return data.reduce((a, i) => {
+    a.push(i[valueField]);
+
+    return a;
+  }, []);
 };

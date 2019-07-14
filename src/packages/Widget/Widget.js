@@ -9,8 +9,8 @@ import Popup from '../Popup';
 import BaseInput from '../BaseInput';
 import BaseTextArea from '../BaseTextArea';
 import {
-  convertValueReduxToFullFormat, createTitle, eName, findItemInArrayById, getDef, setOriginId,
-  toggleItemInArrayById, toSimpleArray,
+  convertValueReduxToFullFormat, createTextFromArray, createTitle, eName, findItemInArrayById,
+  getDef, setFullSelect, setOriginId, toggleItemInArrayById, toSimpleArray,
 } from '../../utils/utils';
 
 type Props = {
@@ -19,25 +19,32 @@ type Props = {
   type?: 'text' | 'email' | 'number' | 'password' | 'tel',
   placeholder?: string,
   emptyValue?: any,
+  emptyText?: string,
+  // styles
   customClassNameInput?: string,
   customClassNameLabel?: string,
   customClassNameWrap?: string,
+  customStyleWrap?: any,
   customStyleListWrap?: any,
   customStyleDateBox?: any,
   componentType: string,
+  // options
   checking?: boolean,
   selecting?: boolean,
   multipleSelect?: boolean,
   multipleCheck?: boolean,
   required?: boolean,
+  noErrorMessage?: boolean,
   // buttons
-  clear?: boolean,
-  map?: boolean,
-  threeDots?: boolean,
-  mapRefresh?: boolean,
-  comboBox?: boolean,
-  datepicker?: boolean,
-  toggleList?: boolean,
+  btClear?: boolean,
+  btMap?: boolean,
+  btThreeDots?: boolean,
+  btMapRefresh?: boolean,
+  btComboBox?: boolean,
+  btDatepicker?: boolean,
+  btToggleList?: boolean,
+  btTwoPlus?: boolean,
+  btAllSelect?: boolean,
   //
   data: Array<any>,
   input: any,
@@ -46,11 +53,13 @@ type Props = {
   textField: string,
   valueDateFormat: string,
   textDateFormat: string,
+  // callbacks
   cbActions?: any,
   cbLabelFormat?: any,
   cbErrorFormat?: any,
   cbPlaceholderFormat?: any,
   cbTextFormat?: any,
+  cbTranslateText?: any,
 }
 
 type State = {
@@ -80,18 +89,22 @@ class Widget extends Component<Props, State> {
     this.cbFormatPlaceholder = this.cbFormatPlaceholder.bind(this);
     this.handleOutSide = this.handleOutSide.bind(this);
     this.eventsController = this.eventsController.bind(this);
-    this.toggleList = this.toggleList.bind(this);
+    this.btHandToggleList = this.btHandToggleList.bind(this);
     this.toggleDatepickerList = this.toggleDatepickerList.bind(this);
-    this.closeList = this.closeList.bind(this);
-    this.clear = this.clear.bind(this);
-    this.threeDots = this.threeDots.bind(this);
-    this.map = this.map.bind(this);
+    this.btHandCloseList = this.btHandCloseList.bind(this);
+    this.btHandClear = this.btHandClear.bind(this);
+    this.btHandThreeDots = this.btHandThreeDots.bind(this);
+    this.btHandTwoPlus = this.btHandTwoPlus.bind(this);
+    this.btHandAllSelect = this.btHandAllSelect.bind(this);
+    this.btHandMap = this.btHandMap.bind(this);
     this.createTextView = this.createTextView.bind(this);
     this.addActiveItem = this.addActiveItem.bind(this);
     this.renderButtonCombo = this.renderButtonCombo.bind(this);
     this.renderButtonList = this.renderButtonList.bind(this);
     this.renderButtonClear = this.renderButtonClear.bind(this);
     this.renderButtonThreeDots = this.renderButtonThreeDots.bind(this);
+    this.renderButtonTwoPlus = this.renderButtonTwoPlus.bind(this);
+    this.renderButtonAllSelect = this.renderButtonAllSelect.bind(this);
     this.renderButtonMap = this.renderButtonMap.bind(this);
     this.renderButtonMapRefresh = this.renderButtonMapRefresh.bind(this);
     this.renderInputBox = this.renderInputBox.bind(this);
@@ -147,7 +160,7 @@ class Widget extends Component<Props, State> {
     const eventName = eName(input.name);
 
     if (openList && detail !== eventName) {
-      this.closeList();
+      this.btHandCloseList();
     }
   }
 
@@ -187,7 +200,7 @@ class Widget extends Component<Props, State> {
    * ACTIONS
    ************************ */
 
-  toggleList(e) {
+  btHandToggleList(e) {
     const { cbActions } = this.props;
     const { openList } = this.state;
     const dataset = e.currentTarget.dataset;
@@ -199,7 +212,7 @@ class Widget extends Component<Props, State> {
     if (cbActions) cbActions(dataset.field, dataset.action, this.props);
   }
 
-  closeList() {
+  btHandCloseList() {
     const { openList } = this.state;
     // e.stopPropagation();
 
@@ -210,7 +223,7 @@ class Widget extends Component<Props, State> {
     }
   }
 
-  clear(e) {
+  btHandClear(e) {
     const { cbActions, input, emptyValue, componentType } = this.props;
     const { onChange } = input;
     const dataset = e.currentTarget.dataset;
@@ -223,7 +236,7 @@ class Widget extends Component<Props, State> {
     if (cbActions) cbActions(dataset.field, dataset.action, this.props);
   }
 
-  map(e) {
+  btHandMap(e) {
     const { cbActions } = this.props;
     const dataset = e.currentTarget.dataset;
     if (!dataset || !dataset.field || !dataset.action) return;
@@ -231,10 +244,36 @@ class Widget extends Component<Props, State> {
     if (cbActions) cbActions(dataset.field, dataset.action, this.props);
   }
 
-  threeDots(e) {
+  btHandThreeDots(e) {
     const { cbActions } = this.props;
     const dataset = e.currentTarget.dataset;
     if (!dataset || !dataset.field || !dataset.action) return;
+
+    if (cbActions) cbActions(dataset.field, dataset.action, this.props);
+  }
+
+  btHandTwoPlus(e) {
+    const { input, cbActions, data, valueField } = this.props;
+    const { onChange } = input;
+    const dataset = e.currentTarget.dataset;
+    if (!dataset || !dataset.field || !dataset.action) return;
+
+    if (Array.isArray(data) && typeof valueField === 'string') {
+      onChange(setFullSelect(data, valueField));
+    }
+
+    if (cbActions) cbActions(dataset.field, dataset.action, this.props);
+  }
+
+  btHandAllSelect(e) {
+    const { input, cbActions, data, valueField } = this.props;
+    const { onChange } = input;
+    const dataset = e.currentTarget.dataset;
+    if (!dataset || !dataset.field || !dataset.action) return;
+
+    if (Array.isArray(data) && typeof valueField === 'string') {
+      onChange(setFullSelect(data, valueField));
+    }
 
     if (cbActions) cbActions(dataset.field, dataset.action, this.props);
   }
@@ -274,7 +313,7 @@ class Widget extends Component<Props, State> {
   }
 
   onClickItem(actionKey, params) {
-    const { selecting, multipleSelect, checking, multipleCheck } = this.props;
+    const { selecting, multipleSelect, checking, multipleCheck, cbActions } = this.props;
     const { role } = params;
     const isSelectingOnly = selecting && !multipleSelect && !checking && !multipleCheck;
 
@@ -291,7 +330,8 @@ class Widget extends Component<Props, State> {
         break;
     }
 
-    if (isSelectingOnly) this.closeList();
+    if (cbActions) cbActions(actionKey, params);
+    if (isSelectingOnly) this.btHandCloseList();
   }
 
   /** ***********************
@@ -390,18 +430,22 @@ class Widget extends Component<Props, State> {
 
   createTextView() {
     const {
-      componentType, input, valueDateFormat, textDateFormat, textField, selecting, checking,
+      valueDateFormat, textDateFormat, textField, valueField, emptyText, cbTranslate,
+      selecting, checking, data, componentType, input,
     } = this.props;
     const { activeItems, checkedItems } = this.state;
 
     switch (componentType) {
-      case 'select':
-      case 'selectMulti':
       case 'checkList':
       case 'checkListMulti':
       case 'inlineCheckMulti':
-        return createTitle(selecting ? activeItems
-          : checking ? checkedItems : [], textField);
+        return createTitle(checking && !checkedItems ? [] : checkedItems,
+          textField, emptyText, cbTranslate);
+
+      case 'select':
+      case 'selectMulti':
+        return createTitle(selecting && !activeItems ? [] : activeItems,
+          textField, emptyText, cbTranslate);
 
       case 'datepicker': {
         const valueDate = moment(input.value, valueDateFormat);
@@ -410,7 +454,9 @@ class Widget extends Component<Props, State> {
       }
 
       case 'customSelect':
-        return input.value;
+        if (!Array.isArray(data) || !textField || !valueField) return input.value;
+
+        return createTextFromArray(data, textField, emptyText, cbTranslate);
 
       default:
         return '?';
@@ -463,7 +509,7 @@ class Widget extends Component<Props, State> {
       height: 1,
       width: 1,
       margin: -1,
-      flex: 'none',
+      display: 'none',
     };
 
     switch (componentType) {
@@ -514,6 +560,7 @@ class Widget extends Component<Props, State> {
             data-event={eName(input.name)}
           >
             {selectItemsTitle}
+
             <BaseInput
               input={{
                 ...input,
@@ -614,7 +661,7 @@ class Widget extends Component<Props, State> {
     return <div
       key={`comboBox-${input.name}`}
       className={classes.comboBox}
-      onClick={this.toggleList}
+      onClick={this.btHandToggleList}
       data-event={eName(input.name)}
       data-action="comboBox"
       data-field={input.name}
@@ -642,7 +689,7 @@ class Widget extends Component<Props, State> {
     return <div
       key={`openList-${input.name}`}
       className={classes.threeDots}
-      onClick={this.toggleList}
+      onClick={this.btHandToggleList}
       data-event={eName(input.name)}
       data-action="openList"
       data-field={input.name}
@@ -655,7 +702,7 @@ class Widget extends Component<Props, State> {
     return <div
       key={`clear-${input.name}`}
       className={classes.clearRed}
-      onClick={this.clear}
+      onClick={this.btHandClear}
       data-event={eName(input.name)}
       data-action="clear"
       data-field={input.name}
@@ -668,9 +715,35 @@ class Widget extends Component<Props, State> {
     return <div
       key={`threedots-${input.name}`}
       className={classes.threeDots}
-      onClick={this.threeDots}
+      onClick={this.btHandThreeDots}
       data-event={eName(input.name)}
       data-action="threedots"
+      data-field={input.name}
+    />;
+  }
+
+  renderButtonTwoPlus() {
+    const { classes, input } = this.props;
+
+    return <div
+      key={`twoplus-${input.name}`}
+      className={classes.twoPlus}
+      onClick={this.btHandTwoPlus}
+      data-event={eName(input.name)}
+      data-action="twoplus"
+      data-field={input.name}
+    />;
+  }
+
+  renderButtonAllSelect() {
+    const { classes, input } = this.props;
+
+    return <div
+      key={`allselect-${input.name}`}
+      className={classes.allSelect}
+      onClick={this.btHandAllSelect}
+      data-event={eName(input.name)}
+      data-action="allselect"
       data-field={input.name}
     />;
   }
@@ -680,8 +753,8 @@ class Widget extends Component<Props, State> {
 
     return <div
       key={`map-${input.name}`}
-      className={classes.map}
-      onClick={this.map}
+      className={classes.maps}
+      onClick={this.btHandMap}
       data-event={eName(input.name)}
       data-action="map"
       data-field={input.name}
@@ -694,7 +767,7 @@ class Widget extends Component<Props, State> {
     return <div
       key={`map-refresh-${input.name}`}
       className={classes.mapRefresh}
-      onClick={this.map}
+      onClick={this.btHandMap}
       data-event={eName(input.name)}
       data-action="map-refresh"
       data-field={input.name}
@@ -703,10 +776,10 @@ class Widget extends Component<Props, State> {
 
   render() {
     const {
-      classes, label, meta, input, clear, map, threeDots, mapRefresh, valueDateFormat,
-      toggleList, comboBox, datepicker, required, componentType,
-      customClassNameWrap, customClassNameLabel, customStyleListWrap, customStyleDateBox,
-      data, textField, valueField, checking, selecting,
+      classes, label, meta, input, btClear, btMap, btThreeDots, btMapRefresh, valueDateFormat,
+      btToggleList, btComboBox, btDatepicker, btTwoPlus, btAllSelect, required, componentType,
+      customClassNameWrap, customClassNameLabel, customStyleListWrap, customStyleDateBox, customStyleWrap,
+      data, textField, valueField, checking, selecting, noErrorMessage,
     } = this.props;
     const { openList, activeItems, checkedItems } = this.state;
     const { touched, error, warning } = meta;
@@ -720,6 +793,7 @@ class Widget extends Component<Props, State> {
     return (
       <label
         data-event={eName(name)}
+        style={customStyleWrap}
         className={cn(
           {
             [classes.widgetWrap]: !customClassNameLabel,
@@ -748,16 +822,18 @@ class Widget extends Component<Props, State> {
           {!isInlineList && this.renderInputBox()}
           {isInlineList && this.renderInlineList()}
 
-          {datepicker && this.renderButtonDate()}
-          {comboBox && this.renderButtonCombo()}
-          {toggleList && this.renderButtonList()}
-          {clear && this.renderButtonClear()}
-          {map && this.renderButtonMap()}
-          {mapRefresh && this.renderButtonMapRefresh()}
-          {threeDots && this.renderButtonThreeDots()}
+          {btDatepicker && this.renderButtonDate()}
+          {btComboBox && this.renderButtonCombo()}
+          {btToggleList && this.renderButtonList()}
+          {btMap && this.renderButtonMap()}
+          {btMapRefresh && this.renderButtonMapRefresh()}
+          {btThreeDots && this.renderButtonThreeDots()}
+          {btTwoPlus && this.renderButtonTwoPlus()}
+          {btAllSelect && this.renderButtonAllSelect()}
+          {btClear && this.renderButtonClear()}
         </div>
 
-        {comboBox && openList && <Popup>
+        {btComboBox && openList && <Popup>
           <List
             actionKey={input.name}
             data-event={eName(input.name)}
@@ -773,7 +849,7 @@ class Widget extends Component<Props, State> {
           />
         </Popup>}
 
-        {toggleList && openList && <Popup>
+        {btToggleList && openList && <Popup>
           <List
             actionKey={input.name}
             data-event={eName(input.name)}
@@ -786,7 +862,7 @@ class Widget extends Component<Props, State> {
           />
         </Popup>}
 
-        {datepicker && openList && <Popup
+        {btDatepicker && openList && <Popup
           customStyle={customStyleDateBox}
         >
           <DatePicker
@@ -797,9 +873,9 @@ class Widget extends Component<Props, State> {
           />
         </Popup>}
 
-        <div className={cn(classes.errorInfo)}>
+        {!noErrorMessage && <div className={cn(classes.errorInfo)}>
           &nbsp;{message}
-        </div>
+        </div>}
       </label>
     );
   }

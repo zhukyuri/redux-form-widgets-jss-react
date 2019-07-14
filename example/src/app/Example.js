@@ -63,12 +63,33 @@ class Example extends Component<Props> {
             <Pane customStyle={styles.pane}>
               <div style={styles.block}>
                 <Field
+                  name="Buttons"
+                  component={FieldText}
+                  customStyleWrap={{width: 400}}
+                  label="Demo Buttons"
+                  placeholder="Demo Buttons"
+                  btClear
+                  btTwoPlus
+                  btAllSelect
+                  btMap
+                  btMapRefresh
+                  btThreeDots
+                />
+              </div>
+              <div style={styles.block}>
+
+              </div>
+            </Pane>
+
+            <Pane customStyle={styles.pane}>
+              <div style={styles.block}>
+                <Field
                   name="simple_text"
                   component={FieldText}
                   label="Simple text"
                   validate={[required]}
                   required
-                  clear
+                  btClear
                 />
               </div>
               <div style={styles.block}>
@@ -87,7 +108,7 @@ class Example extends Component<Props> {
                   label="Select"
                   required
                   validate={[required]}
-                  clear
+                  btClear
                 />
               </div>
               <div style={styles.block}>
@@ -106,7 +127,7 @@ class Example extends Component<Props> {
                   label="Select Multi"
                   required
                   validate={[requiredItemsArray]}
-                  clear
+                  btClear
                 />
               </div>
               <div style={styles.block}>
@@ -125,7 +146,7 @@ class Example extends Component<Props> {
                   label="Check list"
                   required
                   validate={[required]}
-                  clear
+                  btClear
                 />
               </div>
               <div style={styles.block}>
@@ -144,7 +165,7 @@ class Example extends Component<Props> {
                   label="Check Multi"
                   required
                   validate={[requiredItemsArray]}
-                  clear
+                  btClear
                 />
               </div>
               <div style={styles.block}>
@@ -159,10 +180,10 @@ class Example extends Component<Props> {
                   component={FieldDatePicker}
                   label="Date Picker"
                   required
-                  clear
+                  btClear
                   valueDateFormat="DD-MM-YYYY"
                   textDateFormat="DD-MM-YYYY"
-                  customStyleListWrap={{ width: 215 }}
+                  customStyleDateBox={{ width: 215 }}
                 />
               </div>
               <div style={styles.block}>
@@ -194,7 +215,7 @@ class Example extends Component<Props> {
                   label="Simple text area"
                   validate={[required]}
                   required
-                  clear
+                  btClear
                 />
               </div>
               <div style={styles.block}>

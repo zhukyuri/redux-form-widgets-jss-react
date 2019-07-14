@@ -10,7 +10,7 @@ type Props = {
   selecting: boolean,
   multipleSelect: boolean,
   multipleCheck: boolean,
-  clear: boolean,
+  btClear: boolean,
   change: any,
   name: string,
   value: any,

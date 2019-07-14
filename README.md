@@ -10,6 +10,7 @@
 npm install --save redux-form-widgets-jss-react
 ```
 ## !!! Documentation in progress !!!
+[Demo](https://zhukyuri.github.io/redux-form-widgets-jss-react/)
 
 ## Usage
 

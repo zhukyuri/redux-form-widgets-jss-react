@@ -18,6 +18,7 @@ const dark_15 = '#444';
 const dark_16 = '#555';
 
 const colorActiveAccent = 'rgba(255,140,0,0.62)';
+const colorActiveAccentHover = 'rgba(255,140,0,0.78)';
 const colorOptionCheck = '#58717f';
 
 const defaultTheme = {
@@ -51,8 +52,10 @@ const defaultTheme = {
     },
     listItem: {
       colorHover: dark_15,
+      colorHoverActive: grey_1,
       backgroundHover: grey_2,
       backgroundActive: colorActiveAccent,
+      backgroundActiveHover: colorActiveAccentHover,
       colorOptionCheck: colorOptionCheck,
       padding: [8, 22, 8, 5],
       fontSize: 17,

@@ -7,7 +7,7 @@ type Props = {
   data?: Array<any>,
   valueField: string,
   textField: string,
-  clear?: boolean,
+  btClear?: boolean,
   required?: boolean,
   label: string,
   placeholder?: string,
@@ -28,7 +28,7 @@ class FieldSelectMulti extends Component<Props> {
         {...this.props}
         componentType="selectMulti"
         data={data}
-        comboBox
+        btComboBox
         selecting={true}
         multipleSelect={true}
         checking={false}

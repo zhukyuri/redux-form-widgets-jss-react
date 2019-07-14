@@ -7,7 +7,7 @@ type Props = {
   data?: Array<any>,
   valueField: string,
   textField: string,
-  clear?: boolean,
+  btClear?: boolean,
   required?: boolean,
   label: string,
   placeholder?: string,
@@ -25,7 +25,7 @@ class FieldSelect extends Component<Props> {
       <Widget
         {...this.props}
         componentType="select"
-        comboBox
+        btComboBox
         selecting
         multipleSelect={false}
         multipleCheck={false}

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import Widget from './Widget';
 
 type Props = {
-  clear?: boolean,
+  btClear?: boolean,
   required?: boolean,
   label: string,
   placeholder?: string,
@@ -18,7 +18,7 @@ class FieldDatePicker extends Component<Props> {
       <Widget
         {...this.props}
         componentType="datepicker"
-        datepicker
+        btDatepicker
       />
     );
   }

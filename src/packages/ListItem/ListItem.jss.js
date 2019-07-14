@@ -47,6 +47,10 @@ const styles = (theme) => {
     },
     activeColor: {
       backgroundColor: w.backgroundActive,
+      '&:hover': {
+        color: w.colorHoverActive,
+        backgroundColor: w.backgroundActiveHover,
+      },
     },
   };
 };

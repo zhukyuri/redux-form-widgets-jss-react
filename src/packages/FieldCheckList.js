@@ -7,7 +7,7 @@ type Props = {
   data?: Array<any>,
   valueField: string,
   textField: string,
-  clear?: boolean,
+  btClear?: boolean,
   required?: boolean,
   label: string,
   placeholder?: string,
@@ -28,10 +28,10 @@ class FieldCheckList extends Component<Props> {
         {...this.props}
         componentType="checkList"
         data={data}
-        comboBox
+        btComboBox
         selecting={false}
         multipleSelect={false}
-        checking={true}
+        checking
         multipleCheck={false}
       />
     );
