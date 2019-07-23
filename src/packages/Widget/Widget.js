@@ -284,7 +284,7 @@ class Widget extends Component<Props, State> {
 
   addActiveItem(iId) {
     const { activeItems } = this.state;
-    const { data, multipleSelect, valueField, input, selecting } = this.props;
+    const { data, multipleSelect, valueField, input, selecting, cbOnChange } = this.props;
     // const { dispatch, form } = meta;
     const { onChange } = input;
     const itemId = setOriginId(data, iId, valueField);
@@ -294,6 +294,7 @@ class Widget extends Component<Props, State> {
       const currentNew = toggleItemInArrayById(data, itemId, valueField, activeItems);
 
       onChange(toSimpleArray(currentNew, valueField));
+      if (cbOnChange) cbOnChange(toSimpleArray(currentNew, valueField), this.props);
       // dispatch(change(form, input.name, toSimpleArray(currentNew, valueField)));
       this.setState({
         activeItems: currentNew,
@@ -307,6 +308,7 @@ class Widget extends Component<Props, State> {
           activeItems: currentOne,
         });
         onChange(currentOne[valueField]);
+        if (cbOnChange) cbOnChange(currentOne, this.props);
         // dispatch(change(form, input.name, currentOne[valueField]));
       }
     }
