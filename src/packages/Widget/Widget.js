@@ -778,7 +778,7 @@ class Widget extends Component<Props, State> {
 
   render() {
     const {
-      classes, label, meta, input, btClear, btMap, btThreeDots, btMapRefresh, valueDateFormat,
+      classes, listPosition, label, meta, input, btClear, btMap, btThreeDots, btMapRefresh, valueDateFormat,
       btToggleList, btComboBox, btDatepicker, btTwoPlus, btAllSelect, required, componentType,
       customClassNameWrap, customClassNameLabel, customStyleListWrap, customStyleDateBox, customStyleWrap,
       data, textField, valueField, checking, selecting, noErrorMessage,
@@ -835,7 +835,9 @@ class Widget extends Component<Props, State> {
           {btClear && this.renderButtonClear()}
         </div>
 
-        {btComboBox && openList && <Popup>
+        {btComboBox && openList && <Popup
+          listPosition={listPosition}
+        >
           <List
             actionKey={input.name}
             data-event={eName(input.name)}
@@ -851,7 +853,9 @@ class Widget extends Component<Props, State> {
           />
         </Popup>}
 
-        {btToggleList && openList && <Popup>
+        {btToggleList && openList && <Popup
+          listPosition={listPosition}
+        >
           <List
             actionKey={input.name}
             data-event={eName(input.name)}
@@ -865,6 +869,7 @@ class Widget extends Component<Props, State> {
         </Popup>}
 
         {btDatepicker && openList && <Popup
+          listPosition={listPosition}
           customStyle={customStyleDateBox}
         >
           <DatePicker

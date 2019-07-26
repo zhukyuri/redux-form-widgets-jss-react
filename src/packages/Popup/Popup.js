@@ -3,15 +3,18 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
 
-
 type Props = {
   children: any,
-  position: { top: number, left: number, width: number },
+  listPosition: 'top' | 'bottom',
   customClassName: string,
   customStyle: any,
 }
 
 class Popup extends Component<Props> {
+  static defaultProps: {
+    listPosition: 'bottom',
+  };
+
   constructor(props) {
     super(props);
 
@@ -19,12 +22,15 @@ class Popup extends Component<Props> {
   }
 
   render() {
-    const { children, classes, customClassName, customStyle } = this.props;
+    const { children, classes, customClassName, customStyle, listPosition } = this.props;
 
     return <div
       ref={this.el}
       style={customStyle}
-      className={cn(classes.modal, customClassName)}
+      className={cn(
+        listPosition === 'top' ? classes.top : classes.bottom,
+        customClassName,
+      )}
     >
       {children}
     </div>;
