@@ -65,7 +65,7 @@ class Example extends Component<Props> {
                 <Field
                   name="Buttons"
                   component={FieldText}
-                  customStyleWrap={{width: 400}}
+                  customStyleWrap={{ width: 400 }}
                   label="Demo Buttons"
                   placeholder="Demo Buttons"
                   btClear
@@ -179,11 +179,12 @@ class Example extends Component<Props> {
                   name="date_picker"
                   component={FieldDatePicker}
                   label="Date Picker"
-                  required
-                  btClear
                   valueDateFormat="DD-MM-YYYY"
                   textDateFormat="DD-MM-YYYY"
                   customStyleDateBox={{ width: 215 }}
+                  required
+                  validate={[required]}
+                  btClear
                 />
               </div>
               <div style={styles.block}>
@@ -200,6 +201,9 @@ class Example extends Component<Props> {
                   valueField="id"
                   textField="title"
                   label="Check Multi Inline"
+                  required
+                  validate={[requiredItemsArray]}
+                  btClear
                 />
               </div>
               <div style={styles.block}>

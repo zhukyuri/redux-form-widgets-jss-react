@@ -47,7 +47,21 @@ function ListItem(props: Props) {
       data-disable={!!item[nameFieldDisable]}
       onClick={onClickItem}
     >
-      {titleItem}
+      <div
+        className={cn(classes.optionTitle)}
+        data-role="list-item-title-text"
+        data-action="list-item-title-text"
+        data-event={eName(eventOuSideName)}
+        data-text={item[textField]}
+        data-value={item[valueField]}
+        data-active={isActive}
+        data-check={isCheck}
+        data-checking={!!checking}
+        data-selecting={!!selecting}
+        data-disable={!!item[nameFieldDisable]}
+      >
+        {titleItem}
+      </div>
       {!!checking && <div
         className={cn({
           [classes.checkbox]: checking && isCheck,

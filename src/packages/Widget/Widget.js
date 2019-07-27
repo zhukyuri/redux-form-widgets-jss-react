@@ -225,13 +225,13 @@ class Widget extends Component<Props, State> {
 
   btHandClear(e) {
     const { cbActions, input, emptyValue, componentType } = this.props;
-    const { onChange } = input;
+    const { onChange, onBlur } = input;
     const dataset = e.currentTarget.dataset;
     const defVal = getDef(componentType);
 
     if (!dataset || !dataset.field || !dataset.action) return;
     onChange(emptyValue !== undefined ? emptyValue : defVal);
-    // onBlur(emptyValue !== undefined ? emptyValue : defVal);
+    onBlur(emptyValue !== undefined ? emptyValue : defVal);
 
     if (cbActions) cbActions(dataset.field, dataset.action, this.props);
   }
@@ -379,21 +379,27 @@ class Widget extends Component<Props, State> {
     const { onBlur } = input;
     const { activeItems, checkedItems } = this.state;
 
-    if (selecting && activeItems) {
+    if (selecting) {
       if (Array.isArray(activeItems)) {
         onBlur(toSimpleArray(activeItems, valueField));
       }
-      else {
+      else if (typeof activeItems === 'object') {
         onBlur(activeItems[valueField]);
+      }
+      else {
+        onBlur(activeItems);
       }
     }
 
-    if (checking && checkedItems) {
+    if (checking) {
       if (Array.isArray(checkedItems)) {
         onBlur(toSimpleArray(checkedItems, valueField));
       }
-      else {
+      else if (typeof checkedItems === 'object') {
         onBlur(checkedItems[valueField]);
+      }
+      else {
+        onBlur(checkedItems);
       }
     }
   }
@@ -511,7 +517,7 @@ class Widget extends Component<Props, State> {
       height: 1,
       width: 1,
       margin: -1,
-      display: 'none',
+      display: 'block',
     };
 
     switch (componentType) {
@@ -520,11 +526,13 @@ class Widget extends Component<Props, State> {
       case 'checkList':
       case 'checkListMulti':
         return (
-          <div
-            className={classes.itemBlock}
-            data-event={eName(input.name)}
-          >
-            {selectItemsTitle}
+          <React.Fragment>
+            <div
+              className={classes.itemBlock}
+              data-event={eName(input.name)}
+            >
+              {selectItemsTitle}
+            </div>
             <BaseInput
               input={{
                 ...input,
@@ -534,16 +542,18 @@ class Widget extends Component<Props, State> {
               placeholder={this.cbFormatPlaceholder(placeholder)}
               customStyle={hiddenStyleInput}
             />
-          </div>
+          </React.Fragment>
         );
 
       case 'customSelect':
         return (
-          <div
-            className={classes.itemBlock}
-            data-event={eName(input.name)}
-          >
-            {selectItemsTitle}
+          <React.Fragment>
+            <div
+              className={classes.itemBlock}
+              data-event={eName(input.name)}
+            >
+              {selectItemsTitle}
+            </div>
             <BaseInput
               input={{
                 ...input,
@@ -552,17 +562,18 @@ class Widget extends Component<Props, State> {
               type={type}
               customStyle={hiddenStyleInput}
             />
-          </div>
+          </React.Fragment>
         );
 
       case 'inlineCheckMulti':
         return (
-          <div
-            className={classes.itemBlock}
-            data-event={eName(input.name)}
-          >
-            {selectItemsTitle}
-
+          <React.Fragment>
+            <div
+              className={classes.itemBlock}
+              data-event={eName(input.name)}
+            >
+              {selectItemsTitle}
+            </div>
             <BaseInput
               input={{
                 ...input,
@@ -572,7 +583,7 @@ class Widget extends Component<Props, State> {
               type={type}
               customStyle={hiddenStyleInput}
             />
-          </div>
+          </React.Fragment>
         );
 
       case 'datepicker':
