@@ -22,12 +22,26 @@ Example
           <form>
 
                 <Field
+                  name="Buttons"
+                  component={FieldText}
+                  customStyleWrap={{ width: 400 }}
+                  label="Demo Buttons"
+                  placeholder="Demo Buttons"
+                  btClear
+                  btTwoPlus
+                  btAllSelect
+                  btMap
+                  btMapRefresh
+                  btThreeDots
+                />
+
+                <Field
                   name="simple_text"
                   component={FieldText}
                   label="Simple text"
                   validate={[required]}
                   required
-                  clear
+                  btClear
                 />
 
                 <Field
@@ -39,7 +53,7 @@ Example
                   label="Select"
                   required
                   validate={[required]}
-                  clear
+                  btClear
                 />
 
                 <Field
@@ -51,7 +65,7 @@ Example
                   label="Select Multi"
                   required
                   validate={[requiredItemsArray]}
-                  clear
+                  btClear
                 />
 
                 <Field
@@ -63,7 +77,7 @@ Example
                   label="Check list"
                   required
                   validate={[required]}
-                  clear
+                  btClear
                 />
 
                 <Field
@@ -75,18 +89,19 @@ Example
                   label="Check Multi"
                   required
                   validate={[requiredItemsArray]}
-                  clear
+                  btClear
                 />
 
                 <Field
                   name="date_picker"
                   component={FieldDatePicker}
                   label="Date Picker"
-                  required
-                  clear
                   valueDateFormat="DD-MM-YYYY"
                   textDateFormat="DD-MM-YYYY"
-                  customStyleListWrap={{ width: 215 }}
+                  customStyleDateBox={{ width: 215 }}
+                  required
+                  validate={[required]}
+                  btClear
                 />
 
                 <Field
@@ -96,6 +111,9 @@ Example
                   valueField="id"
                   textField="title"
                   label="Check Multi Inline"
+                  required
+                  validate={[requiredItemsArray]}
+                  btClear
                 />
 
                 <Field
@@ -104,7 +122,7 @@ Example
                   label="Simple text area"
                   validate={[required]}
                   required
-                  clear
+                  btClear
                 />
 
           </form>
