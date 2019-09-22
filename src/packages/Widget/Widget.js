@@ -26,6 +26,7 @@ type Props = {
   customClassNameWrap?: string,
   customStyleWrap?: any,
   customStyleListWrap?: any,
+  customStyleDropDownList?: any,
   customStyleDateBox?: any,
   componentType: string,
   // options
@@ -438,7 +439,7 @@ class Widget extends Component<Props, State> {
 
   createTextView() {
     const {
-      valueDateFormat, textDateFormat, textField, valueField, emptyText, cbTranslate,
+      valueDateFormat, textDateFormat, textField, valueField, emptyText, cbTranslateText,
       selecting, checking, data, componentType, input,
     } = this.props;
     const { activeItems, checkedItems } = this.state;
@@ -448,12 +449,12 @@ class Widget extends Component<Props, State> {
       case 'checkListMulti':
       case 'inlineCheckMulti':
         return createTitle(checking && !checkedItems ? [] : checkedItems,
-          textField, emptyText, cbTranslate);
+          textField, emptyText, cbTranslateText);
 
       case 'select':
       case 'selectMulti':
         return createTitle(selecting && !activeItems ? [] : activeItems,
-          textField, emptyText, cbTranslate);
+          textField, emptyText, cbTranslateText);
 
       case 'datepicker': {
         const valueDate = moment(input.value, valueDateFormat);
@@ -464,7 +465,7 @@ class Widget extends Component<Props, State> {
       case 'customSelect':
         if (!Array.isArray(data) || !textField || !valueField) return input.value;
 
-        return createTextFromArray(data, textField, emptyText, cbTranslate);
+        return createTextFromArray(data, textField, emptyText, cbTranslateText);
 
       default:
         return '?';
@@ -791,7 +792,7 @@ class Widget extends Component<Props, State> {
     const {
       classes, listPosition, label, meta, input, btClear, btMap, btThreeDots, btMapRefresh, valueDateFormat,
       btToggleList, btComboBox, btDatepicker, btTwoPlus, btAllSelect, required, componentType,
-      customClassNameWrap, customClassNameLabel, customStyleListWrap, customStyleDateBox, customStyleWrap,
+      customClassNameWrap, customClassNameLabel, customStyleListWrap, customStyleDropDownList, customStyleDateBox, customStyleWrap,
       data, textField, valueField, checking, selecting, noErrorMessage,
     } = this.props;
     const { openList, activeItems, checkedItems } = this.state;
@@ -847,6 +848,7 @@ class Widget extends Component<Props, State> {
         </div>
 
         {btComboBox && openList && <Popup
+          customStyle={customStyleDropDownList}
           listPosition={listPosition}
         >
           <List
@@ -866,6 +868,7 @@ class Widget extends Component<Props, State> {
 
         {btToggleList && openList && <Popup
           listPosition={listPosition}
+          customStyle={customStyleDropDownList}
         >
           <List
             actionKey={input.name}

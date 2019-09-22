@@ -187,6 +187,10 @@ export const createTitle = (
 ): string => {
   if (Array.isArray(value)) {
     if (value.length === 1) {
+      if (value[0] === undefined || !textField ) {
+        return !cbTranslateText ? 'Value not found' : cbTranslateText('global.valueNotFound');
+      }
+
       return value[0][textField];
     }
     if (value.length > 1) {
