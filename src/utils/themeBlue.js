@@ -33,22 +33,24 @@ const defaultTheme = {
     wMarginRight: 10,
     input: {
       height: 36,
-      fontSize: 18,
       paddingTop: 8,
       paddingRight: 10,
       paddingBottom: 8,
       paddingLeft: 10,
+      font: '400 13px',
+      color: '#4D6978'
     },
     label: {
       color: grey_8,
-      fontSize: 15,
-      marginBottom: 1,
+      marginBottom: 5,
+      font: '700 12px Roboto, sans-serif',
     },
     list: {
       top: 5,
       right: 5,
       bottom: 5,
       left: 5,
+      font: 'normal 14px Roboto, sans-serif',
     },
     listItem: {
       colorHover: dark_15,
@@ -58,8 +60,7 @@ const defaultTheme = {
       backgroundActiveHover: colorActiveAccentHover,
       colorOptionCheck: colorOptionCheck,
       padding: [8, 22, 8, 5],
-      fontSize: 17,
-      fontWeight: 'normal',
+      font: '400 14px Roboto, sans-serif',
     }
   },
 };

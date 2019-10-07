@@ -7,7 +7,7 @@ const styles = (theme) => {
       outline: 'none',
       border: 'none',
       boxSizing: 'border-box',
-      font: `normal ${w.input.fontSize}px Roboto-Condensed`,
+      font: w.input.font,
     },
   };
 };

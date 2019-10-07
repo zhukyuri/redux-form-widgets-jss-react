@@ -57,13 +57,15 @@ const styles = (theme) => {
     itemBlock: {
       flex: 1,
       alignSelf: 'auto',
-      paddingTop: w.input.paddingTop,
+      paddingRight: w.input.paddingLeft,
       paddingLeft: w.input.paddingLeft,
       boxSizing: 'content-box',
-      font: `normal ${w.input.fontSize}px Roboto-Condensed`,
+      font: w.input.font,
       overflow: 'hidden',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
+      lineHeight: '35px',
+      verticalAlign: 'middle',
     },
     itemIcons: {
       flex: 'none',
@@ -118,12 +120,12 @@ const styles = (theme) => {
       display: 'block',
       position: 'relative',
       color: w.label.color,
-      font: `normal ${w.label.fontSize}px Roboto-Condensed`,
+      font: w.label.font,
       marginBottom: w.label.marginBottom,
     },
     redDot: {
       color: 'red',
-      font: `bold ${w.label.fontSize}px Roboto`,
+      font: w.label.font,
     },
 
     errorInfo: {

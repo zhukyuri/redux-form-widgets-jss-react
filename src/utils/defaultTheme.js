@@ -33,15 +33,15 @@ const defaultTheme = {
     wMarginRight: 10,
     input: {
       height: 36,
-      fontSize: 18,
+      font: 'normal 14px Roboto',
       paddingTop: 8,
-      paddingRight: 10,
+      paddingRifght: 10,
       paddingBottom: 8,
       paddingLeft: 10,
     },
     label: {
       color: dark_16,
-      fontSize: 15,
+      font: 'normal 14px Roboto',
       marginBottom: 5,
     },
     list: {
@@ -49,6 +49,7 @@ const defaultTheme = {
       right: 5,
       bottom: 5,
       left: 5,
+      font: 'normal 14px Roboto',
     },
     listItem: {
       colorHover: dark_15,
@@ -58,8 +59,7 @@ const defaultTheme = {
       backgroundActiveHover: colorActiveAccentHover,
       colorOptionCheck: colorOptionCheck,
       padding: [8, 22, 8, 5],
-      fontSize: 17,
-      fontWeight: 'normal',
+      font: 'normal 14px Roboto',
     }
   },
 };

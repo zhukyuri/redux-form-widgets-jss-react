@@ -19,7 +19,7 @@ const styles = (theme) => {
     },
     optionTitle: {
       flex: 1,
-      font: 'normal 18px Roboto-Condensed',
+      font: w.font,
       overflow: 'hidden',
       alignSelf: 'auto',
       boxSizing: 'content-box',

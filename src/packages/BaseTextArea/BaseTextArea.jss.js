@@ -11,7 +11,7 @@ const styles = (theme) => {
       border: 'none',
       borderRadius: 8,
       boxSizing: 'border-box',
-      font: `normal ${w.input.fontSize}px Roboto-Condensed`,
+      font: w.input.font,
     },
   };
 };
