@@ -20,6 +20,7 @@ const dark_16 = '#555';
 const colorActiveAccent = 'rgba(255,140,0,0.62)';
 const colorActiveAccentHover = 'rgba(255,140,0,0.78)';
 const colorOptionCheck = '#58717f';
+const colorInputText = '#444444';
 
 const defaultTheme = {
   formWidget: {
@@ -38,6 +39,7 @@ const defaultTheme = {
       paddingRifght: 10,
       paddingBottom: 8,
       paddingLeft: 10,
+      color: colorInputText
     },
     label: {
       color: dark_16,

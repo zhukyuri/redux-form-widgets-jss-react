@@ -1,14 +1,23 @@
 // @flow
 
-import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React, {Component} from 'react';
+import {Field, reduxForm} from 'redux-form';
 import {
-  FieldCheckList, FieldCheckListMulti, FieldCheckMultiInline, FieldDatePicker, FieldSelect,
-  FieldSelectMulti, FieldText, FieldTextArea, Pane, themeBlue, WidgetProvider,
+  FieldCheckList,
+  FieldCheckListMulti,
+  FieldCheckMultiInline,
+  FieldDatePicker,
+  FieldSelect,
+  FieldSelectMulti,
+  FieldText,
+  FieldTextArea,
+  Pane,
+  themeBlue,
+  WidgetProvider,
 } from 'redux-form-widgets-jss-react';
-import { HuePicker } from 'react-color';
-import { required, requiredItemsArray } from '../common/validation';
-import { selectDataArray } from '../data/exampleData';
+import {HuePicker} from 'react-color';
+import {required, requiredItemsArray} from '../common/validation';
+import {selectDataArray} from '../data/exampleData';
 
 type Props = {
   cbChange: any,
@@ -40,7 +49,7 @@ const styles = {
 
 class Example extends Component<Props> {
   render() {
-    const { cbChange } = this.props;
+    const {cbChange} = this.props;
 
     return (
       <WidgetProvider
@@ -65,7 +74,7 @@ class Example extends Component<Props> {
                 <Field
                   name="Buttons"
                   component={FieldText}
-                  customStyleWrap={{ width: 400 }}
+                  customStyleWrap={{width: 400}}
                   label="Demo Buttons"
                   placeholder="Demo Buttons"
                   btClear
@@ -93,6 +102,14 @@ class Example extends Component<Props> {
                 />
               </div>
               <div style={styles.block}>
+                <Field
+                  name="simple_text_"
+                  component={FieldText}
+                  label="Simple text"
+                  // validate={[required]}
+                  // required
+                  // btClear
+                />
 
               </div>
             </Pane>
@@ -112,7 +129,17 @@ class Example extends Component<Props> {
                 />
               </div>
               <div style={styles.block}>
-
+                <Field
+                  name="select_"
+                  component={FieldSelect}
+                  data={selectDataArray}
+                  valueField="id"
+                  textField="title"
+                  label="Select"
+                  // validate={[required]}
+                  // required
+                  // btClear
+                />
               </div>
             </Pane>
 
@@ -131,7 +158,17 @@ class Example extends Component<Props> {
                 />
               </div>
               <div style={styles.block}>
-
+                <Field
+                  name="select_multi_"
+                  component={FieldSelectMulti}
+                  data={selectDataArray}
+                  valueField="id"
+                  textField="title"
+                  label="Select Multi"
+                  // required
+                  // validate={[requiredItemsArray]}
+                  // btClear
+                />
               </div>
             </Pane>
 
@@ -150,7 +187,17 @@ class Example extends Component<Props> {
                 />
               </div>
               <div style={styles.block}>
-
+                <Field
+                  name="check_"
+                  component={FieldCheckList}
+                  data={selectDataArray}
+                  valueField="id"
+                  textField="title"
+                  label="Check list"
+                  // required
+                  // validate={[required]}
+                  // btClear
+                />
               </div>
             </Pane>
 
@@ -169,7 +216,17 @@ class Example extends Component<Props> {
                 />
               </div>
               <div style={styles.block}>
-
+                <Field
+                  name="check_multi_"
+                  component={FieldCheckListMulti}
+                  data={selectDataArray}
+                  valueField="id"
+                  textField="title"
+                  label="Check Multi"
+                  // required
+                  // validate={[requiredItemsArray]}
+                  // btClear
+                />
               </div>
             </Pane>
 
@@ -181,14 +238,24 @@ class Example extends Component<Props> {
                   label="Date Picker"
                   valueDateFormat="DD-MM-YYYY"
                   textDateFormat="DD-MM-YYYY"
-                  customStyleDateBox={{ width: 215 }}
+                  customStyleDateBox={{width: 215}}
                   required
                   validate={[required]}
                   btClear
                 />
               </div>
               <div style={styles.block}>
-
+                <Field
+                  name="date_picker_"
+                  component={FieldDatePicker}
+                  label="Date Picker"
+                  valueDateFormat="DD-MM-YYYY"
+                  textDateFormat="DD-MM-YYYY"
+                  customStyleDateBox={{width: 215}}
+                  // required
+                  // validate={[required]}
+                  // btClear
+                />
               </div>
             </Pane>
 
@@ -207,7 +274,17 @@ class Example extends Component<Props> {
                 />
               </div>
               <div style={styles.block}>
-
+                <Field
+                  name="check_multi_inline_"
+                  component={FieldCheckMultiInline}
+                  data={selectDataArray}
+                  valueField="id"
+                  textField="title"
+                  label="Check Multi Inline"
+                  // required
+                  // validate={[requiredItemsArray]}
+                  // btClear
+                />
               </div>
             </Pane>
 
@@ -223,7 +300,14 @@ class Example extends Component<Props> {
                 />
               </div>
               <div style={styles.block}>
-
+                <Field
+                  name="simple_textarea_"
+                  component={FieldTextArea}
+                  label="Simple text area"
+                  // validate={[required]}
+                  // required
+                  // btClear
+                />
               </div>
             </Pane>
 

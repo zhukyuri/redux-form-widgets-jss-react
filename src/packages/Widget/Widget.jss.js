@@ -66,6 +66,7 @@ const styles = (theme) => {
       textOverflow: 'ellipsis',
       lineHeight: '35px',
       verticalAlign: 'middle',
+      color: w.input.color,
     },
     itemIcons: {
       flex: 'none',

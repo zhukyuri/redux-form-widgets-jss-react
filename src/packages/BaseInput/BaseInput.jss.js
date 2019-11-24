@@ -8,6 +8,7 @@ const styles = (theme) => {
       border: 'none',
       boxSizing: 'border-box',
       font: w.input.font,
+      color: w.input.color,
     },
   };
 };

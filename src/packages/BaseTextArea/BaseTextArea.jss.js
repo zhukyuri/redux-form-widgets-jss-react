@@ -12,6 +12,7 @@ const styles = (theme) => {
       borderRadius: 8,
       boxSizing: 'border-box',
       font: w.input.font,
+      color: w.input.color,
     },
   };
 };
